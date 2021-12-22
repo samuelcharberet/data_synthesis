@@ -1,12 +1,12 @@
 #' read_ead
-#' 
+#'
 #' # A function to extract data from the
 # European Amphibians Database
 # The function standardize species taxonomy according to the GBIF Backbone Taxonomy
 # And we keep only one row per species
 
 #'
-#' @param path 
+#' @param path
 #'
 #' @return
 #' @export
@@ -17,8 +17,17 @@ read_ead = function(path) {
   
   ##### 1. Imports the European Amphibians Database database #####
   
-  data_ead = read.csv("biodiversity_data_journal-2-e4123-s001.csv", sep =
-                        ";")
+  data_ead = read.csv(
+    here::here(
+      "data",
+      "2_data_traits",
+      "0_databases",
+      "trochet_european_amphibians",
+      "trait_data_reported.csv"
+    ),
+    sep =
+      ";"
+  )
   
   # Change column names
   
@@ -33,7 +42,7 @@ read_ead = function(path) {
   ##### 3. Keep only one row per species #####
   
   # We remove from data_combine rows which did not find corresponding names in data_gbif
-  data_ead = data_ead[-which(is.na(data_ead$species_gbif)),]
+  data_ead = data_ead[-which(is.na(data_ead$species_gbif)), ]
   
   # Removes EAD taxonomic data to only keep GBIF data
   # Remove data unused in the NetSto project

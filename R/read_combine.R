@@ -1,6 +1,6 @@
 #' read_combine
 #'
-#' @param path 
+#' @param path
 #' # A function to extract data from the
 # COalesced Mammal dataBase of INtrinsic and Extrinsic traits database (COMBINE)
 # The function standardize species taxonomy according to the GBIF Backbone Taxonomy
@@ -12,11 +12,18 @@
 #'
 #' @examples
 read_combine = function(path) {
-  setwd(path)
-  
   ##### 1. Imports the COMBINE database #####
   
-  data_combine = read.csv("trait_data_reported.csv")
+  data_combine = read.csv(
+    here::here(
+      "data",
+      "2_data_traits",
+      "0_databases",
+      "coalesced_mammal_database_of_intrinsic_and_extrinsic_traits",
+      "COMBINE_archives",
+      "trait_data_reported.csv"
+    )
+  )
   
   # Clean column names
   names(data_combine) = c(

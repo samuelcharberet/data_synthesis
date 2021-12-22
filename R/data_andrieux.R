@@ -4,28 +4,37 @@
 # The function standardize species taxonomy according to the GBIF Backbone Taxonomy
 # And we keep only one row per species
 #'
-#' @param path 
+#' @param path
 #'
 #' @return
 #' @export
 #'
 #' @examples
 read_andrieux = function(path) {
-  setwd(path)
   ##### 1. Imports the Andrieux 2020 database #####
   
-  data_andrieux = read.csv("Global_heterotroph_stoichio_v5.csv",
-                           sep = ";",
-                           dec = ',')
+  data_andrieux = read.csv(
+    here::here(
+      "data",
+      "2_data_traits",
+      "0_databases",
+      "andrieux_body_composition",
+      "data",
+      "Global_heterotroph_stoichio_v5.csv"
+    ),
+    sep = ";",
+    dec = ','
+  )
   
   colnames(data_andrieux)[1] = "Credit"
   ##### 2. Only keep terrestrial species #####
   
-  data_andrieux = data_andrieux[which(data_andrieux$Habitat == "Terrestrial"),]
+  data_andrieux = data_andrieux[which(data_andrieux$Habitat == "Terrestrial"), ]
   length(unique(data_andrieux$Species_binomial))
+  
   ##### 3. Remove body parts data  #####
   
-  data_andrieux = data_andrieux[-which(data_andrieux$Stoichio_analysis == "Body part"),]
+  data_andrieux = data_andrieux[-which(data_andrieux$Stoichio_analysis == "Body part"), ]
   
   
   ##### 4. Add data from the GBIF Backbone Taxonomy #####
@@ -37,7 +46,7 @@ read_andrieux = function(path) {
   ##### 5. Keep only one row per species #####
   
   # We remove from data_combine rows which did not find corresponding names in data_gbif
-  data_andrieux = data_andrieux[-which(is.na(data_andrieux$species_gbif)), ]
+  data_andrieux = data_andrieux[-which(is.na(data_andrieux$species_gbif)),]
   
   # Removes Open Tree taxonomy  data to only keep GBIF taxonomic data and remove data unused in the NetSto project
   data_andrieux = subset(
@@ -103,10 +112,10 @@ read_andrieux = function(path) {
   for (i in 1:length(list_sp)) {
     lines_species = which(data_andrieux$species_gbif == list_sp[i])# select the lines of the current species
     if (length(lines_species) == 1) {
-      data_andrieux_aggregated = bind_rows(data_andrieux_aggregated, data_andrieux[lines_species, ])
+      data_andrieux_aggregated = bind_rows(data_andrieux_aggregated, data_andrieux[lines_species,])
     } # if there is only on row for the current species, we keep that row
     else {
-      combined_row = data_andrieux[lines_species[1], ]
+      combined_row = data_andrieux[lines_species[1],]
       
       for (j in col_cont) {
         if (sum(mat_na[lines_species, j]) == 0) {
@@ -129,7 +138,7 @@ read_andrieux = function(path) {
           combined_row[1, k] = NA
         }
       }
-      data_andrieux_aggregated = bind_rows(data_andrieux_aggregated, combined_row[1, ])
+      data_andrieux_aggregated = bind_rows(data_andrieux_aggregated, combined_row[1,])
     }
   }
   
