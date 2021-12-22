@@ -1,9 +1,9 @@
-# 3_data_synthesis
+# Data synthesis
 
 Egestion and excretion elemental composition and stoichiometry likely depend on species and individual
 traits (Sitters et al., 2014). Therefore, depending on the animal community, as well as environmental conditions,
 we can expect contrasting effects of resource consumption and egestion by animals on nutrient cycling
-(Bardgett and Wardle, 2003), likely impacting nutrients availabilities and relative proportion in the soil, possibly
+(Bardgett and Wardle, 2003), likely impacting nutrients availability and relative proportion in the soil, possibly
 influencing competition between plants and vegetation diversity and structure (Barthelemy et al., 2015;
 Gillet et al., 2010; van der Waal et al., 2011). But knowledge on interspecific variation of C:N:P egestion and
 excretion content and stoichiometry in terrestrial animals are still lacking for a large number of species, and no
@@ -14,4 +14,4 @@ is possible to organize this diversity in functional groups of recycling. Likely
 to diet, physiology, body size and body composition. Using a combination of literature survey and chemical
 analysis of our samples, I will continue to build a database that will allow to test the effect of different
 qualitative and quantitative traits on egestions/excretions chemical composition, as well as estimating the net
-nutrient fluxes in various ecosystem contexts. This will be the subject of the first chapter.
+nutrient fluxes in various ecosystem contexts. 
