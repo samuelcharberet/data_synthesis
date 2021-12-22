@@ -2,7 +2,7 @@
 
 # This script merges vertically tables from the NetSto nutrient database
 # cleans the database and adds taxonomic data from the Global Biodiversity Information Facility
-# authors : Anne-Cécile vain, Lucie Serre, Jérôme Mathieu, Samuel Charberet
+# authors : Anne-Cecile vain, Lucie Serre, Jerome Mathieu, Samuel Charberet
 # date : 11/08/2021
 
 # Libraries
