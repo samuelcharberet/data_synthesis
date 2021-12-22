@@ -1,0 +1,340 @@
+Species;C (mg/g);N (mg/g);P (mg/g);date;day;month;year;data;location;period;feces_ID
+Giraffe;450;22.20;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;1
+Giraffe;436;22.80;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;2
+Giraffe;451;21.60;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;3
+Giraffe;451;21.30;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;4
+Giraffe;452;21.70;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;5
+Wildebeest;362;11.70;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;6
+Wildebeest;360;11.60;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;7
+Wildebeest;362;10.80;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;8
+Wildebeest;361;11.10;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;9
+Wildebeest;360;11.20;;jeudi 30 juin 2005;30;6;2005;DDE1;SA;dry;10
+Giraffe;449.2;40.47;4.26;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;11
+Giraffe;452.4;34.77;3.62;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;12
+Giraffe;461.9;30.82;3.57;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;13
+Giraffe;452.9;31.59;3.51;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;14
+Giraffe;461.1;38.33;4.26;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;15
+Giraffe;449.4;41.75;3.99;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;16
+Giraffe;452.9;29.49;2.92;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;17
+Giraffe;451.3;21.57;2.18;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;18
+Giraffe;451.7;36.55;3.59;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;19
+Giraffe;454.4;42.08;3.94;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;20
+Reedbuck;382.4;20.15;4.98;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;21
+Reedbuck;380.3;19.73;4.24;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;22
+Reedbuck;374.6;18.82;4.19;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;23
+Reedbuck;395.6;19.73;4.07;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;24
+Reedbuck;385.3;18.22;4.26;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;25
+Reedbuck;377.6;18.18;3.89;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;26
+Reedbuck;376.5;18.43;4.24;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;27
+Reedbuck;378.3;18.94;4.26;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;28
+Reedbuck;376.8;18.47;3.99;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;29
+Reedbuck;390.7;18.86;4.07;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;30
+Waterbuck;362.3;20.75;2.78;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;31
+Waterbuck;377.2;16.71;3.00;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;32
+Waterbuck;384.3;16.91;2.61;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;33
+Waterbuck;379.6;17.10;2.74;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;34
+Waterbuck;373.9;15.74;2.98;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;35
+Waterbuck;378.8;8.58;2.09;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;36
+Waterbuck;384.3;16.35;3.34;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;37
+Waterbuck;380.7;15.93;3.78;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;38
+Waterbuck;379.9;15.23;3.62;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;39
+Waterbuck;378.2;16.39;3.66;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;40
+Wildebeest;323.9;15.83;2.81;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;41
+Wildebeest;346.7;14.86;2.45;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;42
+Wildebeest;339.4;15.02;2.17;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;43
+Wildebeest;344.3;14.31;2.28;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;44
+Wildebeest;332.4;16.34;3.45;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;45
+Wildebeest;338.5;15.93;2.35;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;46
+Wildebeest;339.5;16.75;2.29;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;47
+Wildebeest;341.9;19.09;2.39;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;48
+Wildebeest;337.8;15.94;2.26;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;49
+Wildebeest;341.9;17.56;2.54;samedi 31 décembre 2005;31;12;2005;DDE2;SA;wet;50
+Giraffe;449.2;40.47;4.26;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;51
+Giraffe;449.4;41.75;3.99;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;52
+Giraffe;452.9;29.49;2.92;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;53
+Giraffe;452.4;34.77;3.62;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;54
+Giraffe;451.3;21.57;2.18;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;55
+Giraffe;451.7;36.55;3.59;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;56
+Giraffe;461.9;30.82;3.57;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;57
+Giraffe;454.4;42.08;3.94;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;58
+Giraffe;452.9;31.59;3.51;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;59
+Giraffe;461.1;38.33;4.26;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;60
+Reedbuck;382.4;20.15;4.98;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;61
+Reedbuck;380.3;19.73;4.24;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;62
+Reedbuck;374.6;18.82;4.19;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;63
+Reedbuck;377.6;18.18;3.89;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;64
+Reedbuck;376.5;18.43;4.24;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;65
+Reedbuck;395.6;19.73;4.07;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;66
+Reedbuck;378.3;18.94;4.26;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;67
+Reedbuck;376.8;18.47;3.99;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;68
+Reedbuck;385.3;18.22;4.26;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;69
+Reedbuck;390.7;18.86;4.07;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;70
+Waterbuck;378.8;8.58;2.09;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;71
+Waterbuck;384.3;16.35;3.34;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;72
+Waterbuck;362.3;20.75;2.78;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;73
+Waterbuck;380.7;15.93;3.78;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;74
+Waterbuck;377.2;16.71;3.00;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;75
+Waterbuck;379.9;15.23;3.62;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;76
+Waterbuck;384.3;16.91;2.61;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;77
+Waterbuck;379.6;17.10;2.74;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;78
+Waterbuck;373.9;15.74;2.98;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;79
+Waterbuck;378.2;16.39;3.66;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;80
+Wildebeest;323.9;15.83;2.81;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;81
+Wildebeest;346.7;14.86;2.45;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;82
+Wildebeest;338.5;15.93;2.35;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;83
+Wildebeest;339.4;15.02;2.17;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;84
+Wildebeest;339.5;16.75;2.29;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;85
+Wildebeest;341.9;19.09;2.39;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;86
+Wildebeest;344.3;14.31;2.28;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;87
+Wildebeest;337.8;15.94;2.26;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;88
+Wildebeest;332.4;16.34;3.45;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;89
+Wildebeest;341.9;17.56;2.54;mardi 31 janvier 2006;31;1;2006;DBP1;SA;dry;90
+Buffalo;393.2;9.71;2.50;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;91
+Buffalo;389.2;9.14;2.32;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;92
+Buffalo;387.1;10.03;2.06;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;93
+Buffalo;394.7;9.55;2.42;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;94
+Buffalo;387.5;10.39;2.57;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;95
+Giraffe;439.1;20.38;1.84;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;96
+Giraffe;447.7;36.55;3.59;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;97
+Giraffe;453.5;30.82;3.57;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;98
+Giraffe;414.9;31.59;3.51;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;99
+Giraffe;441.7;38.33;4.26;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;100
+Reedbuck;398.4;19.73;4.24;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;101
+Reedbuck;403.2;18.82;4.19;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;102
+Reedbuck;395.7;18.18;3.89;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;103
+Reedbuck;400.0;18.43;4.24;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;104
+Reedbuck;398.7;19.73;4.07;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;105
+Warthog;332.5;11.11;3.69;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;106
+Warthog;394.9;14.78;4.80;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;107
+Warthog;381.4;11.48;3.95;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;108
+Warthog;356.6;10.85;3.29;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;109
+Warthog;361.4;12.05;3.70;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;110
+Waterbuck;387.3;10.83;2.19;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;111
+Waterbuck;395.7;10.25;2.00;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;112
+Waterbuck;393.4;10.23;2.08;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;113
+Waterbuck;399.6;10.37;2.05;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;114
+Waterbuck;394.5;11.89;2.29;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;115
+Wildebeest;380.0;9.41;6.56;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;116
+Wildebeest;384.8;9.96;6.78;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;117
+Wildebeest;384.5;9.36;6.65;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;118
+Wildebeest;369.7;8.78;5.85;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;119
+Wildebeest;379.1;9.50;6.67;lundi 31 juillet 2006;31;7;2006;DDE3;SA;dry;120
+Bushbuck;;21.71;5.59;Begin of November 2009;NA;10;2009;NA3;MK;wet;121
+Bushbuck;;20.60;4.95;Begin of November 2009;NA;10;2009;NA3;MK;wet;122
+Bushbuck;;20.43;3.00;Begin of November 2009;NA;10;2009;NA3;MK;wet;123
+Bushbuck;;25.18;6.11;Begin of November 2009;NA;10;2009;NA3;MK;wet;124
+Bushbuck;;25.35;4.63;Begin of November 2009;NA;10;2009;NA3;MK;wet;125
+Giraffe;;29.94;3.56;Begin of November 2009;NA;10;2009;NA3;MK;wet;126
+Giraffe;;29.98;3.03;Begin of November 2009;NA;10;2009;NA3;MK;wet;127
+Giraffe;;32.90;2.31;Begin of November 2009;NA;10;2009;NA3;MK;wet;128
+Giraffe;;29.60;4.65;Begin of November 2009;NA;10;2009;NA3;MK;wet;129
+Hare;;17.16;1.78;Begin of November 2009;NA;10;2009;NA3;MK;wet;130
+Hare;;22.30;2.64;Begin of November 2009;NA;10;2009;NA3;MK;wet;131
+Hare;;17.02;1.13;Begin of November 2009;NA;10;2009;NA3;MK;wet;132
+Rat;;6.33;0.40;Begin of November 2009;NA;10;2009;NA3;MK;wet;133
+Rat;;4.88;0.31;Begin of November 2009;NA;10;2009;NA3;MK;wet;134
+Reedbuck;;12.70;2.30;Begin of November 2009;NA;10;2009;NA3;MK;wet;135
+Reedbuck;;14.04;2.45;Begin of November 2009;NA;10;2009;NA3;MK;wet;136
+Reedbuck;;14.59;2.18;Begin of November 2009;NA;10;2009;NA3;MK;wet;137
+Reedbuck;;21.90;3.14;Begin of November 2009;NA;10;2009;NA3;MK;wet;138
+Warthog;;18.68;2.47;Begin of November 2009;NA;10;2009;NA3;MK;wet;139
+Warthog;;8.49;1.47;Begin of November 2009;NA;10;2009;NA3;MK;wet;140
+Warthog;;12.87;1.51;Begin of November 2009;NA;10;2009;NA3;MK;wet;141
+Warthog;;18.87;2.88;Begin of November 2009;NA;10;2009;NA3;MK;wet;142
+Warthog;;18.62;2.23;Begin of November 2009;NA;10;2009;NA3;MK;wet;143
+Warthog;;30.72;5.68;Begin of November 2009;NA;10;2009;NA3;MK;wet;144
+Warthog;;15.18;2.04;Begin of November 2009;NA;10;2009;NA3;MK;wet;145
+Warthog;;20.38;1.84;Begin of November 2009;NA;10;2009;NA3;MK;wet;146
+Waterbuck;;16.12;2.09;Begin of November 2009;NA;10;2009;NA3;MK;wet;147
+Waterbuck;;14.80;1.93;Begin of November 2009;NA;10;2009;NA3;MK;wet;148
+Waterbuck;;35.59;2.98;Begin of November 2009;NA;10;2009;NA3;MK;wet;149
+Waterbuck;;15.90;2.18;Begin of November 2009;NA;10;2009;NA3;MK;wet;150
+Waterbuck;;18.21;2.88;Begin of November 2009;NA;10;2009;NA3;MK;wet;151
+Waterbuck;;17.98;2.92;Begin of November 2009;NA;10;2009;NA3;MK;wet;152
+Buffalo;142.0;5.33;7.24;End of July 2009;NA;7;2009;NA1;;dry;153
+Buffalo;339.0;12.50;3.32;End of July 2009;NA;7;2009;NA1;;dry;154
+Buffalo;327.0;13.00;1.46;End of July 2009;NA;7;2009;NA1;;dry;155
+Buffalo;274.8;8.15;3.29;End of July 2009;NA;7;2009;NA1;;dry;156
+Bushbuck;449.0;22.20;3.81;End of July 2009;NA;7;2009;NA1;;dry;157
+Bushbuck;461.9;25.73;2.77;End of July 2009;NA;7;2009;NA1;;dry;158
+Bushbuck;403.0;19.42;1.75;End of July 2009;NA;7;2009;NA1;;dry;159
+Bushbuck;388.0;11.30;2.63;End of July 2009;NA;7;2009;NA1;;dry;160
+Bushbuck;363.0;11.30;2.24;End of July 2009;NA;7;2009;NA1;;dry;161
+Bushbuck;435.0;17.50;2.77;End of July 2009;NA;7;2009;NA1;;dry;162
+Elephant;434.0;13.30;4.19;End of July 2009;NA;7;2009;NA1;;dry;163
+Elephant;444.0;10.80;2.70;End of July 2009;NA;7;2009;NA1;;dry;164
+Elephant;430.0;12.30;1.70;End of July 2009;NA;7;2009;NA1;;dry;165
+Giraffe;450;22.20;2.42;End of July 2009;NA;7;2009;NA1;;dry;166
+Giraffe;436.0;22.80;2.72;End of July 2009;NA;7;2009;NA1;;dry;167
+Giraffe;451.0;21.60;2.65;End of July 2009;NA;7;2009;NA1;;dry;168
+Giraffe;402.0;11.70;2.06;End of July 2009;NA;7;2009;NA1;;dry;169
+Giraffe;464.0;19.70;2.20;End of July 2009;NA;7;2009;NA1;;dry;170
+Hare;423.0;9.89;0.69;End of July 2009;NA;7;2009;NA1;;dry;171
+Hare;420.0;12.40;0.98;End of July 2009;NA;7;2009;NA1;;dry;172
+Hare;398.0;13.20;1.04;End of July 2009;NA;7;2009;NA1;;dry;173
+Hare;378.0;21.30;0.68;End of July 2009;NA;7;2009;NA1;;dry;174
+Hare;415.0;10.10;4.21;End of July 2009;NA;7;2009;NA1;;dry;175
+Hare;415.0;9.63;0.73;End of July 2009;NA;7;2009;NA1;;dry;176
+Kongoni;371.0;9.38;1.96;End of July 2009;NA;7;2009;NA1;;dry;177
+Kongoni;400.0;11.00;2.27;End of July 2009;NA;7;2009;NA1;;dry;178
+Kongoni;439.0;5.30;4.77;End of July 2009;NA;7;2009;NA1;;dry;179
+Rat;428.0;3.88;0.33;End of July 2009;NA;7;2009;NA1;;dry;180
+Rat;418.0;3.50;0.48;End of July 2009;NA;7;2009;NA1;;dry;181
+Rat;433.0;3.84;0.37;End of July 2009;NA;7;2009;NA1;;dry;182
+Rat;408.0;5.52;0.49;End of July 2009;NA;7;2009;NA1;;dry;183
+Rat;428.0;5.13;0.94;End of July 2009;NA;7;2009;NA1;;dry;184
+Red duiker;420.0;16.30;2.80;End of July 2009;NA;7;2009;NA1;;dry;185
+Red duiker;434.9;19.97;3.10;End of July 2009;NA;7;2009;NA1;;dry;186
+Reedbuck;396.0;12.40;3.30;End of July 2009;NA;7;2009;NA1;;dry;187
+Reedbuck;395.0;12.40;2.59;End of July 2009;NA;7;2009;NA1;;dry;188
+Reedbuck;388.0;12.30;2.79;End of July 2009;NA;7;2009;NA1;;dry;189
+Reedbuck;478.0;23.90;2.27;End of July 2009;NA;7;2009;NA1;;dry;190
+Reedbuck;387.1;11.80;2.52;End of July 2009;NA;7;2009;NA1;;dry;191
+Suni;429.0;20.10;1.76;End of July 2009;NA;7;2009;NA1;;dry;192
+Suni;410.0;23.70;1.50;End of July 2009;NA;7;2009;NA1;;dry;193
+Warthog;365.0;8.58;4.15;End of July 2009;NA;7;2009;NA1;;dry;194
+Warthog;396.0;11.90;2.23;End of July 2009;NA;7;2009;NA1;;dry;195
+Warthog;383.0;11.00;1.83;End of July 2009;NA;7;2009;NA1;;dry;196
+Warthog;322.0;14.10;1.78;End of July 2009;NA;7;2009;NA1;;dry;197
+Warthog;344.0;8.00;2.00;End of July 2009;NA;7;2009;NA1;;dry;198
+Warthog;407.0;8.80;1.85;End of July 2009;NA;7;2009;NA1;;dry;199
+Waterbuck;383.0;11.00;2.72;End of July 2009;NA;7;2009;NA1;;dry;200
+Waterbuck;364.0;10.50;6.85;End of July 2009;NA;7;2009;NA1;;dry;201
+Waterbuck;327.4;13.63;1.96;End of July 2009;NA;7;2009;NA1;;dry;202
+Waterbuck;373.0;11.10;4.94;End of July 2009;NA;7;2009;NA1;;dry;203
+Waterbuck;397.0;11.20;2.14;End of July 2009;NA;7;2009;NA1;;dry;204
+Waterbuck;363.2;10.21;1.84;End of July 2009;NA;7;2009;NA1;;dry;205
+Waterbuck;381.0;12.80;1.77;End of July 2009;NA;7;2009;NA1;;dry;206
+Waterbuck;391.0;10.60;2.36;End of July 2009;NA;7;2009;NA1;;dry;207
+Waterbuck;383.0;10.50;2.44;End of July 2009;NA;7;2009;NA1;;dry;208
+Waterbuck;379.0;10.30;2.32;End of July 2009;NA;7;2009;NA1;;dry;209
+Wildebeest;362.0;11.70;3.04;End of July 2009;NA;7;2009;NA1;SA;dry;210
+Wildebeest;360.0;11.60;3.51;End of July 2009;NA;7;2009;NA1;SA;dry;211
+Wildebeest;362.0;10.80;3.35;End of July 2009;NA;7;2009;NA1;SA;dry;212
+Wildebeest;361.0;11.10;3.53;End of July 2009;NA;7;2009;NA1;SA;dry;213
+Wildebeest;360.0;11.20;3.12;End of July 2009;NA;7;2009;NA1;SA;dry;214
+Buffalo;;9.45;1.98;January 2010;NA;1;2010;NA4;MK;wet;215
+Buffalo;;15.22;2.35;January 2010;NA;1;2010;NA4;MK;wet;216
+Buffalo;;14.36;2.56;January 2010;NA;1;2010;NA4;MK;wet;217
+Buffalo;;18.45;2.93;January 2010;NA;1;2010;NA4;MK;wet;218
+Bushbuck;;23.56;3.84;January 2010;NA;1;2010;NA4;SA;wet;219
+Bushbuck;;23.86;4.44;January 2010;NA;1;2010;NA4;SA;wet;220
+Elephant;;13.56;1.36;January 2010;NA;1;2010;NA4;MK;wet;221
+Elephant;;14.51;1.35;January 2010;NA;1;2010;NA4;SA;wet;222
+Elephant;;19.90;1.79;January 2010;NA;1;2010;NA4;MK;wet;223
+Elephant;;19.00;1.47;January 2010;NA;1;2010;NA4;MK;wet;224
+Giraffe;;30.50;2.66;January 2010;NA;1;2010;NA4;MK;wet;225
+Giraffe;;30.81;3.07;January 2010;NA;1;2010;NA4;MK;wet;226
+Giraffe;;35.56;3.05;January 2010;NA;1;2010;NA4;SA;wet;227
+Giraffe;;36.10;3.30;January 2010;NA;1;2010;NA4;SA;wet;228
+Giraffe;;39.68;3.26;January 2010;NA;1;2010;NA4;MK;wet;229
+Grey duiker;421.8;27.84;3.52;January 2010;NA;1;2010;NA4;MK;wet;230
+Grey duiker;446.2;31.09;3.83;January 2010;NA;1;2010;NA4;SA;wet;231
+Grey duiker;438.0;27.69;4.80;January 2010;NA;1;2010;NA4;SA;wet;232
+Grey duiker;421.8;30.07;3.19;January 2010;NA;1;2010;NA4;SA;wet;233
+Hare;;17.16;1.72;January 2010;NA;1;2010;NA4;SA;wet;234
+Hare;;14.40;0.99;January 2010;NA;1;2010;NA4;MK;wet;235
+Hare;;19.28;1.63;January 2010;NA;1;2010;NA4;MK;wet;236
+Rat;;7.10;1.08;January 2010;NA;1;2010;NA4;SA;wet;237
+Rat;;9.09;1.48;January 2010;NA;1;2010;NA4;SA;wet;238
+Rat;;14.13;2.45;January 2010;NA;1;2010;NA4;MK;wet;239
+Rat;;13.86;2.35;January 2010;NA;1;2010;NA4;MK;wet;240
+Rat;;13.04;1.80;January 2010;NA;1;2010;NA4;MK;wet;241
+Rat;;14.21;1.91;January 2010;NA;1;2010;NA4;MK;wet;242
+Reedbuck;;18.64;3.36;January 2010;NA;1;2010;NA4;SA;wet;243
+Warthog;;7.65;1.34;January 2010;NA;1;2010;NA4;MK;wet;244
+Warthog;;14.03;3.09;January 2010;NA;1;2010;NA4;MK;wet;245
+Warthog;;19.78;3.28;January 2010;NA;1;2010;NA4;MK;wet;246
+Waterbuck;;18.82;5.16;January 2010;NA;1;2010;NA4;MK;wet;247
+Wildebeest;;17.11;3.04;January 2010;NA;1;2010;NA4;SA;wet;248
+Wildebeest;;19.89;2.59;January 2010;NA;1;2010;NA4;SA;wet;249
+Zebra;;13.09;5.32;January 2010;NA;1;2010;NA4;SA;wet;250
+Zebra;;16.70;5.47;January 2010;NA;1;2010;NA4;SA;wet;251
+Zebra;;15.87;5.30;January 2010;NA;1;2010;NA4;SA;wet;252
+Zebra;;14.38;5.45;January 2010;NA;1;2010;NA4;SA;wet;253
+Zebra;;15.93;4.49;January 2010;NA;1;2010;NA4;SA;wet;254
+Buffalo;325.7;13.12;1.85;Mid February 2010;NA;2;2010;DBP2;SA;dry;255
+Buffalo;257.0;11.56;1.65;Mid February 2010;NA;2;2010;DBP2;SA;dry;256
+Buffalo;172.0;8.99;1.26;Mid February 2010;NA;2;2010;DBP2;SA;dry;257
+Buffalo;189.0;10.71;1.46;Mid February 2010;NA;2;2010;DBP2;SA;dry;258
+Elephant;;15.24;1.58;Mid February 2010;NA;2;2010;DBP2;SA;dry;259
+Elephant;444.9;13.21;1.69;Mid February 2010;NA;2;2010;DBP2;SA;dry;260
+Elephant;458.1;14.49;1.99;Mid February 2010;NA;2;2010;DBP2;SA;dry;261
+Elephant;458.5;15.39;1.99;Mid February 2010;NA;2;2010;DBP2;SA;dry;262
+Elephant;456.4;12.27;1.49;Mid February 2010;NA;2;2010;DBP2;SA;dry;263
+Wildebeest;398.3;14.24;3.46;Mid February 2010;NA;2;2010;DBP2;SA;dry;264
+Wildebeest;392.2;13.32;3.65;Mid February 2010;NA;2;2010;DBP2;SA;dry;265
+Wildebeest;458.1;13.79;3.52;Mid February 2010;NA;2;2010;DBP2;SA;dry;266
+Wildebeest;397.0;13.63;3.45;Mid February 2010;NA;2;2010;DBP2;SA;dry;267
+Wildebeest;399.0;13.96;3.60;Mid February 2010;NA;2;2010;DBP2;SA;dry;268
+Zebra;;9.94;1.48;Mid February 2010;NA;2;2010;DBP2;SA;dry;269
+Zebra;406.9;8.79;1.93;Mid February 2010;NA;2;2010;DBP2;SA;dry;270
+Zebra;415.9;8.84;1.99;Mid February 2010;NA;2;2010;DBP2;MK;dry;271
+Zebra;420.8;8.85;1.72;Mid February 2010;NA;2;2010;DBP2;SA;dry;272
+Zebra;413.9;9.89;2.20;Mid February 2010;NA;2;2010;DBP2;SA;dry;273
+Buffalo;;11.47;2.24;Mid September 2009;NA;9;2009;NA2;MK;dry;274
+Buffalo;;10.44;1.86;Mid September 2009;NA;9;2009;NA2;SA;dry;275
+Buffalo;;9.67;1.60;Mid September 2009;NA;9;2009;NA2;SA;dry;276
+Buffalo;;7.40;1.44;Mid September 2009;NA;9;2009;NA2;SA;dry;277
+Buffalo;;11.29;2.20;Mid September 2009;NA;9;2009;NA2;SA;dry;278
+Buffalo;;9.80;1.81;Mid September 2009;NA;9;2009;NA2;SA;dry;279
+Bushbuck;;18.43;3.56;Mid September 2009;NA;9;2009;NA2;SA;dry;280
+Bushbuck;;14.51;4.00;Mid September 2009;NA;9;2009;NA2;SA;dry;281
+Bushbuck;;9.74;2.23;Mid September 2009;NA;9;2009;NA2;SA;dry;282
+Bushbuck;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;MK;dry;283
+Bushbuck;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;MK;dry;284
+Bushbuck;;19.37;2.25;Mid September 2009;NA;9;2009;NA2;MK;dry;285
+Bushbuck;;24.97;2.99;Mid September 2009;NA;9;2009;NA2;MK;dry;286
+Bushbuck;;19.30;2.33;Mid September 2009;NA;9;2009;NA2;MK;dry;287
+Elephant;;13.58;1.85;Mid September 2009;NA;9;2009;NA2;MK;dry;288
+Elephant;;7.76;1.40;Mid September 2009;NA;9;2009;NA2;MK;dry;289
+Elephant;;10.94;1.38;Mid September 2009;NA;9;2009;NA2;MK;dry;290
+Elephant;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;MK;dry;291
+Elephant;;11.42;1.55;Mid September 2009;NA;9;2009;NA2;MK;dry;292
+Giraffe;;23.82;3.29;Mid September 2009;NA;9;2009;NA2;SA;dry;293
+Giraffe;;10.78;2.42;Mid September 2009;NA;9;2009;NA2;SA;dry;294
+Giraffe;;29.29;5.51;Mid September 2009;NA;9;2009;NA2;MK;dry;295
+Giraffe;;10.58;4.39;Mid September 2009;NA;9;2009;NA2;SA;dry;296
+Giraffe;;24.57;2.78;Mid September 2009;NA;9;2009;NA2;SA;dry;297
+Giraffe;;9.53;2.60;Mid September 2009;NA;9;2009;NA2;SA;dry;298
+Grey duiker;412.0;20.98;6.00;Mid September 2009;NA;9;2009;NA2;MK;dry;299
+Grey duiker;456.6;12.66;2.67;Mid September 2009;NA;9;2009;NA2;MK;dry;300
+Grey duiker;481.2;26.61;2.94;Mid September 2009;NA;9;2009;NA2;MK;dry;301
+Grey duiker;412.0;24.15;2.48;Mid September 2009;NA;9;2009;NA2;MK;dry;302
+Grey duiker;416.3;16.00;2.62;Mid September 2009;NA;9;2009;NA2;SA;dry;303
+Grey duiker;427.4;21.87;6.66;Mid September 2009;NA;9;2009;NA2;MK;dry;304
+Hare;;20.67;2.63;Mid September 2009;NA;9;2009;NA2;SA;dry;305
+Hare;;8.03;1.00;Mid September 2009;NA;9;2009;NA2;SA;dry;306
+Hare;;8.87;1.04;Mid September 2009;NA;9;2009;NA2;SA;dry;307
+Hare;;9.42;1.23;Mid September 2009;NA;9;2009;NA2;SA;dry;308
+Hare;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;SA;dry;309
+Rat;;3.82;0.34;Mid September 2009;NA;9;2009;NA2;;dry;310
+Rat;;3.42;0.38;Mid September 2009;NA;9;2009;NA2;;dry;311
+Rat;;5.01;0.34;Mid September 2009;NA;9;2009;NA2;;dry;312
+Rat;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;;dry;313
+Reedbuck;;13.47;4.77;Mid September 2009;NA;9;2009;NA2;SA;dry;314
+Reedbuck;;10.87;4.36;Mid September 2009;NA;9;2009;NA2;SA;dry;315
+Reedbuck;;13.81;2.33;Mid September 2009;NA;9;2009;NA2;SA;dry;316
+Reedbuck;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;SA;dry;317
+Reedbuck;;11.58;2.83;Mid September 2009;NA;9;2009;NA2;SA;dry;318
+Reedbuck;;12.08;3.42;Mid September 2009;NA;9;2009;NA2;SA;dry;319
+Warthog;;10.70;1.51;Mid September 2009;NA;9;2009;NA2;MK;dry;320
+Warthog;;11.55;3.80;Mid September 2009;NA;9;2009;NA2;MK;dry;321
+Warthog;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;MK;dry;322
+Warthog;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;MK;dry;323
+Warthog;;11.48;2.51;Mid September 2009;NA;9;2009;NA2;MK;dry;324
+Warthog;;10.27;2.88;Mid September 2009;NA;9;2009;NA2;MK;dry;325
+Waterbuck;;11.59;3.13;Mid September 2009;NA;9;2009;NA2;MK;dry;326
+Waterbuck;;12.91;3.08;Mid September 2009;NA;9;2009;NA2;SA;dry;327
+Waterbuck;;14.24;2.57;Mid September 2009;NA;9;2009;NA2;MK;dry;328
+Waterbuck;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;SA;dry;329
+Waterbuck;;13.29;2.48;Mid September 2009;NA;9;2009;NA2;MK;dry;330
+Waterbuck;;11.36;1.94;Mid September 2009;NA;9;2009;NA2;SA;dry;331
+Waterbuck;;14.05;6.37;Mid September 2009;NA;9;2009;NA2;MK;dry;332
+Waterbuck;;11.75;2.61;Mid September 2009;NA;9;2009;NA2;SA;dry;333
+Waterbuck;;14.96;2.77;Mid September 2009;NA;9;2009;NA2;MK;dry;334
+Waterbuck;;14.68;3.71;Mid September 2009;NA;9;2009;NA2;SA;dry;335
+Wildebeest;;8.91;6.08;Mid September 2009;NA;9;2009;NA2;SA;dry;336
+Wildebeest;;7.70;4.66;Mid September 2009;NA;9;2009;NA2;SA;dry;337
+Wildebeest;;7.71;5.01;Mid September 2009;NA;9;2009;NA2;SA;dry;338
+Wildebeest;;8.40;4.03;Mid September 2009;NA;9;2009;NA2;SA;dry;339

@@ -1,0 +1,43 @@
+﻿Variable;Description;Type;Variable codes
+SpecID;Jetz Lab Species ID;Integer;NA
+PassNonPass;Passeriformes, Nonpassseriformes;Character;NA
+IOCOrder;IOC V2.7 Checklist Order;Character;NA
+BLFamilyLatin;Birdlife V3.0 Checklist Family Latin;Character;NA
+BLFamilyEnglish;Birdlife V3.0 Checklist Family English;Character;NA
+BLFamSequID;Birdlife V3.0 Checklist Family Sequence;Character;NA
+Taxo;Taxonomic authority used for species;Character;"BL3: Birdlife V3.0; IOC27: IOC V2.7"
+Scientific;Species Latin name;Character;NA
+English;Species English name;Character;NA
+Diet-Inv;Percent use of: Invertebrates-general, aquatic invertebrates, shrimp, krill, squid, crustacaeans, molluscs, cephalapod, polychaetes, gastropods, orthoptera, terrestrial Invertebrates, ground insects, insect larvae, worms, orthopterans, flying insects;Integer;estimated % use (categories sum to 100% total)
+Diet-Vend;Percent use of: Mammals, Birds;Integer;estimated % use (categories sum to 100% total)
+Diet-Vect;Percent use of: Reptiles, snakes, amphibians, salamanders;Integer;estimated % use (categories sum to 100% total)
+Diet-Vfish;Percent use of: Fish;Integer;estimated % use (categories sum to 100% total)
+Diet-Vunk;Percent use of: Vertebrates-general or unknown;Integer;estimated % use (categories sum to 100% total)
+Diet-Scav;Percent use of: Scavenge, garbage, offal, carcasses, trawlers, carrrion;Integer;estimated % use (categories sum to 100% total)
+Diet-Fruit;Percent use of: Fruit, drupes;Integer;estimated % use (categories sum to 100% total)
+Diet-Nect;Percent use of: Nectar, pollen, plant exudates, gums;Integer;estimated % use (categories sum to 100% total)
+Diet-Seed;Percent use of: Seed, maize, nuts, spores, wheat, grains;Integer;estimated % use (categories sum to 100% total)
+Diet-PlantO;Percent use of: Other plant material, Grass, ground vegetation, seedlings, weeds, lichen, moss, small plants, reeds, cultivated crops, forbs, vegetables, fungi, roots, tubers, legumes, bulbs, leaves, above ground vegetation, twigs, bark, shrubs, herbs, shoots, aquatic vegetation, aquatic plants;Integer;estimated % use (categories sum to 100% total)
+Diet-5Cat;Assignment to the dominant among five diet categories based on the summed scores of constituent individual diets.;Character;PlantSeed: Plant and Seeds, FruiNect: Fruits and Nectar, Invertebrate: Invertebrates, VertFishScav: Vertebrates and Fish and Carrion, Omnivore: score of <= 50 in all four categories
+Diet-Source;Literature source used;Character;Link to Ref_ID in Table 3
+Diet-Certainty;Dietary relevance score reliability;Character;A – Highly certain that the source is reliable and has provided accurate diet information. B – Reasonably confident that source is reliable, however information on relative proportion of each diet category making up the whole diet is possibly uncertain. C – Quality of source diet estimate unclear or inferred from a specific congeneric species with good sources. D1, D2 – Species-level information missing and value is that typical for genus (D1) or family (D2).
+Diet-EnteredBy;Name of primary transcriber of diet data;;
+ForStrat-watbelowsurf;Prevalence of: Foraging below the water surfaces;Integer;estimated % use (categories sum to 100% total)
+ForStrat-wataroundsurf;Prevalence of: Foraging on or just (<5 inches) below water surface;Integer;estimated % use (categories sum to 100% total)
+ForStrat-ground;Prevalence of: Foraging on ground;Integer;estimated % use (categories sum to 100% total)
+ForStrat-understory;Prevalence of: Foraging below 2m in understory in forest, forest edges, bushes or shrubs;Integer;estimated % use (categories sum to 100% total)
+ForStrat-midhigh;Prevalence of: Foraging in mid to high levels in trees or high bushes (2m upward), but below canopy;Integer;estimated % use (categories sum to 100% total)
+ForStrat-canopy;Prevalence of: Foraging in or just above (from) tree canopy;Integer;estimated % use (categories sum to 100% total)
+ForStrat-aerial;Prevalence of: Foraging well above vegetation or any structures;Integer;estimated % use (categories sum to 100% total)
+PelagicSpecialist;Foraging predominantly pelagic. Source for all: Handbook of the Birds of the World;Binary;"0: no; 1: yes"
+ForStrat-Source;Source of estimates for foraging stratum;Character;Link to Ref_ID in Table 3
+ForStrat-SpecLevel;Indicates whether foraging stratum estimates are based on species-level data;Binary;"0: no; 1: yes"
+ForStrat-EnteredBy;Name of primary transcriber of foraging stratum data;Character;
+Nocturnal;;;
+BodyMass-Value;;;
+BodyMass-Source;Main foraging activity at night. Source for all: Handbook of the Birds of the World;Binary;"0: no; 1: yes"
+BodyMass-SpecLevel;Body mass (g). For Source Dunning08: Geometric mean of average values provided for both sexes (Dunning08). For Source GenAvg: genus average as provided by other sources;Floating Point;NA
+BodyMass-Comment;Source of body mass values.;Character;PrimScale: inferred from select primary sources with mass and length data, and mass-length relationships parameterized at family level. GenAvg: genus average. Other: see comments.
+Record-Comment;Indicates whether body mass values are based on species-level data;Binary;"1: based on species level data; 0: inferred from genus or family typical values"
+;Misc. comments;Character;MarceloR: mobilized or calculated from length estimates by Marcelo Rivadeneira
+;Indicates whether data record arose from species split;Character;NA
