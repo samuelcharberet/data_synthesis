@@ -15,3 +15,14 @@ to diet, physiology, body size and body composition. Using a combination of lite
 analysis of our samples, I will continue to build a database that will allow to test the effect of different
 qualitative and quantitative traits on egestions/excretions chemical composition, as well as estimating the net
 nutrient fluxes in various ecosystem contexts. 
+
+Here, I combine excretion and egestion chemical composition data with species-level trait data (e.g. bodymass, diet) and confront both to investigate correlations.
+
+The chemical composition data can be found in "1_data/1_data_nutrient". It is further subdivided into "1_data_literature" consisting of a collection of publication data, and "2_data_samples" which is a complementary dataset of chemical analysis that I did. Both datasets have the same structure and are simply combined.
+
+The traits data can be found in "1_data/2_data_traits" and consist of collection of publicly available trait databases published for specific taxonomic groups, mostly at the species level. These databases do not have the same structure and are thus combined using a procedure in which the simplest trait categorization is chosen, and data are chosen based on completeness.
+
+The R functions running the analyses are found in the "R" repository and their execution order is specified through the "_targets.r" file.
+
+
+
