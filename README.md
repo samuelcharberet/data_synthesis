@@ -1,4 +1,4 @@
-# Data synthesis
+# Does egestion and excretion chemical composition varies with species traits in terrestrial animals
 
 Egestion and excretion elemental composition and stoichiometry likely depend on species and individual
 traits (Sitters et al., 2014). Therefore, depending on the animal community, as well as environmental conditions,
