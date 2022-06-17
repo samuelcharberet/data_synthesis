@@ -1,7 +1,7 @@
 #' add_gbif_backbone_taxonomy
 #'
 #' @param dataframe 
-#' @param speciescolumn 
+#' @param speciescolumn  the name of the column containing the species binomial names
 #'
 #' @return a dataframe with added GBIF backbone taxonomy data
 #' A function to download data from the GBIF Backbone Taxonomy and combine
