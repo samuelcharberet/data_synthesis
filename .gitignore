@@ -38,7 +38,7 @@ vignettes/*.pdf
 # The data folder with traits, and the data folder with the literature data, which are heavy
 
 
-*.pdf
+1_data/**/*.pdf
 *.ppt
 **/old
 
