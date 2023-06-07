@@ -12,23 +12,8 @@
 #'
 #'
 
-plots_ds = function(data_nutrients, data_fluxes) {
-  data_fluxes = read.csv(here::here("1_data", "2_data_fluxes", "data_fluxes.csv"))
-  # Structuring the data fluxes table
-  
-  data_fluxes$Feed = factor(
-    data_fluxes$Feed,
-    levels = c(
-      "Herbivore",
-      "Omnivore",
-      "Carnivore",
-      "Insectivore",
-      "Frugivore",
-      "Nectarivore"
-    )
-  )
-  
-  data_fluxes$Species_lat =  tolower(data_fluxes$Species_lat)
+plots_ds = function(data, data_fluxes) {
+
   
   
   # Set global options for the ggplot2 plots
