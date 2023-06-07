@@ -42,3 +42,5 @@ vignettes/*.pdf
 *.ppt
 **/old
 
+/1_data/1_data_nutrients/2_data_samples/1030_999_charberet_2020/0_appendix
+/1_data/1_data_nutrients/2_data_samples/1030_999_charberet_2020/1_reference_materials

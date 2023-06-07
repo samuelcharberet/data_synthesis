@@ -1,0 +1,1 @@
+Each 3 months, a taxonomic update is downloaded from GBIF (Global biodiversity information facility) for the species for which nutrient data exist.

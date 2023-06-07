@@ -1,0 +1,1 @@
+the template is directly usable to add new data. The excel file contains two sheets, the second being a description of what should be added in the columns. 

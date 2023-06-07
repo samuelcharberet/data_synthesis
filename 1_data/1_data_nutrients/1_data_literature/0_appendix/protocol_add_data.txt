@@ -1,0 +1,23 @@
+--- PROTOCOL FOR ADDING DATA ---
+
+1 Assign a code to the reference: on the model 1234_001_authorname_year
+1234: whether nutrient data is provided on
+food (put a 1, otherwise 0, in first position)
+body (put a 2, otherwise 0, in second position)
+feces (put a 3, otherwise 0, in third position)
+urine (put a 4, otherwise 0, in fourth position)
+001: the article number
+
+Example: An article published in 1996 by Yokoshima with chemical data on food and urine, and this article is the third one in this category:
+1004_003_yokoshima_1996
+
+2 Enter the article in the database_papers file
+
+3 Create a folder with the same name as the pdf. This folder should contain:
+- a readme file containing author year and title of the article and a brief description of the data
+- the pdf file whose name is the same as that of the folder that contains it
+- additional data
+- the excel file whose name must be on the model 1234_001_authorname_year
+
+
+4 Enter the data in the template. Refer to the description of each column in the template.

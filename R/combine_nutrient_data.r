@@ -388,6 +388,25 @@ combine_nutrient_data = function(data_nl, data_np) {
     }
   }
   
+  # We  generate a blank template table for traits so that it can be filled by hand
+  
+  species = na.omit(unique(data_nutrients$species))
+  n_species = length(species)
+  data_traits_blank = data.frame(
+    species_names = species,
+    body_mass = NA,
+    diet = NA,
+    source_body_mass = NA,
+    comments = NA
+  )
+  write.csv(
+    data_traits_blank,
+    here::here("1_data",
+               "3_data_traits",
+               "data_traits_blank.csv"),
+    row.names = FALSE
+  )
+  
   
   ######  14. Write a data file ######
   

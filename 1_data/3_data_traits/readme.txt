@@ -1,0 +1,1 @@
+The body masses and diets contained in data_traits were added manualluy on the model of data_traits_blank generated from the list of species for which nutrient data exist.
