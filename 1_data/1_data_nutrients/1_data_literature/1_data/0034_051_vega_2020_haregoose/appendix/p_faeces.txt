@@ -1,0 +1,5 @@
+#DataThief C:\Users\Samuel\Documents\1_PhD\3_data_synthesis\1_data\1_data_nutrient\1_data_literature\1_data\0034_051_vega_2020_haregoose\appendix\p_faeces.PNG Monday 6-Mar-2023 2:34:31 PM
+1.001, 43309.1905
+0.9986, 44758.4367
+2.0067, 75350.3219
+2.0051, 79263.3465

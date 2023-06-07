@@ -1,0 +1,157 @@
+"","species","latin_species_names","feeding_strategy","feces_ID","component_name","component_mean"
+"1","Dikdik","madoqua_kirkii","Browser",1,"C",37.00113519
+"2","Dikdik","madoqua_kirkii","Browser",1,"N",1.867080492
+"3","Dikdik","madoqua_kirkii","Browser",1,"P",0.351931385
+"4","Dikdik","madoqua_kirkii","Browser",1,"d13C",-27.6342565
+"5","Dikdik","madoqua_kirkii","Browser",2,"C",40.0143928
+"6","Dikdik","madoqua_kirkii","Browser",2,"N",2.231027512
+"7","Dikdik","madoqua_kirkii","Browser",2,"P",0.509843551
+"8","Dikdik","madoqua_kirkii","Browser",2,"d13C",-26.65926341
+"9","Dikdik","madoqua_kirkii","Browser",3,"C",38.73239447
+"10","Dikdik","madoqua_kirkii","Browser",3,"N",2.10430173
+"11","Dikdik","madoqua_kirkii","Browser",3,"P",0.43804955
+"12","Dikdik","madoqua_kirkii","Browser",3,"d13C",-26.46908325
+"13","Dikdik","madoqua_kirkii","Browser",4,"C",74.84330127
+"14","Dikdik","madoqua_kirkii","Browser",4,"N",4.738185523
+"15","Dikdik","madoqua_kirkii","Browser",4,"P",1.006551249
+"16","Dikdik","madoqua_kirkii","Browser",4,"d13C",-26.45147973
+"17","Dikdik","madoqua_kirkii","Browser",5,"C",39.54014613
+"18","Dikdik","madoqua_kirkii","Browser",5,"N",2.288730966
+"19","Dikdik","madoqua_kirkii","Browser",5,"P",0.594959935
+"20","Dikdik","madoqua_kirkii","Browser",5,"d13C",-26.12729468
+"21","Dikdik","madoqua_kirkii","Browser",6,"C",35.37851056
+"22","Dikdik","madoqua_kirkii","Browser",6,"N",1.760498062
+"23","Dikdik","madoqua_kirkii","Browser",6,"P",0.609062548
+"24","Dikdik","madoqua_kirkii","Browser",6,"d13C",-26.05656268
+"25","Eland","taurotragus_orys","Browser",7,"C",42.26907006
+"26","Eland","taurotragus_orys","Browser",7,"N",2.084704024
+"27","Eland","taurotragus_orys","Browser",7,"P",0.501475487
+"28","Eland","taurotragus_orys","Browser",7,"d13C",-28.27544726
+"29","Eland","taurotragus_orys","Browser",8,"C",41.80679035
+"30","Eland","taurotragus_orys","Browser",8,"N",1.806781714
+"31","Eland","taurotragus_orys","Browser",8,"P",0.391259669
+"32","Eland","taurotragus_orys","Browser",8,"d13C",-27.82840065
+"33","Eland","taurotragus_orys","Browser",9,"C",37.94379985
+"34","Eland","taurotragus_orys","Browser",9,"N",1.994610729
+"35","Eland","taurotragus_orys","Browser",9,"P",0.441737774
+"36","Eland","taurotragus_orys","Browser",9,"d13C",-27.44760398
+"37","Giraffe","giraffa_camelopardalis","Browser",10,"C",46.60817962
+"38","Giraffe","giraffa_camelopardalis","Browser",10,"N",2.935057639
+"39","Giraffe","giraffa_camelopardalis","Browser",10,"P",0.553773131
+"40","Giraffe","giraffa_camelopardalis","Browser",10,"d13C",-28.7182676
+"41","Giraffe","giraffa_camelopardalis","Browser",11,"C",45.92771919
+"42","Giraffe","giraffa_camelopardalis","Browser",11,"N",2.929357205
+"43","Giraffe","giraffa_camelopardalis","Browser",11,"P",0.419737656
+"44","Giraffe","giraffa_camelopardalis","Browser",11,"d13C",-28.49784981
+"45","Giraffe","giraffa_camelopardalis","Browser",12,"C",43.90985142
+"46","Giraffe","giraffa_camelopardalis","Browser",12,"N",2.382422975
+"47","Giraffe","giraffa_camelopardalis","Browser",12,"P",0.393877524
+"48","Giraffe","giraffa_camelopardalis","Browser",12,"d13C",-28.45366898
+"49","Giraffe","giraffa_camelopardalis","Browser",13,"C",36.45141439
+"50","Giraffe","giraffa_camelopardalis","Browser",13,"N",2.068083994
+"51","Giraffe","giraffa_camelopardalis","Browser",13,"P",0.482079696
+"52","Giraffe","giraffa_camelopardalis","Browser",13,"d13C",-28.44692815
+"53","Giraffe","giraffa_camelopardalis","Browser",14,"C",44.26711664
+"54","Giraffe","giraffa_camelopardalis","Browser",14,"N",2.307154992
+"55","Giraffe","giraffa_camelopardalis","Browser",14,"P",0.392288407
+"56","Giraffe","giraffa_camelopardalis","Browser",14,"d13C",-26.97622177
+"57","Kudu","tragelaphus_strepsiceros","Browser",15,"C",39.57804952
+"58","Kudu","tragelaphus_strepsiceros","Browser",15,"N",2.143731245
+"59","Kudu","tragelaphus_strepsiceros","Browser",15,"P",0.574882167
+"60","Kudu","tragelaphus_strepsiceros","Browser",15,"d13C",-27.50715777
+"61","Kudu","tragelaphus_strepsiceros","Browser",16,"C",44.72956511
+"62","Kudu","tragelaphus_strepsiceros","Browser",16,"N",2.585140303
+"63","Kudu","tragelaphus_strepsiceros","Browser",16,"P",0.514309208
+"64","Kudu","tragelaphus_strepsiceros","Browser",16,"d13C",-27.44343139
+"65","Kudu","tragelaphus_strepsiceros","Browser",17,"C",45.86679816
+"66","Kudu","tragelaphus_strepsiceros","Browser",17,"N",2.675112007
+"67","Kudu","tragelaphus_strepsiceros","Browser",17,"P",0.533391858
+"68","Kudu","tragelaphus_strepsiceros","Browser",17,"d13C",-27.1917146
+"69","Thomson's gazelle","gazella_rufifrons","Browser",18,"C",35.34489351
+"70","Thomson's gazelle","gazella_rufifrons","Browser",18,"N",1.799187151
+"71","Thomson's gazelle","gazella_rufifrons","Browser",18,"P",0.44865434
+"72","Thomson's gazelle","gazella_rufifrons","Browser",18,"d13C",-25.46721252
+"73","Thomson's gazelle","gazella_rufifrons","Browser",19,"C",31.47019982
+"74","Thomson's gazelle","gazella_rufifrons","Browser",19,"N",1.853505143
+"75","Thomson's gazelle","gazella_rufifrons","Browser",19,"P",0.367199371
+"76","Thomson's gazelle","gazella_rufifrons","Browser",19,"d13C",-25.17893708
+"77","Thomson's gazelle","gazella_rufifrons","Browser",20,"C",36.40537364
+"78","Thomson's gazelle","gazella_rufifrons","Browser",20,"N",2.353021491
+"79","Thomson's gazelle","gazella_rufifrons","Browser",20,"P",0.274175253
+"80","Thomson's gazelle","gazella_rufifrons","Browser",20,"d13C",-25.05369107
+"81","Thomson's gazelle","gazella_rufifrons","Browser",21,"C",36.02670339
+"82","Thomson's gazelle","gazella_rufifrons","Browser",21,"N",2.22923345
+"83","Thomson's gazelle","gazella_rufifrons","Browser",21,"P",0.317585922
+"84","Thomson's gazelle","gazella_rufifrons","Browser",21,"d13C",-24.62278371
+"85","Thomson's gazelle","gazella_rufifrons","Browser",22,"C",34.99515835
+"86","Thomson's gazelle","gazella_rufifrons","Browser",22,"N",2.065122165
+"87","Thomson's gazelle","gazella_rufifrons","Browser",22,"P",0.540754158
+"88","Thomson's gazelle","gazella_rufifrons","Browser",22,"d13C",-24.28007411
+"89","Thomson's gazelle","gazella_rufifrons","Browser",23,"C",33.53497647
+"90","Thomson's gazelle","gazella_rufifrons","Browser",23,"N",2.324157523
+"91","Thomson's gazelle","gazella_rufifrons","Browser",23,"P",0.289887122
+"92","Thomson's gazelle","gazella_rufifrons","Browser",23,"d13C",-23.55304679
+"93","Buffalo","syncerus_caffer","Grazer",24,"C",32.11982514
+"94","Buffalo","syncerus_caffer","Grazer",24,"N",1.437861852
+"95","Buffalo","syncerus_caffer","Grazer",24,"P",0.562853792
+"96","Buffalo","syncerus_caffer","Grazer",24,"d13C",-14.99698089
+"97","Buffalo","syncerus_caffer","Grazer",25,"C",38.23298885
+"98","Buffalo","syncerus_caffer","Grazer",25,"N",1.486231778
+"99","Buffalo","syncerus_caffer","Grazer",25,"P",0.413971195
+"100","Buffalo","syncerus_caffer","Grazer",25,"d13C",-14.91307081
+"101","Buffalo","syncerus_caffer","Grazer",26,"C",34.73841069
+"102","Buffalo","syncerus_caffer","Grazer",26,"N",1.937222655
+"103","Buffalo","syncerus_caffer","Grazer",26,"P",0.547468556
+"104","Buffalo","syncerus_caffer","Grazer",26,"d13C",-14.78185249
+"105","Buffalo","syncerus_caffer","Grazer",27,"C",36.31831712
+"106","Buffalo","syncerus_caffer","Grazer",27,"N",1.684063523
+"107","Buffalo","syncerus_caffer","Grazer",27,"P",0.615689517
+"108","Buffalo","syncerus_caffer","Grazer",27,"d13C",-14.58856421
+"109","Buffalo","syncerus_caffer","Grazer",28,"C",32.28986336
+"110","Buffalo","syncerus_caffer","Grazer",28,"N",1.523797737
+"111","Buffalo","syncerus_caffer","Grazer",28,"P",0.584609777
+"112","Buffalo","syncerus_caffer","Grazer",28,"d13C",-13.67903362
+"113","Grevy's zebra","equus_grevyi","Grazer",29,"C",36.51
+"114","Grevy's zebra","equus_grevyi","Grazer",29,"N",1.38
+"115","Grevy's zebra","equus_grevyi","Grazer",29,"P",0.52
+"116","Grevy's zebra","equus_grevyi","Grazer",29,"d13C",-14.58
+"117","Grevy's zebra","equus_grevyi","Grazer",30,"C",38.09665562
+"118","Grevy's zebra","equus_grevyi","Grazer",30,"N",1.398677138
+"119","Grevy's zebra","equus_grevyi","Grazer",30,"P",0.526848073
+"120","Grevy's zebra","equus_grevyi","Grazer",30,"d13C",-14.02467416
+"121","Warthog","phacochoerus_africanus","Grazer",31,"C",36.33686412
+"122","Warthog","phacochoerus_africanus","Grazer",31,"N",1.457027345
+"123","Warthog","phacochoerus_africanus","Grazer",31,"P",0.272018078
+"124","Warthog","phacochoerus_africanus","Grazer",31,"d13C",-15.5056528
+"125","Warthog","phacochoerus_africanus","Grazer",32,"C",34.31177492
+"126","Warthog","phacochoerus_africanus","Grazer",32,"N",1.416085803
+"127","Warthog","phacochoerus_africanus","Grazer",32,"P",0.444686755
+"128","Warthog","phacochoerus_africanus","Grazer",32,"d13C",-14.68016618
+"129","Warthog","phacochoerus_africanus","Grazer",33,"C",33.41189933
+"130","Warthog","phacochoerus_africanus","Grazer",33,"N",1.497409378
+"131","Warthog","phacochoerus_africanus","Grazer",33,"P",0.447342216
+"132","Warthog","phacochoerus_africanus","Grazer",33,"d13C",-14.43746354
+"133","Burchell's zebra","equus_quagga","Grazer",34,"C",30.22195357
+"134","Burchell's zebra","equus_quagga","Grazer",34,"N",1.628575844
+"135","Burchell's zebra","equus_quagga","Grazer",34,"P",0.351700769
+"136","Burchell's zebra","equus_quagga","Grazer",34,"d13C",-15.37756384
+"137","Burchell's zebra","equus_quagga","Grazer",35,"C",28.41354834
+"138","Burchell's zebra","equus_quagga","Grazer",35,"N",1.474818702
+"139","Burchell's zebra","equus_quagga","Grazer",35,"P",0.412376287
+"140","Burchell's zebra","equus_quagga","Grazer",35,"d13C",-15.29263178
+"141","Burchell's zebra","equus_quagga","Grazer",36,"C",35.85325284
+"142","Burchell's zebra","equus_quagga","Grazer",36,"N",0.716769844
+"143","Burchell's zebra","equus_quagga","Grazer",36,"P",0.318056021
+"144","Burchell's zebra","equus_quagga","Grazer",36,"d13C",-14.76710333
+"145","Burchell's zebra","equus_quagga","Grazer",37,"C",33.80886496
+"146","Burchell's zebra","equus_quagga","Grazer",37,"N",1.043421149
+"147","Burchell's zebra","equus_quagga","Grazer",37,"P",0.283160395
+"148","Burchell's zebra","equus_quagga","Grazer",37,"d13C",-14.75504834
+"149","Burchell's zebra","equus_quagga","Grazer",38,"C",36.36294094
+"150","Burchell's zebra","equus_quagga","Grazer",38,"N",0.863986582
+"151","Burchell's zebra","equus_quagga","Grazer",38,"P",0.339360657
+"152","Burchell's zebra","equus_quagga","Grazer",38,"d13C",-14.6731161
+"153","Burchell's zebra","equus_quagga","Grazer",39,"C",36.45427226
+"154","Burchell's zebra","equus_quagga","Grazer",39,"N",1.029573189
+"155","Burchell's zebra","equus_quagga","Grazer",39,"P",0.276540898
+"156","Burchell's zebra","equus_quagga","Grazer",39,"d13C",-14.39490795
