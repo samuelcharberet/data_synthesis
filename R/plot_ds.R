@@ -247,8 +247,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N absorption efficiency (%)",
@@ -270,8 +270,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na absorption efficiency (%)",
@@ -294,8 +294,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg absorption efficiency (%)",
@@ -318,8 +318,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P absorption efficiency (%)",
@@ -342,8 +342,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K absorption efficiency (%)",
@@ -366,8 +366,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca absorption efficiency (%)",
@@ -396,7 +396,7 @@ plots_ds = function(data, data_fluxes) {
     geom_area(fill = "#3366CC",
               color = "black",
               size = 1.5) +
-    labs(x = "Year", y = "Number of Studies")+
+    labs(x = "Year", y = "Number of Studies") +
     scale_x_continuous(breaks = seq(1965, 2020, 5))
   
   ggsave(
@@ -425,10 +425,13 @@ plots_ds = function(data, data_fluxes) {
   num_studies = as.numeric(names(species_per_study))
   
   # Step 4: Create a histogram
-  plot_data = data.frame(num_species = num_studies, num_studies = as.numeric(species_per_study))
+  plot_data = data.frame(num_species = num_studies,
+                         num_studies = as.numeric(species_per_study))
   
   hist_nb_sp_per_stu = ggplot(plot_data, aes(x = num_species, y = num_studies)) +
-    geom_bar(stat = "identity", fill = "#3366CC", color = "black") +
+    geom_bar(stat = "identity",
+             fill = "#3366CC",
+             color = "black") +
     labs(x = "Number of species per study", y = "Number of studies") +
     xlim(0, 25)
   
@@ -460,15 +463,20 @@ plots_ds = function(data, data_fluxes) {
     subset_data <- grouped_data %>% filter(component_name == name)
     
     # Step 4: Create a pie chart with measure method labels
-    p <- ggplot(subset_data, aes(x = "", y = count, fill = component_measure_method)) +
+    p <-
+      ggplot(subset_data,
+             aes(x = "", y = count, fill = component_measure_method)) +
       labs(title = paste("Proportion of measure methods for", name)) +
-      geom_bar(stat = "identity", width = 1, color = "black") +
+      geom_bar(stat = "identity",
+               width = 1,
+               color = "black") +
       coord_polar("y", start = 0) +
-      scale_fill_brewer(palette = "Set3")+
+      scale_fill_brewer(palette = "Set3") +
       theme_void()
-
+    
     # Save the plot as a PDF with a specific name
-    file_name <- paste(name, "measure_method_pie_chart.pdf", sep = "_")
+    file_name <-
+      paste(name, "measure_method_pie_chart.pdf", sep = "_")
     ggsave(
       filename = file_name,
       plot = p,
@@ -488,21 +496,32 @@ plots_ds = function(data, data_fluxes) {
   data$sampling_longitude = as.numeric(data$sampling_longitude)
   
   # Create a subset of unique positions
-  unique_positions <- unique(data[, c("sampling_longitude", "sampling_latitude")])
+  unique_positions <-
+    unique(data[, c("sampling_longitude", "sampling_latitude")])
   
   # Create a base map
   world_map <- map_data("world")
   
   # Plot the map
   p <- ggplot() +
-    geom_polygon(data = world_map, aes(x = long, y = lat, group = group), fill = "lightgray", color = "gray50") +
-    geom_point(data = unique_positions, aes(x = sampling_longitude, y = sampling_latitude), color = "#3366CC", size = 2) +
+    geom_polygon(
+      data = world_map,
+      aes(x = long, y = lat, group = group),
+      fill = "lightgray",
+      color = "gray50"
+    ) +
+    geom_point(
+      data = unique_positions,
+      aes(x = sampling_longitude, y = sampling_latitude),
+      color = "#3366CC",
+      size = 2
+    ) +
     labs(x = "Longitude", y = "Latitude") +
     theme_bw()
   
   # Save the plot as a PDF
   ggsave(
-    filename = "sampling_locations_map",
+    filename = "sampling_locations_map.pdf",
     plot = p,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -510,9 +529,161 @@ plots_ds = function(data, data_fluxes) {
     width = 7,
     height = 4,
     units = "in"
-  )  
+  )
+  
+  ##### Body masses of species histogram  #####
+  
+  selected_data <-
+    select(data, species_latin_name_gbif, body_mass, diet)
+  
+  grouped_data <- unique(selected_data)
+  
+  bodymass_diet_histogram = ggplot(grouped_data, aes(log(body_mass))) + geom_histogram(
+    aes(fill = diet),
+    bins = 50,
+    color = 'black',
+    alpha = 0.5
+  ) +
+    scale_fill_manual(
+      values = c(
+        "herbivore" = "olivedrab",
+        "omnivore" = "lightgoldenrod2",
+        "frugivore" = "darkorange",
+        "carnivore" = "red4",
+        "insectivore" = "grey20",
+        "detritivore" = "saddlebrown"
+      )
+    ) +
+    labs(x = "log (Body Mass) in g", y = "Number of species", fill = "Diet") +
+    theme_bw()
+  
+  # Save the plot as a PDF
+  ggsave(
+    filename = "bodymass_diet_histogram.pdf",
+    plot = bodymass_diet_histogram,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  ##### A phylogenetic tree of classes #####
+  
+  selected_data <- select(data, order)
+  
+  grouped_data <- unique(selected_data)
+  
+  taxize_families_class <-
+    classification(grouped_data$order, db = "gbif")
+  taxize_families_tree <-
+    class2tree(taxize_families_class, check = TRUE)
+  pdf(
+    file = here::here("2_outputs", "2_figures", "phylogeny_orders.pdf"),
+    width = 8,
+    height = 8
+  )
+  plot(taxize_families_tree)
+  dev.off()
+  
+  ##### Number of observation for sample type according to environment of sampling #####
   
   
+  selected_data <- drop_na(select(data, environment, diet))
+  
+  environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet),
+                                                                                  color = 'black',
+                                                                                  alpha = 0.5) +
+    scale_fill_manual(
+      values = c(
+        "herbivore" = "olivedrab",
+        "omnivore" = "lightgoldenrod2",
+        "frugivore" = "darkorange",
+        "carnivore" = "red4",
+        "insectivore" = "grey20",
+        "detritivore" = "saddlebrown"
+      )
+    ) +
+    labs(x = "Sampling environment", y = "Number of osbervations", fill = "Diet") +
+    theme_bw()
+  
+  # Save the plot as a PDF
+  ggsave(
+    filename = "environment_diet_histogram.pdf",
+    plot = environment_diet_histogram,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  ##### Number of observation for sample type according to the observation resolution of sampling #####
+  
+  
+  selected_data <- data %>%
+    filter(sample_type %in% c("feces", "frass", "guano", "urine"))  %>%
+    select(observation_resolution, diet) %>%
+    drop_na() %>%
+    filter(
+      observation_resolution %in% c(
+        "individual",
+        "population",
+        "intra_individual",
+        "inter_individual",
+        "intra_population",
+        "inter_population"
+      )
+    )  # Replace with the desired levels
+  
+  desired_order <- c(
+    "individual",
+    "population",
+    "intra_individual",
+    "inter_individual",
+    "intra_population",
+    "inter_population"
+  )
+  
+  
+  wastes_observation_resolution_diet = ggplot(selected_data, aes(x = factor(observation_resolution, levels = desired_order))) +
+    geom_bar(aes(fill = diet), color = 'black', alpha = 0.5) +
+    scale_fill_manual(
+      values = c(
+        "herbivore" = "olivedrab",
+        "omnivore" = "lightgoldenrod2",
+        "frugivore" = "darkorange",
+        "carnivore" = "red4",
+        "insectivore" = "grey20",
+        "detritivore" = "saddlebrown"
+      )
+    ) +
+    scale_x_discrete(
+      labels = c(
+        "Individual",
+        "Population",
+        "Intra-individual",
+        "Inter-individual",
+        "Intra-population",
+        "Inter-population"
+      )
+    ) +
+    labs(x = "Wastes observation resolution", y = "Number of osbervations", fill = "Diet") +
+    theme_bw()
+  
+  # Save the plot as a PDF
+  ggsave(
+    filename = "wastes_observation_resolution_diet.pdf",
+    plot = wastes_observation_resolution_diet,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
   
   ##### Number of observation for sample type according to matrix #####
   
@@ -526,19 +697,24 @@ plots_ds = function(data, data_fluxes) {
       pull(sample_type)
     
     # Reorder the sample_type factor based on the sorted levels
-    df$sample_type <- factor(df$sample_type, levels = sorted_levels)
+    df$sample_type <-
+      factor(df$sample_type, levels = sorted_levels)
     
     
     
     ggplot(df, aes(x = sample_type, fill = diet)) +
       geom_bar() +
       labs(x = "Sample Type", y = "Number of Observations") +
-      scale_fill_manual(values = c("herbivore" = "olivedrab", 
-                                   "omnivore" = "lightgoldenrod2", 
-                                   "frugivore" = "darkorange", 
-                                   "carnivore" = "red4", 
-                                   "insectivore" = "grey20", 
-                                   "detritivore" = "saddlebrown")) +
+      scale_fill_manual(
+        values = c(
+          "herbivore" = "olivedrab",
+          "omnivore" = "lightgoldenrod2",
+          "frugivore" = "darkorange",
+          "carnivore" = "red4",
+          "insectivore" = "grey20",
+          "detritivore" = "saddlebrown"
+        )
+      ) +
       theme_bw()
   })
   
