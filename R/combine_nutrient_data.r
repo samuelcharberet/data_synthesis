@@ -14,7 +14,6 @@
 combine_nutrient_data = function(data_nl, data_np) {
 
   
-  
   ######  3. Vertical concatenation of all tables  ######
   
   data_nutrients = plyr::rbind.fill (plyr::rbind.fill(data_nl), data_np)

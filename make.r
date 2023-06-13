@@ -6,7 +6,9 @@ library(dplyr)
 library(taxize)
 library(traitdataform)
 library(ggplot2)
+library(ggsci)
 library(tidyr)
+library(leaflet)
 library(mgcv)
 library(ggtext)
 library(formula.tools)
@@ -14,9 +16,16 @@ library(fmsb)
 library(rms)
 library(tls)
 library(scam)
+library(maps)
 
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
+
+data_fluxes_file = here::here("1_data",
+                            "2_data_fluxes",
+                            "data_fluxes.csv")
+
+data_fluxes = load_df(data_fluxes_file)
 
 data_nutrients_literature_files = list.files(pattern = "[0-9]{4}_[0-9]{3}_.*?_[0-9]{4}.xls",
                                              recursive = TRUE)
@@ -35,14 +44,12 @@ data_nutrients_proprietary = load_dnp(path = data_nutrients_proprietary_file)
 data_nutrients = combine_nutrient_data(data_nl = data_nutrients_literature,
                                        data_np = data_nutrients_proprietary)
 
-data_traits_file = here::here(
-  "1_data",
-  "3_data_traits",
-  "data_traits.csv"
-)
+data_traits_file = here::here("1_data",
+                              "3_data_traits",
+                              "data_traits.csv")
 
 data_traits = load_dt(data_traits_file)
 
 data = combine_nutrients_traits(data_nutrients, data_traits)
 
-
+plots_ds(data, data_fluxes)

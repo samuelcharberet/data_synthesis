@@ -1,6 +1,6 @@
 ################################ NETSTO PROJECT ################################
 
-#' data_fluxes_structuration
+#' load_df
 #'
 #' @param path
 #'
@@ -12,9 +12,9 @@
 #'
 #'
 
-data_nutrient_structuration = function(path) {
-  path = here::here("1_data", "2_data_fluxes", "data_fluxes.csv")
-  data_fluxes = read.csv(file = path)
+load_df  = function(path) {
+
+    data_fluxes = read.csv(file = path)
   
   # Structuring the data fluxes table
   

@@ -31,6 +31,9 @@ combine_nutrients_traits = function(data_nutrients, data_traits) {
     data[row_species,]$diet = species_diet
   }
   
+  ###### Structuration of the table ######
+  
+  
   
   write.csv(
     data,
