@@ -7,23 +7,7 @@
 # It is not intended to excectuing it anymore
 # Authors : Samuel Charberet
 # date : 07/10/2021
-
-library(stringr)
-library(tidyr)
-library(xlsx)
-
-# Loading the ICP data
-data_icp = read.csv(
-  here::here(
-    "1_data",
-    "1_data_nutrient",
-    "2_data_samples",
-    "1030_999_charberet_2020",
-    "0_appendix",
-    "2_raw_chemical_analysis",
-    "2022_09_13_ICP_data_raw.csv"
-  )
-)
+c
 
 # Removing some unused columns
 data_icp = data_icp[-1, -c(which(names(data_icp) == "internal_ref_1"),

@@ -1,5 +1,3 @@
-################################ NETSTO PROJECT ################################
-
 #' plot_ds
 #'
 #' @param data? data_fluxes
@@ -13,7 +11,43 @@
 #'
 
 plots_ds = function(data, data_fluxes) {
+  ##### 0. Structuring data  #####
+  
+  # Specify the strings to match in factor column names
+  strings_to_match_factor =
+    c(
+      "type",
+      "unit",
+      "season",
+      "resolution",
+      "stage",
+      "environment",
+      "ID",
+      "freezing",
+      "autoclaving",
+      "drying",
+      "oven",
+      "grinding",
+      "diet"
+    )
+  
+  # Use mutate() and across() to transform columns matching the strings
+  data <- data %>%
+    mutate(across(matches(strings_to_match_factor), as.factor))
+  
+  # Specify the strings to match in numeric column names
+  strings_to_match_numeric =
+    c("sampling_latitude",
+      "sampling_longitude",
+      "nb_items_per_sample")
+  
+  # Use mutate() and across() to transform columns matching the strings
+  data <- data %>%
+    mutate(across(matches(strings_to_match_factor), as.numeric))
+  
+  
   ##### I. FLUXES #####
+  
   
   # Set global options for the ggplot2 plots
   ggplot2::theme_set(theme_classic() + theme(
@@ -247,8 +281,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N absorption efficiency (%)",
@@ -270,8 +304,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na absorption efficiency (%)",
@@ -294,8 +328,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg absorption efficiency (%)",
@@ -318,8 +352,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P absorption efficiency (%)",
@@ -342,8 +376,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K absorption efficiency (%)",
@@ -366,8 +400,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca absorption efficiency (%)",
@@ -571,21 +605,220 @@ plots_ds = function(data, data_fluxes) {
   
   ##### A phylogenetic tree of classes #####
   
-  selected_data <- select(data, order)
   
-  grouped_data <- unique(selected_data)
+  taxize_families_class = readRDS(here::here("1_data",
+                                             "4_data_taxonomy",
+                                             "taxize_families_class.RData"))
   
-  taxize_families_class <-
-    classification(grouped_data$order, db = "gbif")
   taxize_families_tree <-
     class2tree(taxize_families_class, check = TRUE)
-  pdf(
-    file = here::here("2_outputs", "2_figures", "phylogeny_orders.pdf"),
-    width = 8,
-    height = 8
+  
+  families_phylo = taxize_families_tree$phylo
+  
+  families_traits = data.frame(
+    family = families_phylo$tip.label,
+    diet = NA,
+    bodymass = NA,
+    sample_type = NA
   )
-  plot(taxize_families_tree)
-  dev.off()
+  
+  data_body_mass = select(data, family, body_mass)
+  
+  
+  ggtree(families_phylo, size = 0.3)
+  
+  ggsave(
+    filename = "tree.pdf",
+    plot = a,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  ##### A phylogenetic with diet, bodymasses distribution and sample type #####
+  taxize_classes = readRDS(file = here::here("1_data",
+                                             "4_data_taxonomy",
+                                             "taxize_classes.RData"))
+  
+  
+  levels(data$diet) <- c("herbivore",
+                         "carnivore",
+                         "omnivore",
+                         "frugivore",
+                         "insectivore",
+                         "detritivore")
+  
+  
+  levels(data$component_data_type) = c("stock",
+                                       "flux",
+                                       "rate", NA)
+  
+  species_traits_taxonomy = unique(data[, c("species", "class", "diet", "body_mass")])
+  
+  
+  classes_tree = class2tree(taxize_classes, check = F)
+  
+  classes_phylo = classes_tree$phylo
+  
+  # Group the data by class and diet, and calculate the count for each combination
+  grouped_data <- species_traits_taxonomy %>%
+    group_by(class, diet) %>%
+    summarise(count = n())
+  
+  # Compute the total count for each class
+  class_totals <- grouped_data %>%
+    group_by(class) %>%
+    summarise(total = sum(count))
+  
+  # Calculate the proportion of each diet within each class
+  proportions <- grouped_data %>%
+    left_join(class_totals, by = "class") %>%
+    mutate(proportion = count / total) %>%
+    select(-count, -total)
+  
+  # Convert the data to long format
+  long_data_diet <- proportions %>%
+    pivot_longer(
+      cols = c(proportion),
+      names_to = "variable",
+      values_to = "value"
+    )
+  
+  # Group the data by class and component_data_type in the wastes data and calculate the count for each combination
+  grouped_data <- data %>%
+    filter(
+      sample_type == "feces" |
+        sample_type == "urine" |
+        sample_type == "guano" | sample_type == "frass"
+    ) %>%
+    group_by(class, component_data_type) %>%
+    summarise(count = n())
+  
+  # Compute the total count for each class
+  class_totals <- grouped_data %>%
+    group_by(class) %>%
+    summarise(total = sum(count))
+  
+  # Calculate the proportion of each component_data_type within each class
+  proportions <- grouped_data %>%
+    left_join(class_totals, by = "class") %>%
+    mutate(proportion = count / total) %>%
+    select(-count, -total)
+  
+  # Convert the data to long format
+  long_data_component_data_type <- proportions %>%
+    pivot_longer(
+      cols = c(proportion),
+      names_to = "variable",
+      values_to = "value"
+    )
+  
+  
+  tree_bm_diet_wdt = ggtree(classes_phylo, branch.length = "none") +
+    ggtree::geom_tiplab() +
+    geom_fruit(
+      data = species_traits_taxonomy,
+      geom = geom_boxplot,
+      mapping = aes(y = class, x = log(body_mass)),
+      axis.params = list(
+        axis = "x",
+        title = "Body mass (log (g) )",
+        title.height = 0.2,
+        text.size = 0.8
+      ),
+      grid.params = list(),
+      offset = 1,
+      pwidth = 0.4
+    ) +
+    geom_fruit(
+      data = long_data_diet,
+      geom = geom_bar,
+      mapping = aes(y = class, x = value, fill = diet),
+      stat = "identity",
+      axis.params = list(
+        axis = "x",
+        title = "Diet",
+        title.height = 0.2,
+        line.color = "white",
+      ),
+      offset = 0.2,
+      pwidth = 0.4
+    ) +
+    scale_fill_manual(
+      name = "Diet",
+      breaks = c(
+        "herbivore",
+        "carnivore",
+        "omnivore",
+        "frugivore",
+        "insectivore",
+        "detritivore"
+      ),
+      labels = c(
+        "Herbivore",
+        "Carnivore",
+        "Omnivore",
+        "Frugivore",
+        "Insectivore",
+        "Detritivore"
+      ),
+      guide = guide_legend(keywidth = 0.6,
+                           keyheight = 1,),
+      values = c(
+        "herbivore" = "olivedrab",
+        "omnivore" = "lightgoldenrod2",
+        "frugivore" = "darkorange",
+        "carnivore" = "red4",
+        "insectivore" = "grey20",
+        "detritivore" = "saddlebrown"
+      )
+    ) +
+    new_scale_fill() +
+    geom_fruit(
+      data = long_data_component_data_type,
+      geom = geom_bar,
+      mapping = aes(y = class, x = value, fill = component_data_type),
+      stat = "identity",
+      axis.params = list(
+        axis = "x",
+        title = "Waste data type",
+        title.height = 0.2,
+        line.color = "white",
+      ),
+      offset = 0.2,
+      pwidth = 0.4
+    ) +
+    scale_fill_manual(
+      name = "Waste data type",
+      breaks = c("stock", "flux", "rate"),
+      labels = c("Stock", "Flux", "Rate"),
+      na.translate = T,
+      guide = guide_legend(keywidth = 0.6,
+                           keyheight = 1),
+      values = c(
+        "stock" = "lightgoldenrod2",
+        "flux" = "darkorange",
+        "rate" = "red4"
+      )
+    )
+  
+  ggsave(
+    filename = "tree_bm_diet_wdt.pdf",
+    plot = tree_bm_diet_wdt,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  
+  
+  
   
   ##### Number of observation for sample type according to environment of sampling #####
   
@@ -689,34 +922,35 @@ plots_ds = function(data, data_fluxes) {
   
   df_split <- split(data, data$component_data_type)
   
-  plots_matrix_diet_unit_list <- lapply(df_split, function(df) {
-    # Sort sample_type levels based on the number of observations
-    sorted_levels <- df %>%
-      count(sample_type) %>%
-      arrange(desc(n)) %>%
-      pull(sample_type)
-    
-    # Reorder the sample_type factor based on the sorted levels
-    df$sample_type <-
-      factor(df$sample_type, levels = sorted_levels)
-    
-    
-    
-    ggplot(df, aes(x = sample_type, fill = diet)) +
-      geom_bar() +
-      labs(x = "Sample Type", y = "Number of Observations") +
-      scale_fill_manual(
-        values = c(
-          "herbivore" = "olivedrab",
-          "omnivore" = "lightgoldenrod2",
-          "frugivore" = "darkorange",
-          "carnivore" = "red4",
-          "insectivore" = "grey20",
-          "detritivore" = "saddlebrown"
-        )
-      ) +
-      theme_bw()
-  })
+  plots_matrix_diet_unit_list <-
+    lapply(df_split, function(df) {
+      # Sort sample_type levels based on the number of observations
+      sorted_levels <- df %>%
+        count(sample_type) %>%
+        arrange(desc(n)) %>%
+        pull(sample_type)
+      
+      # Reorder the sample_type factor based on the sorted levels
+      df$sample_type <-
+        factor(df$sample_type, levels = sorted_levels)
+      
+      
+      
+      ggplot(df, aes(x = sample_type, fill = diet)) +
+        geom_bar() +
+        labs(x = "Sample Type", y = "Number of Observations") +
+        scale_fill_manual(
+          values = c(
+            "herbivore" = "olivedrab",
+            "omnivore" = "lightgoldenrod2",
+            "frugivore" = "darkorange",
+            "carnivore" = "red4",
+            "insectivore" = "grey20",
+            "detritivore" = "saddlebrown"
+          )
+        ) +
+        theme_bw()
+    })
   
   # Save each plot separately from the plot_list
   ggsave(

@@ -17,7 +17,14 @@ library(rms)
 library(tls)
 library(scam)
 library(maps)
-
+library(ggtree)
+library(ggtreeExtra)
+library(ggnewscale)
+library(patchwork)
+library(ggridges)
+library(phyloseq)
+library(ggstar)
+library(ggimage)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 

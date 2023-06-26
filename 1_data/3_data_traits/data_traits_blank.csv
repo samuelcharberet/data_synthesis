@@ -246,7 +246,6 @@
 "rhea_americana",NA,NA,NA,NA
 "dolichotis_patagonum",NA,NA,NA,NA
 "dromaius_novaehollandiae",NA,NA,NA,NA
-"centrochelys_sulcata",NA,NA,NA,NA
 "sapajus_xanthosternos",NA,NA,NA,NA
 "eulemur_fulvus",NA,NA,NA,NA
 "varecia_variegata",NA,NA,NA,NA
@@ -259,5 +258,6 @@
 "leontopithecus_chrysomelas",NA,NA,NA,NA
 "testudo_hermanni",NA,NA,NA,NA
 "bucorvus_leadbeateri",NA,NA,NA,NA
-"trichechus_manatus",NA,NA,NA,NA
 "dasyprocta_azarae",NA,NA,NA,NA
+"centrochelys_sulcata",NA,NA,NA,NA
+"trichechus_manatus",NA,NA,NA,NA
