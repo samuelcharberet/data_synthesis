@@ -159,6 +159,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     "S" = 32.065
   )
   
+  
   for (i in percent_rows) {
     unit = data_nutrients$component_unit[i]
     if (is.na(unit)) {
@@ -181,7 +182,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   }
   
   
-  # Carbon, nitrogen, phosphorus, potassium, magnesium, sulfur in %
+  # All the other elements in ppm 
   
   ppm_rows = which(
     data_nutrients$component_name == "Ca" |
@@ -235,7 +236,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     "Ba" = 137.327
   )
   
-  for (i in percent_rows) {
+  for (i in ppm_rows) {
     unit = data_nutrients$component_unit[i]
     if (is.na(unit)) {
     }

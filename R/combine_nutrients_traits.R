@@ -11,7 +11,6 @@
 #'
 #'
 combine_nutrients_traits = function(data_nutrients, data_traits) {
-
   # We keep species_name, body mass and diet to add the the data_nutrients dataframe
   
   
@@ -34,13 +33,25 @@ combine_nutrients_traits = function(data_nutrients, data_traits) {
   ###### Structuration of the table ######
   
   
+  # Add cloaca
   
-  write.csv(
-    data,
-    here::here("1_data",
-               "data.csv"),
-    row.names = FALSE
-  )
+  data$cloaca = NA
+  
+  for (i in 1:nrow(data)) {
+    if (is.na(data$class[i])) {
+    }
+    else if (data$class[i] == "Mammalia") {
+      data$cloaca[i] = 0
+    } else {
+      data$cloaca[i] = 1
+    }
+  }
+  
+  
+  write.csv(data,
+            here::here("1_data",
+                       "data.csv"),
+            row.names = FALSE)
   
   data
   

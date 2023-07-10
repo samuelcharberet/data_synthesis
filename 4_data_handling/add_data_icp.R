@@ -41,13 +41,13 @@ data_icp = data_icp[, -c(which(names(data_icp) == "K_unit"),
                          which(names(data_icp) == "Mg_unit"),
                          which(names(data_icp) == "P_unit"))]
 
-data_samples = readxl::read_excel(
+data_samples = read.csv(
   here::here(
     "1_data",
-    "1_data_nutrient",
+    "1_data_nutrients",
     "2_data_samples",
     "1030_999_charberet_2020",
-    "1030_999_charberet_2020.xlsx"
+    "1030_999_charberet_2020.csv"
   )
 )
 
@@ -84,13 +84,23 @@ for (i in 1:nrow(data_icp)) {
 
 data_samples$observation_ID = 1:nrow(data_samples)
 
+
+#We add the faeces _ID based on C/N faeces_ID
+
+for (i in 1:nrow(data_samples)){
+  if (is.na(data_samples$feces_ID[i])){
+    row_cn = which(data_samples$comments == data_samples$comment[i] & data_samples$component_name == "C")[1]
+    data_samples$feces_ID[i] = data_samples$feces_ID[row_cn]
+  }
+}
+
 write.csv(
   data_samples,
   here::here(
     "1_data",
-    "1_data_nutrient",
+    "1_data_nutrients",
     "2_data_samples",
     "1030_999_charberet_2020",
-    "1030_999_charberet_2020_icp.csv"
+    "1030_999_charberet_2020_copy.csv"
   )
 )
