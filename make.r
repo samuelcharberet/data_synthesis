@@ -25,6 +25,7 @@ library(ggridges)
 library(phyloseq)
 library(ggstar)
 library(ggimage)
+library(stringr)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 

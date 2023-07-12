@@ -14,7 +14,7 @@ plots_ds = function(data, data_fluxes) {
   ##### 0. Structuring data  #####
   
   # Specify the strings to match in factor column names
-  strings_to_match_factor =
+  factor_columns =
     c(
       "type",
       "unit",
@@ -32,18 +32,20 @@ plots_ds = function(data, data_fluxes) {
     )
   
   # Use mutate() and across() to transform columns matching the strings
+  data$diet = str_to_title(data$diet)
+  
   data <- data %>%
-    mutate(across(matches(strings_to_match_factor), as.factor))
+    mutate(across(matches(factor_columns), as.factor))
   
   # Specify the strings to match in numeric column names
-  strings_to_match_numeric =
+  numeric_columns =
     c("sampling_latitude",
       "sampling_longitude",
       "nb_items_per_sample")
   
   # Use mutate() and across() to transform columns matching the strings
   data <- data %>%
-    mutate(across(matches(strings_to_match_factor), as.numeric))
+    mutate(across(matches(numeric_columns), as.numeric))
   
   
   ##### I. FLUXES #####
@@ -84,7 +86,7 @@ plots_ds = function(data, data_fluxes) {
       data_fluxes$CP_Crude_Protein_diet, na.rm = T
     ))) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_point(aes(color = Feed)) +
+    geom_point(aes(color = Diet)) +
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
@@ -94,8 +96,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet N (%DM)",
-         y = "N absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "N AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -115,7 +117,7 @@ plots_ds = function(data, data_fluxes) {
   lucas_sodium = ggplot2::ggplot(data_fluxes ,
                                  aes(x = Na_diet,
                                      y = Na_ad,
-                                     color = Feed)) +
+                                     color = Diet)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Na_diet, na.rm = T))) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point() +
@@ -128,8 +130,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet Na (%DM)",
-         y = "Na absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "Na AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -148,7 +150,7 @@ plots_ds = function(data, data_fluxes) {
   lucas_magnesium = ggplot2::ggplot(data_fluxes ,
                                     aes(x = Mg_diet,
                                         y = Mg_ad,
-                                        color = Feed)) +
+                                        color = Diet)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Mg_diet, na.rm = T))) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point() +
@@ -161,8 +163,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet Mg (%DM)",
-         y = "Mg absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "Mg AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -181,7 +183,7 @@ plots_ds = function(data, data_fluxes) {
   lucas_phosphorus = ggplot2::ggplot(data_fluxes ,
                                      aes(x = P_diet,
                                          y = P_ad,
-                                         color = Feed)) +
+                                         color = Diet)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$P_diet, na.rm = T))) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point() +
@@ -194,8 +196,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet P (%DM)",
-         y = "P absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "P AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -214,7 +216,7 @@ plots_ds = function(data, data_fluxes) {
   lucas_potassium = ggplot2::ggplot(data_fluxes ,
                                     aes(x = K_diet,
                                         y = K_ad,
-                                        color = Feed)) +
+                                        color = Diet)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$K_diet, na.rm = T))) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point() +
@@ -227,8 +229,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet K (%DM)",
-         y = "K absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "K AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -247,7 +249,7 @@ plots_ds = function(data, data_fluxes) {
   lucas_calcium = ggplot2::ggplot(data_fluxes ,
                                   aes(x = Ca_diet,
                                       y = Ca_ad,
-                                      color = Feed)) +
+                                      color = Diet)) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     
     geom_point() +
@@ -259,8 +261,8 @@ plots_ds = function(data, data_fluxes) {
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet Ca (%DM)",
-         y = "Ca absorption efficiency (%)") +
-    theme(legend.position = "right")
+         y = "Ca AE (%)") +
+    theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
   ggsave(
@@ -274,18 +276,62 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
+  # Complete Lucas plots ####
+  complete_lucas_plot = ggpubr::ggarrange(
+    lucas_nitrogen,
+    lucas_phosphorus,
+    lucas_potassium,
+    NULL,
+    NULL,
+    NULL,
+    lucas_calcium,
+    lucas_magnesium,
+    lucas_sodium,
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
   
-  # Apparent digestibility according to species
+  complete_lucas_plot = ggpubr::annotate_figure(complete_lucas_plot,
+                                                bottom = "",
+                                                top = "")
   
-  # Nitrogen
+  ggsave(
+    filename = "lucas_all.pdf",
+    plot = complete_lucas_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  # Apparent digestibility according to species ####
+  
+  # Nitrogen ####
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "N absorption efficiency (%)",
+    labs(y = "N AE (%)",
          x = "Species")
   
   ggsave(
@@ -299,16 +345,16 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  # Sodium
+  # Sodium ####
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Na absorption efficiency (%)",
+    labs(y = "Na AE (%)",
          x = "Species")
   
   ggsave(
@@ -322,17 +368,17 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  # Magnesium
+  # Magnesium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Mg absorption efficiency (%)",
+    labs(y = "Mg AE (%)",
          x = "Species")
   
   ggsave(
@@ -346,17 +392,17 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  # Phosphorus
+  # Phosphorus ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "P absorption efficiency (%)",
+    labs(y = "P AE (%)",
          x = "Species")
   
   ggsave(
@@ -370,17 +416,17 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  # Potassium
+  # Potassium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "K absorption efficiency (%)",
+    labs(y = "K AE (%)",
          x = "Species")
   
   ggsave(
@@ -394,17 +440,17 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  # Calcium
+  # Calcium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Ca absorption efficiency (%)",
+    labs(y = "Ca AE (%)",
          x = "Species")
   
   ggsave(
@@ -578,16 +624,7 @@ plots_ds = function(data, data_fluxes) {
     color = 'black',
     alpha = 0.5
   ) +
-    scale_fill_manual(
-      values = c(
-        "herbivore" = "olivedrab",
-        "omnivore" = "lightgoldenrod2",
-        "frugivore" = "darkorange",
-        "carnivore" = "red4",
-        "insectivore" = "grey20",
-        "detritivore" = "saddlebrown"
-      )
-    ) +
+    scale_fill_manual(values = colours_diet) +
     labs(x = "log (Body Mass) in g", y = "Number of species", fill = "Diet") +
     theme_bw()
   
@@ -603,58 +640,11 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  ##### A phylogenetic tree of classes #####
-  
-  
-  taxize_families_class = readRDS(here::here("1_data",
-                                             "4_data_taxonomy",
-                                             "taxize_families_class.RData"))
-  
-  taxize_families_tree <-
-    class2tree(taxize_families_class, check = TRUE)
-  
-  families_phylo = taxize_families_tree$phylo
-  
-  families_traits = data.frame(
-    family = families_phylo$tip.label,
-    diet = NA,
-    bodymass = NA,
-    sample_type = NA
-  )
-  
-  data_body_mass = select(data, family, body_mass)
-  
-  
-  ggtree(families_phylo, size = 0.3)
-  
-  ggsave(
-    filename = "tree.pdf",
-    plot = a,
-    device = cairo_pdf,
-    path = here::here("2_outputs", "2_figures"),
-    scale = 1,
-    width = 7,
-    height = 4,
-    units = "in"
-  )
   
   ##### A phylogenetic with diet, bodymasses distribution and sample type #####
   taxize_classes = readRDS(file = here::here("1_data",
                                              "4_data_taxonomy",
                                              "taxize_classes.RData"))
-  
-  
-  levels(data$diet) <- c("herbivore",
-                         "carnivore",
-                         "omnivore",
-                         "frugivore",
-                         "insectivore",
-                         "detritivore")
-  
-  
-  levels(data$component_data_type) = c("stock",
-                                       "flux",
-                                       "rate", NA)
   
   species_traits_taxonomy = unique(data[, c("species", "class", "diet", "body_mass")])
   
@@ -677,7 +667,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count, -total)
+    select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -706,7 +696,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count, -total)
+    select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -750,12 +740,12 @@ plots_ds = function(data, data_fluxes) {
     scale_fill_manual(
       name = "Diet",
       breaks = c(
-        "herbivore",
-        "carnivore",
-        "omnivore",
-        "frugivore",
-        "insectivore",
-        "detritivore"
+        "Herbivore",
+        "Carnivore",
+        "Omnivore",
+        "Frugivore",
+        "Insectivore",
+        "Detritivore"
       ),
       labels = c(
         "Herbivore",
@@ -766,15 +756,8 @@ plots_ds = function(data, data_fluxes) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
-      values = c(
-        "herbivore" = "olivedrab",
-        "omnivore" = "lightgoldenrod2",
-        "frugivore" = "darkorange",
-        "carnivore" = "red4",
-        "insectivore" = "grey20",
-        "detritivore" = "saddlebrown"
-      )
+                           keyheight = 1, ),
+      values = colours_diet
     ) +
     new_scale_fill() +
     geom_fruit(
@@ -828,16 +811,7 @@ plots_ds = function(data, data_fluxes) {
   environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet),
                                                                                   color = 'black',
                                                                                   alpha = 0.5) +
-    scale_fill_manual(
-      values = c(
-        "herbivore" = "olivedrab",
-        "omnivore" = "lightgoldenrod2",
-        "frugivore" = "darkorange",
-        "carnivore" = "red4",
-        "insectivore" = "grey20",
-        "detritivore" = "saddlebrown"
-      )
-    ) +
+    scale_fill_manual(values = colours_diet) +
     labs(x = "Sampling environment", y = "Number of osbervations", fill = "Diet") +
     theme_bw()
   
@@ -883,16 +857,7 @@ plots_ds = function(data, data_fluxes) {
   
   wastes_observation_resolution_diet = ggplot(selected_data, aes(x = factor(observation_resolution, levels = desired_order))) +
     geom_bar(aes(fill = diet), color = 'black', alpha = 0.5) +
-    scale_fill_manual(
-      values = c(
-        "herbivore" = "olivedrab",
-        "omnivore" = "lightgoldenrod2",
-        "frugivore" = "darkorange",
-        "carnivore" = "red4",
-        "insectivore" = "grey20",
-        "detritivore" = "saddlebrown"
-      )
-    ) +
+    scale_fill_manual(values = colours_diet) +
     scale_x_discrete(
       labels = c(
         "Individual",
@@ -937,18 +902,9 @@ plots_ds = function(data, data_fluxes) {
       
       
       ggplot(df, aes(x = sample_type, fill = diet)) +
-        geom_bar() +
+        geom_bar(alpha = 0.5) +
         labs(x = "Sample Type", y = "Number of Observations") +
-        scale_fill_manual(
-          values = c(
-            "herbivore" = "olivedrab",
-            "omnivore" = "lightgoldenrod2",
-            "frugivore" = "darkorange",
-            "carnivore" = "red4",
-            "insectivore" = "grey20",
-            "detritivore" = "saddlebrown"
-          )
-        ) +
+        scale_fill_manual(values = colours_diet) +
         theme_bw()
     })
   
@@ -986,7 +942,274 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
+  ##### C, N, P stock plots #####
   
+  
+  # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
+  
+  data <- data |>
+    filter(component_weight_type == "dw")
+  stock_data <- data |>
+    filter(component_data_type == "stock")
+  
+  ##### No cloaca faeces plots #####
+  
+  faeces_stock_data <- stock_data |>
+    filter(cloaca == 0)
+  faeces_stock_data <- faeces_stock_data |>
+    filter(sample_type == "feces" | sample_type == "faeces")
+  # Selecting CNP
+  cnp_fsd <- faeces_stock_data |>
+    filter(component_name == "C" |
+             component_name == "N" | component_name == "P")
+  
+  # Keep only relevant rows
+  
+  cnp_fsd <- cnp_fsd |>
+    select(species_latin_name_gbif,
+           component_name,
+           component_mean,
+           body_mass,
+           diet)
+  
+  # Average over species
+  
+  a_cnp_fsd <- cnp_fsd |>
+    group_by(species_latin_name_gbif, component_name) |>
+    summarise(
+      avg_component_mean = mean(component_mean),
+      body_mass = first(body_mass),
+      diet = first(diet)
+    )
+  
+  # Compute the ratios
+  species = unique(a_cnp_fsd$species_latin_name_gbif)
+  
+  for (i in species) {
+    crow = which(a_cnp_fsd$species_latin_name_gbif == i &
+                   a_cnp_fsd$component_name == "C")
+    nrow = which(a_cnp_fsd$species_latin_name_gbif == i &
+                   a_cnp_fsd$component_name == "N")
+    prow = which(a_cnp_fsd$species_latin_name_gbif == i &
+                   a_cnp_fsd$component_name == "P")
+    cn_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "CN",
+      avg_component_mean = ifelse(
+        any(crow) &&
+          any(nrow),
+        a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[nrow],
+        NA
+      ),
+      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    cp_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "CP",
+      avg_component_mean = ifelse(
+        any(crow) &&
+          any(prow),
+        a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[prow],
+        NA
+      ),
+      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    np_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "NP",
+      avg_component_mean = ifelse(
+        any(nrow) &&
+          any(prow),
+        a_cnp_fsd$avg_component_mean[nrow] / a_cnp_fsd$avg_component_mean[prow],
+        NA
+      ),
+      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    
+    # Add Row using rbind()
+    a_cnp_fsd = rbind(a_cnp_fsd, cn_row, cp_row, np_row)
+  }
+  
+  # For each element, and each ratio, we do plots versus body mass and diet
+  
+  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  filenames = c("C", "N", "P", "CN", "CP", "NP")
+  nb_elements = length(el_ra)
+  units = c("%", "%", "%", "", "", "")
+  variables = c("body_mass", "diet")
+  nb_variables = length(variables)
+  
+  plots_bm = vector("list", nb_elements)
+  names(plots_bm) = el_ra
+  plots_diet = vector("list", nb_elements)
+  names(plots_diet) = el_ra
+  
+  
+  for (i in 1:length(el_ra)) {
+    data_element = subset(a_cnp_fsd, a_cnp_fsd$component_name == el_ra[i])
+    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+      max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
+    )
+    
+    # C, N, P and ratio in faeces versus body mass ####
+    
+    
+    plots_bm[[i]] = ggplot2::ggplot(data_element ,
+                                    aes(
+                                      x = log10(body_mass),
+                                      y = avg_component_mean,
+                                      col = as.factor(diet)
+                                    )) +
+      ylim(NA, ylim_max) +
+      geom_smooth(method = "lm", color = "black") +
+      geom_point() +
+      labs(x = "Body mass (log)",
+           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+      scale_color_manual(name = 'Diet',
+                         values = colours_diet) +
+      theme(legend.position = "right")
+    
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_bm.pdf", sep = ""),
+      plot = plots_bm[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+    
+    # C, N, P and ratio in faeces versus diet ####
+    
+    
+    plots_diet[[i]] = ggplot2::ggplot(data_element ,
+                                      aes(
+                                        x = diet,
+                                        y = avg_component_mean,
+                                        col = as.factor(diet)
+                                      )) +
+      ylim(NA, ylim_max) +
+      geom_smooth(method = "lm", color = "black") +
+      geom_boxplot() +
+      labs(x = "Diet",
+           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+      scale_color_manual(name = 'Diet',
+                         values = colours_diet) +
+      theme(
+        legend.position = "right",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+      )
+    
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_diet", sep = ""),
+      plot = plots_diet[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+  }
+  
+  # Complete CNP plots ####
+  
+  complete_cnp_plot = ggpubr::ggarrange(
+    plots_bm[[1]],
+    plots_bm[[2]],
+    plots_bm[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_diet[[1]],
+    plots_diet[[2]],
+    plots_diet[[3]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_cnp_plot = ggpubr::annotate_figure(complete_cnp_plot,
+                                              bottom = "",
+                                              top = "")
+  
+  ggsave(
+    filename = "cnp.pdf",
+    plot = complete_cnp_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  complete_ratios_plot = ggpubr::ggarrange(
+    plots_bm[[4]],
+    plots_bm[[5]],
+    plots_bm[[6]],
+    NULL,
+    NULL,
+    NULL,
+    plots_diet[[4]],
+    plots_diet[[5]],
+    plots_diet[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_ratios_plot = ggpubr::annotate_figure(complete_ratios_plot,
+                                              bottom = "",
+                                              top = "")
+  
+  ggsave(
+    filename = "ratios.pdf",
+    plot = complete_ratios_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
   
   
   
