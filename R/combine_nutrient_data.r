@@ -17,7 +17,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients = plyr::rbind.fill (plyr::rbind.fill(data_nl), data_np)
   rm(data_nl, data_np)
   # We remove rows containing only NAs
-  data_nutrients = data_nutrients[rowSums(is.na(data_nutrients)) != ncol(data_nutrients),]
+  data_nutrients = data_nutrients[rowSums(is.na(data_nutrients)) != ncol(data_nutrients), ]
   
   ######  4. Homogenize the nomenclature of the species variables ####
   
@@ -27,104 +27,104 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   
   # of the component names
-  data_nutrients[which(data_nutrients$component_name == "egestion_rate"), ]$component_name = "egestion"
-  data_nutrients[which(data_nutrients$component_name == "15N"), ]$component_name =
+  data_nutrients[which(data_nutrients$component_name == "egestion_rate"),]$component_name = "egestion"
+  data_nutrients[which(data_nutrients$component_name == "15N"),]$component_name =
     "d15N"
-  data_nutrients[which(data_nutrients$component_name == "NH4+"), ]$component_name =
+  data_nutrients[which(data_nutrients$component_name == "NH4+"),]$component_name =
     "NH4"
-  data_nutrients[which(data_nutrients$component_name == "NO3-"), ]$component_name =
+  data_nutrients[which(data_nutrients$component_name == "NO3-"),]$component_name =
     "NO3"
-  data_nutrients[which(data_nutrients$component_name == "uric acid"), ]$component_name = "uric_acid"
-  data_nutrients[which(data_nutrients$component_name == "ingestion"), ]$component_name = "intake"
-  data_nutrients[which(data_nutrients$component_name == "C:N"), ]$component_name = "C/N"
-  data_nutrients[which(data_nutrients$component_name == "PO43-"), ]$component_name = "PO4"
+  data_nutrients[which(data_nutrients$component_name == "uric acid"),]$component_name = "uric_acid"
+  data_nutrients[which(data_nutrients$component_name == "ingestion"),]$component_name = "intake"
+  data_nutrients[which(data_nutrients$component_name == "C:N"),]$component_name = "C/N"
+  data_nutrients[which(data_nutrients$component_name == "PO43-"),]$component_name = "PO4"
   
   # of the bodymass weight type
-  data_nutrients[which(data_nutrients$bodymass_weight_type == "ww"), ]$bodymass_weight_type = "fw"
-  data_nutrients[which(data_nutrients$bodymass_weight_type == "WW"), ]$bodymass_weight_type = "fw"
+  data_nutrients[which(data_nutrients$bodymass_weight_type == "ww"),]$bodymass_weight_type = "fw"
+  data_nutrients[which(data_nutrients$bodymass_weight_type == "WW"),]$bodymass_weight_type = "fw"
   
   # of the age error type
-  data_nutrients[which(data_nutrients$age_error_type == "sd"), ]$age_error_type = "standard_deviation"
+  data_nutrients[which(data_nutrients$age_error_type == "sd"),]$age_error_type = "standard_deviation"
   
   # of the sampling environment
-  data_nutrients[which(data_nutrients$environment == "lab"), ]$environment = "laboratory"
+  data_nutrients[which(data_nutrients$environment == "lab"),]$environment = "laboratory"
   
   # of the observation resolution
-  data_nutrients[which(data_nutrients$observation_resolution == "intra_indiv"), ]$observation_resolution = "intra_individual"
-  data_nutrients[which(data_nutrients$observation_resolution == "inter_indiv"), ]$observation_resolution = "inter_individual"
+  data_nutrients[which(data_nutrients$observation_resolution == "intra_indiv"),]$observation_resolution = "intra_individual"
+  data_nutrients[which(data_nutrients$observation_resolution == "inter_indiv"),]$observation_resolution = "inter_individual"
   
   # of the component error type
-  data_nutrients[which(data_nutrients$component_error_type == "sd"), ]$component_error_type = "standard_deviation"
-  data_nutrients[which(data_nutrients$component_error_type == "SE"), ]$component_error_type = "standard_error"
+  data_nutrients[which(data_nutrients$component_error_type == "sd"),]$component_error_type = "standard_deviation"
+  data_nutrients[which(data_nutrients$component_error_type == "SE"),]$component_error_type = "standard_error"
   
   # of the component error type
-  data_nutrients[which(data_nutrients$component_unit == "mg/g"), ]$component_unit = "g/kg"
-  data_nutrients[which(data_nutrients$component_unit == "pourcentage"), ]$component_unit = "percent"
-  data_nutrients[which(data_nutrients$component_unit == "percentage"), ]$component_unit = "percent"
-  data_nutrients[which(data_nutrients$component_unit == "g/100g"), ]$component_unit = "percent"
-  data_nutrients[which(data_nutrients$component_unit == "mg/kg"), ]$component_unit = "ppm"
-  data_nutrients[which(data_nutrients$component_unit == "µg/g"), ]$component_unit = "ppm"
-  data_nutrients[which(data_nutrients$component_unit == "mg N/kg"), ]$component_unit = "mgN/kg"
-  data_nutrients[which(data_nutrients$component_unit == "g/indiv/day"), ]$component_unit = "g/day/individual"
-  data_nutrients[which(data_nutrients$component_unit == "parts_per_thousand"), ]$component_unit = "g/kg"
-  data_nutrients[which(data_nutrients$component_unit == "%"), ]$component_unit = "percent"
+  data_nutrients[which(data_nutrients$component_unit == "mg/g"),]$component_unit = "g/kg"
+  data_nutrients[which(data_nutrients$component_unit == "pourcentage"),]$component_unit = "percent"
+  data_nutrients[which(data_nutrients$component_unit == "percentage"),]$component_unit = "percent"
+  data_nutrients[which(data_nutrients$component_unit == "g/100g"),]$component_unit = "percent"
+  data_nutrients[which(data_nutrients$component_unit == "mg/kg"),]$component_unit = "ppm"
+  data_nutrients[which(data_nutrients$component_unit == "µg/g"),]$component_unit = "ppm"
+  data_nutrients[which(data_nutrients$component_unit == "mg N/kg"),]$component_unit = "mgN/kg"
+  data_nutrients[which(data_nutrients$component_unit == "g/indiv/day"),]$component_unit = "g/day/individual"
+  data_nutrients[which(data_nutrients$component_unit == "parts_per_thousand"),]$component_unit = "g/kg"
+  data_nutrients[which(data_nutrients$component_unit == "%"),]$component_unit = "percent"
   
   # of the component weight type
-  data_nutrients[which(data_nutrients$component_weight_type == "ww"), ]$component_weight_type = "fw"
+  data_nutrients[which(data_nutrients$component_weight_type == "ww"),]$component_weight_type = "fw"
   
   # of the component detail
-  data_nutrients[which(data_nutrients$component_detail == "TOC"), ]$component_weight_type = "organic"
+  data_nutrients[which(data_nutrients$component_detail == "TOC"),]$component_weight_type = "organic"
   
   # of the component measure method
   
-  data_nutrients[which(data_nutrients$component_measure_method == "CHN"), ]$component_measure_method = "elemental_analyser"
-  data_nutrients[which(data_nutrients$component_measure_method == "flow_injection_analysis"), ]$component_measure_method = "autoanalyzer"
-  data_nutrients[which(data_nutrients$component_measure_method == "colorimetry_autoanalyzer"), ]$component_measure_method = "autoanalyzer"
-  data_nutrients[which(data_nutrients$component_measure_method == "autoanalyser"), ]$component_measure_method = "autoanalyzer"
-  data_nutrients[which(data_nutrients$component_measure_method == "AAS"), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "aas"), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "atomic_absorbtion_spectroscopy"), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "elemental_analyzer"), ]$component_measure_method = "elemental_analyser"
-  data_nutrients[which(data_nutrients$component_measure_method == "ICP-OES"), ]$component_measure_method = "icp_oes"
-  data_nutrients[which(data_nutrients$component_measure_method == "icp-oes"), ]$component_measure_method = "icp_oes"
-  data_nutrients[which(data_nutrients$component_measure_method == "micro-kjeldahl"), ]$component_measure_method = "micro_kjeldahl"
-  data_nutrients[which(data_nutrients$component_measure_method == "icp-ms"), ]$component_measure_method = "icp_ms"
-  data_nutrients[which(data_nutrients$component_measure_method == "segmented_flow_autoanalyzer"), ]$component_measure_method = "autoanalyzer"
-  data_nutrients[which(data_nutrients$component_measure_method == "icp-aes"), ]$component_measure_method = "icp_oes"
-  data_nutrients[which(data_nutrients$component_measure_method == "atomic_absorption_spectrometry"), ]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "CHN"),]$component_measure_method = "elemental_analyser"
+  data_nutrients[which(data_nutrients$component_measure_method == "flow_injection_analysis"),]$component_measure_method = "autoanalyzer"
+  data_nutrients[which(data_nutrients$component_measure_method == "colorimetry_autoanalyzer"),]$component_measure_method = "autoanalyzer"
+  data_nutrients[which(data_nutrients$component_measure_method == "autoanalyser"),]$component_measure_method = "autoanalyzer"
+  data_nutrients[which(data_nutrients$component_measure_method == "AAS"),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "aas"),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "atomic_absorbtion_spectroscopy"),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "elemental_analyzer"),]$component_measure_method = "elemental_analyser"
+  data_nutrients[which(data_nutrients$component_measure_method == "ICP-OES"),]$component_measure_method = "icp_oes"
+  data_nutrients[which(data_nutrients$component_measure_method == "icp-oes"),]$component_measure_method = "icp_oes"
+  data_nutrients[which(data_nutrients$component_measure_method == "micro-kjeldahl"),]$component_measure_method = "micro_kjeldahl"
+  data_nutrients[which(data_nutrients$component_measure_method == "icp-ms"),]$component_measure_method = "icp_ms"
+  data_nutrients[which(data_nutrients$component_measure_method == "segmented_flow_autoanalyzer"),]$component_measure_method = "autoanalyzer"
+  data_nutrients[which(data_nutrients$component_measure_method == "icp-aes"),]$component_measure_method = "icp_oes"
+  data_nutrients[which(data_nutrients$component_measure_method == "atomic_absorption_spectrometry"),]$component_measure_method = "atomic_absorption_spectroscopy"
   data_nutrients[which(
     data_nutrients$component_measure_method == "atomic_absorption_spectrophotometer"
-  ), ]$component_measure_method = "atomic_absorption_spectroscopy"
+  ),]$component_measure_method = "atomic_absorption_spectroscopy"
   data_nutrients[which(
     data_nutrients$component_measure_method == "flame-atomic_absorption_spectrophotometry"
-  ), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "Kjeldahl"), ]$component_measure_method = "kjeldahl"
-  data_nutrients[which(data_nutrients$component_measure_method == "phosphomolybdenum_blue_method"), ]$component_measure_method = "molybdenum_blue"
+  ),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "Kjeldahl"),]$component_measure_method = "kjeldahl"
+  data_nutrients[which(data_nutrients$component_measure_method == "phosphomolybdenum_blue_method"),]$component_measure_method = "molybdenum_blue"
   data_nutrients[which(
     data_nutrients$component_measure_method == "atomic-absorption spectrophotometry"
-  ), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "flame_photometry"), ]$component_measure_method = "atomic_absorption_spectroscopy"
-  data_nutrients[which(data_nutrients$component_measure_method == "molybdate_method"), ]$component_measure_method = "molybdenum_blue"
-  data_nutrients[which(data_nutrients$component_measure_method == "spectrophotometer"), ]$component_measure_method = "spectrophotometry"
-  data_nutrients[which(data_nutrients$component_measure_method == "molybdenum_blue_method"), ]$component_measure_method = "molybdenum_blue"
-  data_nutrients[which(data_nutrients$component_measure_method == "macro-Kjeldahl"), ]$component_measure_method = "macro_kjeldahl"
-  data_nutrients[which(data_nutrients$component_measure_method == "ammonium_molybdate"), ]$component_measure_method = "molybdenum_blue"
-  data_nutrients[which(data_nutrients$component_measure_method == "continuous_flow_analyzer"), ]$component_measure_method = "autoanalyzer"
-  data_nutrients[which(data_nutrients$component_measure_method == "micro_kjeldahl"), ]$component_measure_method = "micro_kjeldahl"
-  data_nutrients[which(data_nutrients$component_measure_method == "ascorbic_acid_method"), ]$component_measure_method = "micro-ascorbic_acid"
-  data_nutrients[which(data_nutrients$component_measure_method == "walkley-black"), ]$component_measure_method = "walkley_black"
-  data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"), ]$component_measure_method = "kjeldahl"
+  ),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "flame_photometry"),]$component_measure_method = "atomic_absorption_spectroscopy"
+  data_nutrients[which(data_nutrients$component_measure_method == "molybdate_method"),]$component_measure_method = "molybdenum_blue"
+  data_nutrients[which(data_nutrients$component_measure_method == "spectrophotometer"),]$component_measure_method = "spectrophotometry"
+  data_nutrients[which(data_nutrients$component_measure_method == "molybdenum_blue_method"),]$component_measure_method = "molybdenum_blue"
+  data_nutrients[which(data_nutrients$component_measure_method == "macro-Kjeldahl"),]$component_measure_method = "macro_kjeldahl"
+  data_nutrients[which(data_nutrients$component_measure_method == "ammonium_molybdate"),]$component_measure_method = "molybdenum_blue"
+  data_nutrients[which(data_nutrients$component_measure_method == "continuous_flow_analyzer"),]$component_measure_method = "autoanalyzer"
+  data_nutrients[which(data_nutrients$component_measure_method == "micro_kjeldahl"),]$component_measure_method = "micro_kjeldahl"
+  data_nutrients[which(data_nutrients$component_measure_method == "ascorbic_acid_method"),]$component_measure_method = "micro-ascorbic_acid"
+  data_nutrients[which(data_nutrients$component_measure_method == "walkley-black"),]$component_measure_method = "walkley_black"
+  data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"),]$component_measure_method = "kjeldahl"
   
   # of the drying time unit
-  data_nutrients[which(data_nutrients$drying_time_unit == "h"), ]$drying_temp_unit = "hour"
+  data_nutrients[which(data_nutrients$drying_time_unit == "h"),]$drying_temp_unit = "hour"
   
   
   # of the drying temperature unit
-  data_nutrients[which(data_nutrients$drying_temp_unit == "°C"), ]$drying_temp_unit = "c"
-  data_nutrients[which(data_nutrients$drying_temp_unit == "C"), ]$drying_temp_unit = "c"
+  data_nutrients[which(data_nutrients$drying_temp_unit == "°C"),]$drying_temp_unit = "c"
+  data_nutrients[which(data_nutrients$drying_temp_unit == "C"),]$drying_temp_unit = "c"
   
   # of the grinding fineness unit
-  data_nutrients[which(data_nutrients$grinding_fineness_unit == "microns"), ]$grinding_fineness_unit = "µm"
+  data_nutrients[which(data_nutrients$grinding_fineness_unit == "microns"),]$grinding_fineness_unit = "µm"
   
   
   ######  4. Homogenize the values depending on the units ####
@@ -132,7 +132,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   # Carbon, nitrogen, phosphorus, potassium, magnesium, sulfur in %
   
   data_nutrients = data_nutrients[is.na(data_nutrients$component_mean) ==
-                                    F, ]
+                                    F,]
   
   columns_to_transform = c("component_mean",
                            "component_min",
@@ -163,6 +163,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   for (i in percent_rows) {
     unit = data_nutrients$component_unit[i]
     if (is.na(unit)) {
+      
     }
     else if (unit == "g/kg") {
       data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] / 10
@@ -182,7 +183,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   }
   
   
-  # All the other elements in ppm 
+  # All the other elements in ppm
   
   ppm_rows = which(
     data_nutrients$component_name == "Ca" |
@@ -239,6 +240,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   for (i in ppm_rows) {
     unit = data_nutrients$component_unit[i]
     if (is.na(unit)) {
+      
     }
     else if (unit == "g/kg") {
       data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] * 1000
@@ -290,7 +292,8 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   ##### 7. Remove data with taxonomic level higher than species ####
   
-  data_nutrients <- data_nutrients[!(data_nutrients$gbif_id %in% not_species_id), ]
+  data_nutrients <-
+    data_nutrients[!(data_nutrients$gbif_id %in% not_species_id),]
   rm(not_species_id)
   
   
@@ -341,24 +344,24 @@ combine_nutrient_data = function(data_nl, data_np) {
       exact_rows = which(list_data_gbif[[i]]$matchtype == "EXACT")
       fuzzy_rows = which(list_data_gbif[[i]]$matchtype == "FUZZY")
       if (length(intersect(accepted_rows, exact_rows)) > 0) {
-        max_conf = which(list_data_gbif[[i]][intersect(accepted_rows, exact_rows), ]$confidence ==
-                           max(list_data_gbif[[i]][intersect(accepted_rows, exact_rows), ]$confidence)[1])
-        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf,])
+        max_conf = which(list_data_gbif[[i]][intersect(accepted_rows, exact_rows),]$confidence ==
+                           max(list_data_gbif[[i]][intersect(accepted_rows, exact_rows),]$confidence)[1])
+        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf, ])
       }
       else if (length(intersect(synonym_rows, exact_rows)) > 0) {
-        max_conf = which(list_data_gbif[[i]][intersect(synonym_rows, exact_rows), ]$confidence ==
-                           max(list_data_gbif[[i]][intersect(synonym_rows, exact_rows), ]$confidence)[1])
-        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf,])
+        max_conf = which(list_data_gbif[[i]][intersect(synonym_rows, exact_rows),]$confidence ==
+                           max(list_data_gbif[[i]][intersect(synonym_rows, exact_rows),]$confidence)[1])
+        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf, ])
       }
       else if (length(intersect(accepted_rows, fuzzy_rows)) > 0) {
-        max_conf = which(list_data_gbif[[i]][intersect(accepted_rows, fuzzy_rows), ]$confidence ==
-                           max(list_data_gbif[[i]][intersect(accepted_rows, fuzzy_rows), ]$confidence)[1])
-        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf,])
+        max_conf = which(list_data_gbif[[i]][intersect(accepted_rows, fuzzy_rows),]$confidence ==
+                           max(list_data_gbif[[i]][intersect(accepted_rows, fuzzy_rows),]$confidence)[1])
+        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf, ])
       }
       else if (length(intersect(synonym_rows, fuzzy_rows)) > 0) {
-        max_conf = which(list_data_gbif[[i]][intersect(synonym_rows, fuzzy_rows), ]$confidence ==
-                           max(list_data_gbif[[i]][intersect(synonym_rows, fuzzy_rows), ]$confidence)[1])
-        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf,])
+        max_conf = which(list_data_gbif[[i]][intersect(synonym_rows, fuzzy_rows),]$confidence ==
+                           max(list_data_gbif[[i]][intersect(synonym_rows, fuzzy_rows),]$confidence)[1])
+        data_gbif = bind_rows(data_gbif, list_data_gbif[[i]][max_conf, ])
       }
     }
   }
@@ -388,7 +391,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   if (length(subspecies) > 1) {
     warning("The database nutrients contains subspecies names instead of species binomial names")
     warning("The following tables contain subspecies ID")
-    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == subspecies), ]$reference_ID))
+    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == subspecies),]$reference_ID))
     warning("The following subspecies are named")
     warning(
       "Open the table associated with these references ID to put back the species names instead of subspecies"
@@ -401,7 +404,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   ##### 10. Check the status of the scientific name  ####
   
   
-  synonym = data_gbif[which(data_gbif$status == "SYNONYM"), ]$canonicalname # find synonym species canonical names
+  synonym = data_gbif[which(data_gbif$status == "SYNONYM"),]$canonicalname # find synonym species canonical names
   # If synonym is empty, then it means that there are no synonym species in the dataset
   synonym = as.character(synonym)
   synonym = tolower(synonym)
@@ -410,7 +413,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   if (length(synonym) > 1) {
     warning("The database nutrients contains incorrect names.")
     warning("The following tables contain incorrect ID")
-    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == synonym), ]$reference_ID))
+    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == synonym),]$reference_ID))
     warning("The following incorrect names are given")
     warning("Open the table associated with these references ID to put back the right species names")
     print(synonym)
@@ -419,7 +422,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   ##### 11. Check the match types ####
   
-  fuzzy = data_gbif[which(data_gbif$matchtype == "FUZZY"), ]$canonicalname # find fuzzy matches canonical names
+  fuzzy = data_gbif[which(data_gbif$matchtype == "FUZZY"),]$canonicalname # find fuzzy matches canonical names
   # If fuzzy is empty, then it means that there are no synonym species in the dataset
   fuzzy = as.character(fuzzy)
   fuzzy = tolower(fuzzy)
@@ -429,7 +432,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     warning("The database nutrients contains fuzzy names.")
     warning("The following tables contain fuzzy names")
     
-    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == fuzzy), ]$reference_ID)) # find references
+    print(unique(data_nutrients[which(data_nutrients$species_latin_name_gbif == fuzzy),]$reference_ID)) # find references
     warning("The following fuzzy names are given")
     warning("Open the table associated with these references ID to put back the right species names")
     print(fuzzy)

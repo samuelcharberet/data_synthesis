@@ -466,6 +466,9 @@ plots_ds = function(data, data_fluxes) {
   
   ##### II. STOCKS #####
   
+  ##### 1. Preliminary figures #####
+  
+  
   ##### Number of reference per year #####
   
   references_and_years  = unique(data[, c("reference_ID", "reference_year")])
@@ -942,7 +945,7 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  ##### C, N, P stock plots #####
+  ##### 2. C, N, P stock plots #####
   
   
   # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
@@ -952,13 +955,13 @@ plots_ds = function(data, data_fluxes) {
   stock_data <- data |>
     filter(component_data_type == "stock")
   
-  ##### No cloaca faeces plots #####
+  ##### a. No cloaca faeces plots #####
   
   faeces_stock_data <- stock_data |>
     filter(cloaca == 0)
   faeces_stock_data <- faeces_stock_data |>
     filter(sample_type == "feces" | sample_type == "faeces")
-  # Selecting CNP
+  # Selecting CNP in faeces stock data
   cnp_fsd <- faeces_stock_data |>
     filter(component_name == "C" |
              component_name == "N" | component_name == "P")
@@ -994,7 +997,7 @@ plots_ds = function(data, data_fluxes) {
                    a_cnp_fsd$component_name == "P")
     cn_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CN",
+      component_name = "C/N",
       avg_component_mean = ifelse(
         any(crow) &&
           any(nrow),
@@ -1006,7 +1009,7 @@ plots_ds = function(data, data_fluxes) {
     )
     cp_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CP",
+      component_name = "C/P",
       avg_component_mean = ifelse(
         any(crow) &&
           any(prow),
@@ -1018,7 +1021,7 @@ plots_ds = function(data, data_fluxes) {
     )
     np_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "NP",
+      component_name = "N/P",
       avg_component_mean = ifelse(
         any(nrow) &&
           any(prow),
@@ -1075,7 +1078,7 @@ plots_ds = function(data, data_fluxes) {
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_bm_no_cloaca.pdf", sep = ""),
       plot = plots_bm[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1110,7 +1113,7 @@ plots_ds = function(data, data_fluxes) {
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_diet", sep = ""),
+      filename = paste(filenames[i], "_&_diet_no_cloaca.pdf", sep = ""),
       plot = plots_diet[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1157,7 +1160,7 @@ plots_ds = function(data, data_fluxes) {
                                               top = "")
   
   ggsave(
-    filename = "cnp.pdf",
+    filename = "cnp_no_cloaca.pdf",
     plot = complete_cnp_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -1201,7 +1204,266 @@ plots_ds = function(data, data_fluxes) {
                                               top = "")
   
   ggsave(
-    filename = "ratios.pdf",
+    filename = "ratios_no_cloaca.pdf",
+    plot = complete_ratios_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  ##### b. Cloaca frass and guano plots #####
+  
+  guano_stock_data <- stock_data |>
+    filter(cloaca == 1)
+  guano_stock_data <- guano_stock_data |>
+    filter(sample_type == "frass" | sample_type == "guano")
+  # Selecting CNP in guano stock data
+  cnp_gsd <- guano_stock_data |>
+    filter(component_name == "C" |
+             component_name == "N" | component_name == "P")
+  
+  # Keep only relevant rows
+  
+  cnp_gsd <- cnp_gsd |>
+    select(species_latin_name_gbif,
+           component_name,
+           component_mean,
+           body_mass,
+           diet)
+  
+  # Average over species
+  
+  a_cnp_gsd <- cnp_gsd |>
+    group_by(species_latin_name_gbif, component_name) |>
+    summarise(
+      avg_component_mean = mean(component_mean),
+      body_mass = first(body_mass),
+      diet = first(diet)
+    )
+  
+  # Compute the ratios
+  species = unique(a_cnp_gsd$species_latin_name_gbif)
+  
+  for (i in species) {
+    crow = which(a_cnp_gsd$species_latin_name_gbif == i &
+                   a_cnp_gsd$component_name == "C")
+    nrow = which(a_cnp_gsd$species_latin_name_gbif == i &
+                   a_cnp_gsd$component_name == "N")
+    prow = which(a_cnp_gsd$species_latin_name_gbif == i &
+                   a_cnp_gsd$component_name == "P")
+    cn_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "C/N",
+      avg_component_mean = ifelse(
+        any(crow) &&
+          any(nrow),
+        a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[nrow],
+        NA
+      ),
+      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    cp_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "C/P",
+      avg_component_mean = ifelse(
+        any(crow) &&
+          any(prow),
+        a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[prow],
+        NA
+      ),
+      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    np_row = data.frame(
+      species_latin_name_gbif = i,
+      component_name = "N/P",
+      avg_component_mean = ifelse(
+        any(nrow) &&
+          any(prow),
+        a_cnp_gsd$avg_component_mean[nrow] / a_cnp_gsd$avg_component_mean[prow],
+        NA
+      ),
+      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
+      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
+    )
+    
+    # Add Row using rbind()
+    a_cnp_gsd = rbind(a_cnp_gsd, cn_row, cp_row, np_row)
+  }
+  
+  # For each element, and each ratio, we do plots versus body mass and diet
+  
+  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  filenames = c("C", "N", "P", "CN", "CP", "NP")
+  nb_elements = length(el_ra)
+  units = c("%", "%", "%", "", "", "")
+  variables = c("body_mass", "diet")
+  nb_variables = length(variables)
+  
+  plots_bm = vector("list", nb_elements)
+  names(plots_bm) = el_ra
+  plots_diet = vector("list", nb_elements)
+  names(plots_diet) = el_ra
+  
+  
+  for (i in 1:length(el_ra)) {
+    data_element = subset(a_cnp_gsd, a_cnp_gsd$component_name == el_ra[i])
+    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+      max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
+    )
+    
+    # C, N, P and ratio in faeces versus body mass ####
+    
+    
+    plots_bm[[i]] = ggplot2::ggplot(data_element ,
+                                    aes(
+                                      x = log10(body_mass),
+                                      y = avg_component_mean,
+                                      col = as.factor(diet)
+                                    )) +
+      ylim(NA, ylim_max) +
+      geom_smooth(method = "lm", color = "black") +
+      geom_point() +
+      labs(x = "Body mass (log)",
+           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+      scale_color_manual(name = 'Diet',
+                         values = colours_diet) +
+      theme(legend.position = "right")
+    
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_bm_cloaca.pdf", sep = ""),
+      plot = plots_bm[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+    
+    # C, N, P and ratio in faeces versus diet ####
+    
+    
+    plots_diet[[i]] = ggplot2::ggplot(data_element ,
+                                      aes(
+                                        x = diet,
+                                        y = avg_component_mean,
+                                        col = as.factor(diet)
+                                      )) +
+      ylim(NA, ylim_max) +
+      geom_smooth(method = "lm", color = "black") +
+      geom_boxplot() +
+      labs(x = "Diet",
+           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+      scale_color_manual(name = 'Diet',
+                         values = colours_diet) +
+      theme(
+        legend.position = "right",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+      )
+    
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_diet_cloaca.pdf", sep = ""),
+      plot = plots_diet[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+  }
+  
+  # Complete CNP plots ####
+  
+  complete_cnp_plot = ggpubr::ggarrange(
+    plots_bm[[1]],
+    plots_bm[[2]],
+    plots_bm[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_diet[[1]],
+    plots_diet[[2]],
+    plots_diet[[3]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_cnp_plot = ggpubr::annotate_figure(complete_cnp_plot,
+                                              bottom = "",
+                                              top = "")
+  
+  ggsave(
+    filename = "cnp_cloaca.pdf",
+    plot = complete_cnp_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  complete_ratios_plot = ggpubr::ggarrange(
+    plots_bm[[4]],
+    plots_bm[[5]],
+    plots_bm[[6]],
+    NULL,
+    NULL,
+    NULL,
+    plots_diet[[4]],
+    plots_diet[[5]],
+    plots_diet[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_ratios_plot = ggpubr::annotate_figure(complete_ratios_plot,
+                                                 bottom = "",
+                                                 top = "")
+  
+  ggsave(
+    filename = "ratios_cloaca.pdf",
     plot = complete_ratios_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
