@@ -26,12 +26,13 @@ library(phyloseq)
 library(ggstar)
 library(ggimage)
 library(stringr)
+library(ggtext)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 
 data_fluxes_file = here::here("1_data",
-                            "2_data_fluxes",
-                            "data_fluxes.csv")
+                              "2_data_fluxes",
+                              "data_fluxes.csv")
 
 data_fluxes = load_df(data_fluxes_file)
 

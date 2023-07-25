@@ -86,6 +86,16 @@ plots_ds = function(data, data_fluxes) {
     coord_cartesian(xlim = c(0, max(
       data_fluxes$CP_Crude_Protein_diet, na.rm = T
     ))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_point(aes(color = Diet)) +
     stat_smooth(
@@ -117,11 +127,20 @@ plots_ds = function(data, data_fluxes) {
   
   lucas_sodium = ggplot2::ggplot(data_fluxes ,
                                  aes(x = Na_diet,
-                                     y = Na_ad,
-                                     color = Diet)) +
+                                     y = Na_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Na_diet, na.rm = T))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_point() +
+    geom_point(aes(color = Diet)) +
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
@@ -150,11 +169,20 @@ plots_ds = function(data, data_fluxes) {
   
   lucas_magnesium = ggplot2::ggplot(data_fluxes ,
                                     aes(x = Mg_diet,
-                                        y = Mg_ad,
-                                        color = Diet)) +
+                                        y = Mg_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Mg_diet, na.rm = T))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_point() +
+    geom_point(aes(color = Diet)) +
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
@@ -183,11 +211,20 @@ plots_ds = function(data, data_fluxes) {
   
   lucas_phosphorus = ggplot2::ggplot(data_fluxes ,
                                      aes(x = P_diet,
-                                         y = P_ad,
-                                         color = Diet)) +
+                                         y = P_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$P_diet, na.rm = T))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_point() +
+    geom_point(aes(color = Diet)) +
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
@@ -215,12 +252,21 @@ plots_ds = function(data, data_fluxes) {
   # Potassium ####
   
   lucas_potassium = ggplot2::ggplot(data_fluxes ,
-                                    aes(x = K_diet,
-                                        y = K_ad,
-                                        color = Diet)) +
+                                   aes(x = K_diet,
+                                       y = K_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$K_diet, na.rm = T))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_point() +
+    geom_point(aes(color = Diet)) +
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
@@ -249,16 +295,26 @@ plots_ds = function(data, data_fluxes) {
   
   lucas_calcium = ggplot2::ggplot(data_fluxes ,
                                   aes(x = Ca_diet,
-                                      y = Ca_ad,
-                                      color = Diet)) +
+                                      y = Ca_ad)) +
+    coord_cartesian(xlim = c(0, max(data_fluxes$Ca_diet, na.rm = T))) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = -Inf,
+        ymax = 0
+      ),
+      fill = '#BDDCEC',
+      alpha = 0.1
+    ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
-    
-    geom_point() +
-    geom_smooth(
-      color = "black",
-      method = "scam",
-      formula = y ~ s(x, k = 5, bs = "micv"),
-      se = T
+    geom_point(aes(color = Diet)) +
+    stat_smooth(
+      method = 'nls',
+      formula = 'y~(k*x-E)/x',
+      method.args = list(start = c(k = 50, E = 0)),
+      se = FALSE,
+      colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet Ca (%DM)",
@@ -635,7 +691,7 @@ plots_ds = function(data, data_fluxes) {
     alpha = 0.7
   ) +
     scale_fill_manual(values = colours_diet) +
-    labs(x = "log (Body Mass) in g", y = "Number of species", fill = "Diet") +
+    labs(x = "Body mass <br> (log<sub>10</sub> g)", y = "Number of species", fill = "Diet") +
     theme_bw()
   
   # Save the plot as a PDF
@@ -725,7 +781,7 @@ plots_ds = function(data, data_fluxes) {
       mapping = aes(y = class, x = log(body_mass)),
       axis.params = list(
         axis = "x",
-        title = "Body mass (log (g) )",
+        title = "Body mass <br> (log<sub>10</sub> g)",
         title.height = 0.2,
         text.size = 0.8
       ),
@@ -1076,8 +1132,9 @@ plots_ds = function(data, data_fluxes) {
       ylim(NA, ylim_max) +
       geom_smooth(method = "lm", color = "black") +
       geom_point() +
-      labs(x = "Body mass (log)",
+      labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+      theme(axis.title.x = element_markdown()) +
       scale_color_manual(name = 'Diet',
                          values = colours_diet) +
       theme(legend.position = "right")
@@ -1335,8 +1392,9 @@ plots_ds = function(data, data_fluxes) {
       ylim(NA, ylim_max) +
       geom_smooth(method = "lm", color = "black") +
       geom_point() +
-      labs(x = "Body mass (log)",
-           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+      labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
+           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+      theme(axis.title.x = element_markdown()) +
       scale_color_manual(name = 'Diet',
                          values = colours_diet) +
       theme(legend.position = "right")
