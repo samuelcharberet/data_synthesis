@@ -1,4 +1,4 @@
-Emerson 2007 - Composition of guano produced by frugivorous sanguivorous and insectivorous bats7
+Emerson 2007 - Composition of guano produced by frugivorous sanguivorous and insectivorous bats
 
 Analysis of the composition of the guano of 3 species of bats with a different diet (frugivorous, blood-eating, insectivorous)
 The sampler was careful to take only faeces and not urine.

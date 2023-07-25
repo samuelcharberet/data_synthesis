@@ -74,7 +74,8 @@ plots_ds = function(data, data_fluxes) {
     "Carnivore" = "#B30E0E",
     "Insectivore" = "#000000",
     "Frugivore" = "#AE2CB8",
-    "Nectarivore" = "#FA6A02"
+    "Nectarivore" = "#FA6A02",
+    "Detritivore" = "#9E5748"
   ) # The colors used for diet
   
   # Nitrogen ####
@@ -327,8 +328,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -350,8 +351,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -374,8 +375,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -398,8 +399,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -422,8 +423,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -446,8 +447,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -499,9 +500,9 @@ plots_ds = function(data, data_fluxes) {
   study_ids = unique(data$reference_ID)
   
   # Step 2: Count the number of species per study
-  species_counts = data %>%
-    group_by(reference_ID) %>%
-    summarise(num_species = n_distinct(species_latin_name_gbif))
+  species_counts = data |>
+    group_by(reference_ID) |>
+    dplyr::summarise(num_species = n_distinct(species_latin_name_gbif))
   
   # Step 3: Determine the number of species per study and the count of studies with that number of species
   species_per_study = table(species_counts$num_species)
@@ -512,9 +513,12 @@ plots_ds = function(data, data_fluxes) {
                          num_studies = as.numeric(species_per_study))
   
   hist_nb_sp_per_stu = ggplot(plot_data, aes(x = num_species, y = num_studies)) +
-    geom_bar(stat = "identity",
-             fill = "#3366CC",
-             color = "black") +
+    geom_bar(
+      stat = "identity",
+      fill = "#3366CC",
+      color = "black",
+      alpha = 0.7
+    ) +
     labs(x = "Number of species per study", y = "Number of studies") +
     xlim(0, 25)
   
@@ -539,7 +543,7 @@ plots_ds = function(data, data_fluxes) {
   # Step 2: Group the filtered data by "component_name" and "component_measure_method" and calculate the count
   grouped_data <- filtered_data %>%
     group_by(component_name, component_measure_method) %>%
-    summarise(count = n())
+    dplyr::summarise(count = n())
   
   # Step 3: Create pie charts for each "component_name" and save as PDF
   for (name in unique(grouped_data$component_name)) {
@@ -550,9 +554,12 @@ plots_ds = function(data, data_fluxes) {
       ggplot(subset_data,
              aes(x = "", y = count, fill = component_measure_method)) +
       labs(title = paste("Proportion of measure methods for", name)) +
-      geom_bar(stat = "identity",
-               width = 1,
-               color = "black") +
+      geom_bar(
+        stat = "identity",
+        width = 1,
+        color = "black",
+        alpha = 0.7
+      ) +
       coord_polar("y", start = 0) +
       scale_fill_brewer(palette = "Set3") +
       theme_void()
@@ -625,7 +632,7 @@ plots_ds = function(data, data_fluxes) {
     aes(fill = diet),
     bins = 50,
     color = 'black',
-    alpha = 0.5
+    alpha = 0.7
   ) +
     scale_fill_manual(values = colours_diet) +
     labs(x = "log (Body Mass) in g", y = "Number of species", fill = "Diet") +
@@ -659,18 +666,18 @@ plots_ds = function(data, data_fluxes) {
   # Group the data by class and diet, and calculate the count for each combination
   grouped_data <- species_traits_taxonomy %>%
     group_by(class, diet) %>%
-    summarise(count = n())
+    dplyr::summarise(count = n())
   
   # Compute the total count for each class
   class_totals <- grouped_data %>%
     group_by(class) %>%
-    summarise(total = sum(count))
+    dplyr::summarise(total = sum(count))
   
   # Calculate the proportion of each diet within each class
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count,-total)
+    select(-count, -total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -688,18 +695,18 @@ plots_ds = function(data, data_fluxes) {
         sample_type == "guano" | sample_type == "frass"
     ) %>%
     group_by(class, component_data_type) %>%
-    summarise(count = n())
+    dplyr::summarise(count = n())
   
   # Compute the total count for each class
   class_totals <- grouped_data %>%
     group_by(class) %>%
-    summarise(total = sum(count))
+    dplyr::summarise(total = sum(count))
   
   # Calculate the proportion of each component_data_type within each class
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count,-total)
+    select(-count, -total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -759,7 +766,7 @@ plots_ds = function(data, data_fluxes) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1, ),
+                           keyheight = 1,),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -813,7 +820,7 @@ plots_ds = function(data, data_fluxes) {
   
   environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet),
                                                                                   color = 'black',
-                                                                                  alpha = 0.5) +
+                                                                                  alpha = 0.7) +
     scale_fill_manual(values = colours_diet) +
     labs(x = "Sampling environment", y = "Number of osbervations", fill = "Diet") +
     theme_bw()
@@ -859,7 +866,7 @@ plots_ds = function(data, data_fluxes) {
   
   
   wastes_observation_resolution_diet = ggplot(selected_data, aes(x = factor(observation_resolution, levels = desired_order))) +
-    geom_bar(aes(fill = diet), color = 'black', alpha = 0.5) +
+    geom_bar(aes(fill = diet), color = 'black', alpha = 0.7) +
     scale_fill_manual(values = colours_diet) +
     scale_x_discrete(
       labels = c(
@@ -894,9 +901,9 @@ plots_ds = function(data, data_fluxes) {
     lapply(df_split, function(df) {
       # Sort sample_type levels based on the number of observations
       sorted_levels <- df %>%
-        count(sample_type) %>%
-        arrange(desc(n)) %>%
-        pull(sample_type)
+        dplyr::count(sample_type) %>%
+        dplyr::arrange(desc(n)) %>%
+        dplyr::pull(sample_type)
       
       # Reorder the sample_type factor based on the sorted levels
       df$sample_type <-
@@ -905,7 +912,7 @@ plots_ds = function(data, data_fluxes) {
       
       
       ggplot(df, aes(x = sample_type, fill = diet)) +
-        geom_bar(alpha = 0.5) +
+        geom_bar(color = 'black', alpha = 0.7) +
         labs(x = "Sample Type", y = "Number of Observations") +
         scale_fill_manual(values = colours_diet) +
         theme_bw()
@@ -951,7 +958,7 @@ plots_ds = function(data, data_fluxes) {
   # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
   
   data <- data |>
-    filter(component_weight_type == "dw")
+    filter(component_weight_type != "fw")
   stock_data <- data |>
     filter(component_data_type == "stock")
   
@@ -979,7 +986,7 @@ plots_ds = function(data, data_fluxes) {
   
   a_cnp_fsd <- cnp_fsd |>
     group_by(species_latin_name_gbif, component_name) |>
-    summarise(
+    dplyr::summarise(
       avg_component_mean = mean(component_mean),
       body_mass = first(body_mass),
       diet = first(diet)
@@ -1200,8 +1207,8 @@ plots_ds = function(data, data_fluxes) {
   )
   
   complete_ratios_plot = ggpubr::annotate_figure(complete_ratios_plot,
-                                              bottom = "",
-                                              top = "")
+                                                 bottom = "",
+                                                 top = "")
   
   ggsave(
     filename = "ratios_no_cloaca.pdf",
