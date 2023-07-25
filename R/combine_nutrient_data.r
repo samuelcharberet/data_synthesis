@@ -173,7 +173,7 @@ combine_nutrient_data = function(data_nl, data_np) {
       data_nutrients$component_unit[i] = "percent"
     }
     else if (unit == "µmol/g") {
-      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] / (molar_masses[data_nutrients$component_name[i]] * 10000)
+      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] * molar_masses[data_nutrients$component_name[i]] * 10^-4
       data_nutrients$component_unit[i] = "percent"
     }
     else if (unit == "mg/100g") {
@@ -254,7 +254,7 @@ combine_nutrient_data = function(data_nl, data_np) {
       data_nutrients$component_unit[i] = "ppm"
     }
     else if (unit == "µmol/g") {
-      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] / (molar_masses[data_nutrients$component_name[i]] * 10000)
+      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] * molar_masses[data_nutrients$component_name[i]]
       data_nutrients$component_unit[i] = "ppm"
     }
   }

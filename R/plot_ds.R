@@ -1245,7 +1245,7 @@ plots_ds = function(data, data_fluxes) {
   
   a_cnp_gsd <- cnp_gsd |>
     group_by(species_latin_name_gbif, component_name) |>
-    summarise(
+    dplyr::summarise(
       avg_component_mean = mean(component_mean),
       body_mass = first(body_mass),
       diet = first(diet)
