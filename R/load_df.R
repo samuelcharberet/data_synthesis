@@ -23,10 +23,7 @@ load_df  = function(path) {
     levels = c(
       "Herbivore",
       "Omnivore",
-      "Carnivore",
-      "Insectivore",
-      "Frugivore",
-      "Nectarivore"
+      "Carnivore"
     )
   )
   

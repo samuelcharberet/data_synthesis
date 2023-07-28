@@ -93,7 +93,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -136,7 +146,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -178,7 +198,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -220,7 +250,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -252,8 +292,8 @@ plots_ds = function(data, data_fluxes) {
   # Potassium ####
   
   lucas_potassium = ggplot2::ggplot(data_fluxes ,
-                                   aes(x = K_diet,
-                                       y = K_ad)) +
+                                    aes(x = K_diet,
+                                        y = K_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$K_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -262,7 +302,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -304,7 +354,17 @@ plots_ds = function(data, data_fluxes) {
         ymin = -Inf,
         ymax = 0
       ),
-      fill = '#BDDCEC',
+      fill = '#F6E6E6',
+      alpha = 0.1
+    ) +
+    geom_rect(
+      aes(
+        xmin = -Inf,
+        xmax = +Inf,
+        ymin = 0,
+        ymax = +Inf
+      ),
+      fill = '#E7F6E6',
       alpha = 0.1
     ) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -384,8 +444,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -407,8 +467,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -431,8 +491,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -455,8 +515,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -479,8 +539,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -503,8 +563,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -733,7 +793,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count, -total)
+    select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -762,7 +822,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count, -total)
+    select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -822,7 +882,7 @@ plots_ds = function(data, data_fluxes) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
+                           keyheight = 1, ),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1044,6 +1104,7 @@ plots_ds = function(data, data_fluxes) {
     group_by(species_latin_name_gbif, component_name) |>
     dplyr::summarise(
       avg_component_mean = mean(component_mean),
+      n_obs = length(component_mean),
       body_mass = first(body_mass),
       diet = first(diet)
     )
@@ -1068,7 +1129,11 @@ plots_ds = function(data, data_fluxes) {
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
+      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "C"), ]),
+                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "N"), ]))
     )
     cp_row = data.frame(
       species_latin_name_gbif = i,
@@ -1080,7 +1145,11 @@ plots_ds = function(data, data_fluxes) {
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
+      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "C"), ]),
+                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "P"), ]))
     )
     np_row = data.frame(
       species_latin_name_gbif = i,
@@ -1092,7 +1161,11 @@ plots_ds = function(data, data_fluxes) {
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"]
+      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
+      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "N"), ]),
+                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
+                                        cnp_fsd$component_name == "P"), ]))
     )
     
     # Add Row using rbind()
@@ -1120,9 +1193,6 @@ plots_ds = function(data, data_fluxes) {
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
-    # C, N, P and ratio in faeces versus body mass ####
-    
-    
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
                                     aes(
                                       x = log10(body_mass),
@@ -1130,7 +1200,8 @@ plots_ds = function(data, data_fluxes) {
                                       col = as.factor(diet)
                                     )) +
       ylim(NA, ylim_max) +
-      geom_smooth(method = "lm", color = "black") +
+      geom_smooth(method = "lm",
+                  color = "black") +
       geom_point() +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
@@ -1152,18 +1223,15 @@ plots_ds = function(data, data_fluxes) {
       units = "in"
     )
     
-    # C, N, P and ratio in faeces versus diet ####
-    
-    
-    plots_diet[[i]] = ggplot2::ggplot(data_element ,
+    plots_diet[[i]] = ggplot2::ggplot(data_element,
                                       aes(
                                         x = diet,
                                         y = avg_component_mean,
                                         col = as.factor(diet)
                                       )) +
       ylim(NA, ylim_max) +
-      geom_smooth(method = "lm", color = "black") +
-      geom_boxplot() +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(color="black", width=0.2, height = 0.2, size=0.4, alpha=0.9) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       scale_color_manual(name = 'Diet',
@@ -1173,7 +1241,7 @@ plots_ds = function(data, data_fluxes) {
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
       )
-    
+
     
     # Save each plot
     ggsave(
@@ -1214,7 +1282,7 @@ plots_ds = function(data, data_fluxes) {
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
-    widths = c(1, 1, 1, 1),
+    widths = c(1, 1, 1),
     common.legend = TRUE,
     legend = "right"
   )
