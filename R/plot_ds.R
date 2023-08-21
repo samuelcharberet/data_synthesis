@@ -1,6 +1,6 @@
 #' plot_ds
 #'
-#' @param data? data_fluxes
+#' @param data, data_fluxes
 #'
 #' @return plots for the data synthesis
 #' @export
@@ -11,7 +11,7 @@
 #'
 
 plots_ds = function(data, data_fluxes) {
-  ##### 0. Structuring data  #####
+  ##### Structuring data  #####
   
   # Specify the strings to match in factor column names
   factor_columns =
@@ -48,8 +48,7 @@ plots_ds = function(data, data_fluxes) {
     mutate(across(matches(numeric_columns), as.numeric))
   
   
-  ##### I. FLUXES #####
-  
+  ##### Global option for the plots  #####
   
   # Set global options for the ggplot2 plots
   ggplot2::theme_set(theme_classic() + theme(
@@ -77,6 +76,10 @@ plots_ds = function(data, data_fluxes) {
     "Nectarivore" = "#FA6A02",
     "Detritivore" = "#9E5748"
   ) # The colors used for diet
+  
+  
+  ##### I. FLUXES #####
+  
   
   # Nitrogen ####
   
@@ -1173,6 +1176,7 @@ plots_ds = function(data, data_fluxes) {
   }
   
   # For each element, and each ratio, we do plots versus body mass and diet
+  # As well as a "chemical plan" plot
   
   el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
   filenames = c("C", "N", "P", "CN", "CP", "NP")
@@ -1185,6 +1189,8 @@ plots_ds = function(data, data_fluxes) {
   names(plots_bm) = el_ra
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
+  
+  # No cloaca CNP diet bodymass plots ####
   
   
   for (i in 1:length(el_ra)) {
@@ -1231,7 +1237,13 @@ plots_ds = function(data, data_fluxes) {
                                       )) +
       ylim(NA, ylim_max) +
       geom_boxplot(outlier.shape = NA) +
-      geom_jitter(color="black", width=0.2, height = 0.2, size=0.4, alpha=0.9) +
+      geom_jitter(
+        color = "black",
+        width = 0.2,
+        height = 0.2,
+        size = 0.4,
+        alpha = 0.9
+      ) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       scale_color_manual(name = 'Diet',
@@ -1241,7 +1253,7 @@ plots_ds = function(data, data_fluxes) {
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
       )
-
+    
     
     # Save each plot
     ggsave(
@@ -1254,9 +1266,9 @@ plots_ds = function(data, data_fluxes) {
       height = 4,
       units = "in"
     )
+    
+    
   }
-  
-  # Complete CNP plots ####
   
   complete_cnp_plot = ggpubr::ggarrange(
     plots_bm[[1]],
@@ -1292,7 +1304,7 @@ plots_ds = function(data, data_fluxes) {
                                               top = "")
   
   ggsave(
-    filename = "cnp_no_cloaca.pdf",
+    filename = "cnp_dietbm_no_cloaca.pdf",
     plot = complete_cnp_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -1336,13 +1348,131 @@ plots_ds = function(data, data_fluxes) {
                                                  top = "")
   
   ggsave(
-    filename = "ratios_no_cloaca.pdf",
+    filename = "ratios_dietbm_no_cloaca.pdf",
     plot = complete_ratios_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
     scale = 1,
     width = 7,
     height = 4,
+    units = "in"
+  )
+  
+  # We do %C, N% and %P biplots with averages and sd per diet group
+  
+  cnp_plan_data = pivot_wider(a_cnp_fsd, names_from = "component_name", values_from = "avg_component_mean")
+  cnp_plan_data_summary = ddply(
+    cnp_plan_data,
+    .(diet),
+    summarise,
+    C_mean = mean(C, na.rm = T),
+    N_mean = mean(N, na.rm = T),
+    P_mean = mean(P, na.rm = T),
+    CSD = stats::sd(C, na.rm = T),
+    NSD = stats::sd(N, na.rm = T),
+    PSD = stats::sd(P, na.rm = T)
+  )
+  names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
+  
+  cn_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                      aes(x = N,
+                                          y = C,
+                                          col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = N - NSD,
+                     xmax = N + NSD,
+                     y = C,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = C - CSD,
+      ymax = C + CSD,
+      x = N,
+      colour = diet
+    )) +
+    labs(x = "Faeces %N",
+         y = "Faeces %C") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  
+  cp_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                      aes(x = P,
+                                          y = C,
+                                          col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = P - PSD,
+                     xmax = P + PSD,
+                     y = C,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = C - CSD,
+      ymax = C + CSD,
+      x = P,
+      colour = diet
+    )) +
+    labs(x = "Faeces %P",
+         y = "Faeces %C") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  
+  np_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                      aes(x = P,
+                                          y = N,
+                                          col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = P - PSD,
+                     xmax = P + PSD,
+                     y = N,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = N - NSD,
+      ymax = N + NSD,
+      x = P,
+      colour = diet
+    )) +
+    labs(x = "Faeces %P",
+         y = "Faeces %N") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  # No cloaca CNP biplots ####
+  
+  complete_cnp_plans = ggpubr::ggarrange(
+    cn_plan_no_cloaca,
+    cp_plan_no_cloaca,
+    np_plan_no_cloaca,
+    ncol = 3,
+    nrow = 1,
+    labels = c("a.",
+               "b.",
+               "c."),
+    label.y = 1,
+    label.x = 0,
+    heights = c(1),
+    widths = c(1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans,
+                                               bottom = "",
+                                               top = "")
+  
+  ggsave(
+    filename = "cnp_biplots_no_cloaca.pdf",
+    plot = complete_cnp_plans,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 3,
     units = "in"
   )
   
@@ -1442,14 +1572,13 @@ plots_ds = function(data, data_fluxes) {
   names(plots_diet) = el_ra
   
   
+  # Cloaca CNP diet bodymass plots ####
+  
   for (i in 1:length(el_ra)) {
     data_element = subset(a_cnp_gsd, a_cnp_gsd$component_name == el_ra[i])
     ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
-    
-    # C, N, P and ratio in faeces versus body mass ####
-    
     
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
                                     aes(
@@ -1480,9 +1609,6 @@ plots_ds = function(data, data_fluxes) {
       units = "in"
     )
     
-    # C, N, P and ratio in faeces versus diet ####
-    
-    
     plots_diet[[i]] = ggplot2::ggplot(data_element ,
                                       aes(
                                         x = diet,
@@ -1491,7 +1617,14 @@ plots_ds = function(data, data_fluxes) {
                                       )) +
       ylim(NA, ylim_max) +
       geom_smooth(method = "lm", color = "black") +
-      geom_boxplot() +
+      geom_jitter(
+        color = "black",
+        width = 0.2,
+        height = 0.2,
+        size = 0.4,
+        alpha = 0.9
+      ) +
+      geom_boxplot(outlier.shape = NA) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
       scale_color_manual(name = 'Diet',
@@ -1515,8 +1648,6 @@ plots_ds = function(data, data_fluxes) {
       units = "in"
     )
   }
-  
-  # Complete CNP plots ####
   
   complete_cnp_plot = ggpubr::ggarrange(
     plots_bm[[1]],
@@ -1552,7 +1683,7 @@ plots_ds = function(data, data_fluxes) {
                                               top = "")
   
   ggsave(
-    filename = "cnp_cloaca.pdf",
+    filename = "cnp_dietbm_cloaca.pdf",
     plot = complete_cnp_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -1596,13 +1727,130 @@ plots_ds = function(data, data_fluxes) {
                                                  top = "")
   
   ggsave(
-    filename = "ratios_cloaca.pdf",
+    filename = "ratios_dietbm_cloaca.pdf",
     plot = complete_ratios_plot,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
     scale = 1,
     width = 7,
     height = 4,
+    units = "in"
+  )
+  
+  # Cloaca CNP biplots ####
+  
+  cnp_plan_data = pivot_wider(a_cnp_gsd, names_from = "component_name", values_from = "avg_component_mean")
+  cnp_plan_data_summary = ddply(
+    cnp_plan_data,
+    .(diet),
+    summarise,
+    C_mean = mean(C, na.rm = T),
+    N_mean = mean(N, na.rm = T),
+    P_mean = mean(P, na.rm = T),
+    CSD = stats::sd(C, na.rm = T),
+    NSD = stats::sd(N, na.rm = T),
+    PSD = stats::sd(P, na.rm = T)
+  )
+  names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
+  
+  cn_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                   aes(x = N,
+                                       y = C,
+                                       col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = N - NSD,
+                     xmax = N + NSD,
+                     y = C,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = C - CSD,
+      ymax = C + CSD,
+      x = N,
+      colour = diet
+    )) +
+    labs(x = "Waste %N",
+         y = "Waste %C") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  
+  cp_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                   aes(x = P,
+                                       y = C,
+                                       col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = P - PSD,
+                     xmax = P + PSD,
+                     y = C,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = C - CSD,
+      ymax = C + CSD,
+      x = P,
+      colour = diet
+    )) +
+    labs(x = "Waste %P",
+         y = "Waste %C") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  
+  np_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
+                                   aes(x = P,
+                                       y = N,
+                                       col = as.factor(diet))) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_errorbarh(data = cnp_plan_data_summary,
+                   aes(
+                     xmin = P - PSD,
+                     xmax = P + PSD,
+                     y = N,
+                     colour = diet
+                   )) +
+    geom_errorbar(data = cnp_plan_data_summary, aes(
+      ymin = N - NSD,
+      ymax = N + NSD,
+      x = P,
+      colour = diet
+    )) +
+    labs(x = "Waste %P",
+         y = "Waste %N") +
+    scale_color_manual(name = 'Diet',
+                       values = colours_diet)
+  
+  complete_cnp_plans = ggpubr::ggarrange(
+    cn_plan_cloaca,
+    cp_plan_cloaca,
+    np_plan_cloaca,
+    ncol = 3,
+    nrow = 1,
+    labels = c("a.",
+               "b.",
+               "c."),
+    label.y = 1,
+    label.x = 0,
+    heights = c(1),
+    widths = c(1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans,
+                                               bottom = "",
+                                               top = "")
+  
+  ggsave(
+    filename = "cnp_biplots_cloaca.pdf",
+    plot = complete_cnp_plans,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 3,
     units = "in"
   )
   
