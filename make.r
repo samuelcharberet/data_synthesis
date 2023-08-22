@@ -27,6 +27,9 @@ library(ggstar)
 library(ggimage)
 library(stringr)
 library(ggtext)
+library(ape)
+library(nlme)
+library(caper)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 

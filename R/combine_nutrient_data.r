@@ -173,7 +173,8 @@ combine_nutrient_data = function(data_nl, data_np) {
       data_nutrients$component_unit[i] = "percent"
     }
     else if (unit == "µmol/g") {
-      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] * molar_masses[data_nutrients$component_name[i]] * 10^-4
+      data_nutrients[i, columns_to_transform] = data_nutrients[i, columns_to_transform] * molar_masses[data_nutrients$component_name[i]] * 10 ^
+        -4
       data_nutrients$component_unit[i] = "percent"
     }
     else if (unit == "mg/100g") {
@@ -546,13 +547,15 @@ combine_nutrient_data = function(data_nl, data_np) {
   )
   
   
-  selected_data <- select(data_nutrients, class)
+  selected_data <- data_nutrients$class
   
   grouped_data <- unique(selected_data)
   
+  # We write a class taxize object
+  
   if (update == T) {
     taxize_classes <-
-      classification(grouped_data$class, db = "gbif")
+      classification(grouped_data, db = "gbif")
     saveRDS(
       taxize_classes,
       file = here::here("1_data",
