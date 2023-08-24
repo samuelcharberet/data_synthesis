@@ -10,7 +10,7 @@
 #'
 #'
 
-plots_ds = function(data, data_fluxes) {
+plot_ds = function(data, data_f) {
   ##### Structuring data  #####
   
   # Specify the strings to match in factor column names
@@ -80,7 +80,8 @@ plots_ds = function(data, data_fluxes) {
   
   ##### I. FLUXES #####
   
-  
+  data_fluxes = data_f
+
   # Nitrogen ####
   
   lucas_nitrogen = ggplot2::ggplot(data_fluxes ,
@@ -447,8 +448,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -470,8 +471,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -494,8 +495,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -518,8 +519,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -542,8 +543,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -566,8 +567,8 @@ plots_ds = function(data, data_fluxes) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -796,7 +797,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -825,7 +826,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -885,7 +886,7 @@ plots_ds = function(data, data_fluxes) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1, ),
+                           keyheight = 1,),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1073,112 +1074,12 @@ plots_ds = function(data, data_fluxes) {
   
   ##### 2. C, N, P stock plots #####
   
-  
-  # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
-  
-  data <- data |>
-    filter(component_weight_type != "fw")
-  stock_data <- data |>
-    filter(component_data_type == "stock")
-  
-  ##### a. No cloaca faeces plots #####
-  
-  faeces_stock_data <- stock_data |>
-    filter(cloaca == 0)
-  faeces_stock_data <- faeces_stock_data |>
-    filter(sample_type == "feces" | sample_type == "faeces")
-  # Selecting CNP in faeces stock data
-  cnp_fsd <- faeces_stock_data |>
-    filter(component_name == "C" |
-             component_name == "N" | component_name == "P")
-  
-  # Keep only relevant rows
-  
-  cnp_fsd <- cnp_fsd |>
-    dplyr::select(species_latin_name_gbif,
-                  component_name,
-                  component_mean,
-                  body_mass,
-                  diet)
-  
-  # Average over species
-  
-  a_cnp_fsd <- cnp_fsd |>
-    group_by(species_latin_name_gbif, component_name) |>
-    dplyr::summarise(
-      avg_component_mean = mean(component_mean),
-      n_obs = length(component_mean),
-      body_mass = first(body_mass),
-      diet = first(diet)
-    )
-  
-  # Compute the ratios
-  species = unique(a_cnp_fsd$species_latin_name_gbif)
-  
-  for (i in species) {
-    crow = which(a_cnp_fsd$species_latin_name_gbif == i &
-                   a_cnp_fsd$component_name == "C")
-    nrow = which(a_cnp_fsd$species_latin_name_gbif == i &
-                   a_cnp_fsd$component_name == "N")
-    prow = which(a_cnp_fsd$species_latin_name_gbif == i &
-                   a_cnp_fsd$component_name == "P")
-    cn_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/N",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(nrow),
-        a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[nrow],
-        NA
-      ),
-      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"), ]),
-                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "N"), ]))
-    )
-    cp_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/P",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(prow),
-        a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[prow],
-        NA
-      ),
-      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"), ]),
-                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "P"), ]))
-    )
-    np_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "N/P",
-      avg_component_mean = ifelse(
-        any(nrow) &&
-          any(prow),
-        a_cnp_fsd$avg_component_mean[nrow] / a_cnp_fsd$avg_component_mean[prow],
-        NA
-      ),
-      body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "N"), ]),
-                   nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "P"), ]))
-    )
-    
-    # Add Row using rbind()
-    a_cnp_fsd = rbind(a_cnp_fsd, cn_row, cp_row, np_row)
-  }
+  # No cloaca CNP diet bodymass plots ####
   
   # For each element, and each ratio, we do plots versus body mass and diet
   # As well as a "chemical plan" plot
   
-  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  el_ra = c("C", "N", "P", "CN", "CP", "NP")
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1190,7 +1091,8 @@ plots_ds = function(data, data_fluxes) {
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
   
-  # No cloaca CNP diet bodymass plots ####
+  a_cnp_fsd = read.csv(here::here("1_data",
+                                  "a_cnp_fsd.csv"))
   
   
   for (i in 1:length(el_ra)) {
@@ -1495,90 +1397,12 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
-  ##### b. Cloaca frass and guano plots #####
-  
-  guano_stock_data <- stock_data |>
-    filter(cloaca == 1)
-  guano_stock_data <- guano_stock_data |>
-    filter(sample_type == "frass" | sample_type == "guano")
-  # Selecting CNP in guano stock data
-  cnp_gsd <- guano_stock_data |>
-    filter(component_name == "C" |
-             component_name == "N" | component_name == "P")
-  
-  # Keep only relevant rows
-  
-  cnp_gsd <- cnp_gsd |>
-    dplyr::select(species_latin_name_gbif,
-                  component_name,
-                  component_mean,
-                  body_mass,
-                  diet)
-  
-  # Average over species
-  
-  a_cnp_gsd <- cnp_gsd |>
-    group_by(species_latin_name_gbif, component_name) |>
-    dplyr::summarise(
-      avg_component_mean = mean(component_mean),
-      body_mass = first(body_mass),
-      diet = first(diet)
-    )
-  
-  # Compute the ratios
-  species = unique(a_cnp_gsd$species_latin_name_gbif)
-  
-  for (i in species) {
-    crow = which(a_cnp_gsd$species_latin_name_gbif == i &
-                   a_cnp_gsd$component_name == "C")
-    nrow = which(a_cnp_gsd$species_latin_name_gbif == i &
-                   a_cnp_gsd$component_name == "N")
-    prow = which(a_cnp_gsd$species_latin_name_gbif == i &
-                   a_cnp_gsd$component_name == "P")
-    cn_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/N",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(nrow),
-        a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[nrow],
-        NA
-      ),
-      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
-    )
-    cp_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/P",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(prow),
-        a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[prow],
-        NA
-      ),
-      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
-    )
-    np_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "N/P",
-      avg_component_mean = ifelse(
-        any(nrow) &&
-          any(prow),
-        a_cnp_gsd$avg_component_mean[nrow] / a_cnp_gsd$avg_component_mean[prow],
-        NA
-      ),
-      body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"]
-    )
-    
-    # Add Row using rbind()
-    a_cnp_gsd = rbind(a_cnp_gsd, cn_row, cp_row, np_row)
-  }
+  ##### Cloaca frass and guano plots #####
   
   # For each element, and each ratio, we do plots versus body mass and diet
   
-  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  
+  el_ra = c("C", "N", "P", "CN", "CP", "NP")
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1590,6 +1414,8 @@ plots_ds = function(data, data_fluxes) {
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
   
+  a_cnp_gsd = read.csv(here::here("1_data",
+                                  "a_cnp_gsd.csv"))
   
   # Cloaca CNP diet bodymass plots ####
   

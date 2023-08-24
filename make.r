@@ -66,4 +66,4 @@ data = combine_nutrients_traits(data_nutrients, data_traits)
 
 plots_ds(data, data_fluxes)
 
-model(data, data_fluxes)
+model_ds(data, data_fluxes)
