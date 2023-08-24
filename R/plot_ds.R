@@ -743,7 +743,7 @@ plots_ds = function(data, data_fluxes) {
   ##### Body masses of species histogram  #####
   
   selected_data <-
-    select(data, species_latin_name_gbif, body_mass, diet)
+    dplyr::select(data, species_latin_name_gbif, body_mass, diet)
   
   grouped_data <- unique(selected_data)
   
@@ -796,7 +796,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count,-total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -825,7 +825,7 @@ plots_ds = function(data, data_fluxes) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    select(-count,-total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -935,7 +935,7 @@ plots_ds = function(data, data_fluxes) {
   ##### Number of observation for sample type according to environment of sampling #####
   
   
-  selected_data <- drop_na(select(data, environment, diet))
+  selected_data <- drop_na(dplyr::select(data, environment, diet))
   
   environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet),
                                                                                   color = 'black',
@@ -961,7 +961,7 @@ plots_ds = function(data, data_fluxes) {
   
   selected_data <- data %>%
     filter(sample_type %in% c("feces", "frass", "guano", "urine"))  %>%
-    select(observation_resolution, diet) %>%
+    dplyr::select(observation_resolution, diet) %>%
     drop_na() %>%
     filter(
       observation_resolution %in% c(
@@ -1095,11 +1095,11 @@ plots_ds = function(data, data_fluxes) {
   # Keep only relevant rows
   
   cnp_fsd <- cnp_fsd |>
-    select(species_latin_name_gbif,
-           component_name,
-           component_mean,
-           body_mass,
-           diet)
+    dplyr::select(species_latin_name_gbif,
+                  component_name,
+                  component_mean,
+                  body_mass,
+                  diet)
   
   # Average over species
   
@@ -1199,27 +1199,34 @@ plots_ds = function(data, data_fluxes) {
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
-    plots_bm[[i]] = ggplot2::ggplot(data_element ,
-                                    aes(
-                                      x = log10(body_mass),
-                                      y = avg_component_mean,
-                                      col = as.factor(diet)
-                                    )) +
+    plots_bm[[i]] = ggplot2::ggplot(
+      data_element ,
+      aes(
+        x = log10(body_mass),
+        y = avg_component_mean,
+        col = as.factor(diet),
+        group = as.factor(diet)
+      )
+    ) +
       ylim(NA, ylim_max) +
+      geom_point(alpha = 0.7) +
       geom_smooth(method = "lm",
-                  color = "black") +
-      geom_point() +
+                  se = FALSE,
+                  fullrange = TRUE) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
-      scale_color_manual(name = 'Diet',
-                         values = colours_diet) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+      ) +
       theme(legend.position = "right")
     
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_no_cloaca.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_bm_no_cloaca_dg.pdf", sep = ""),
       plot = plots_bm[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1236,7 +1243,6 @@ plots_ds = function(data, data_fluxes) {
                                         col = as.factor(diet)
                                       )) +
       ylim(NA, ylim_max) +
-      geom_boxplot(outlier.shape = NA) +
       geom_jitter(
         color = "black",
         width = 0.2,
@@ -1244,10 +1250,15 @@ plots_ds = function(data, data_fluxes) {
         size = 0.4,
         alpha = 0.9
       ) +
+      geom_boxplot(outlier.shape = NA,
+                   alpha = 0.7) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
-      scale_color_manual(name = 'Diet',
-                         values = colours_diet) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+      ) +
       theme(
         legend.position = "right",
         axis.text.x = element_blank(),
@@ -1360,6 +1371,9 @@ plots_ds = function(data, data_fluxes) {
   
   # We do %C, N% and %P biplots with averages and sd per diet group
   
+  # No cloaca CNP biplots ####
+  
+  
   cnp_plan_data = pivot_wider(a_cnp_fsd, names_from = "component_name", values_from = "avg_component_mean")
   cnp_plan_data_summary = ddply(
     cnp_plan_data,
@@ -1378,19 +1392,21 @@ plots_ds = function(data, data_fluxes) {
                                       aes(x = N,
                                           y = C,
                                           col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = N - NSD,
                      xmax = N + NSD,
                      y = C,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = C - CSD,
       ymax = C + CSD,
       x = N,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Faeces %N",
          y = "Faeces %C") +
@@ -1401,19 +1417,21 @@ plots_ds = function(data, data_fluxes) {
                                       aes(x = P,
                                           y = C,
                                           col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = P - PSD,
                      xmax = P + PSD,
                      y = C,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = C - CSD,
       ymax = C + CSD,
       x = P,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Faeces %P",
          y = "Faeces %C") +
@@ -1424,25 +1442,26 @@ plots_ds = function(data, data_fluxes) {
                                       aes(x = P,
                                           y = N,
                                           col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = P - PSD,
                      xmax = P + PSD,
                      y = N,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = N - NSD,
       ymax = N + NSD,
       x = P,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Faeces %P",
          y = "Faeces %N") +
     scale_color_manual(name = 'Diet',
                        values = colours_diet)
-  # No cloaca CNP biplots ####
   
   complete_cnp_plans = ggpubr::ggarrange(
     cn_plan_no_cloaca,
@@ -1490,11 +1509,11 @@ plots_ds = function(data, data_fluxes) {
   # Keep only relevant rows
   
   cnp_gsd <- cnp_gsd |>
-    select(species_latin_name_gbif,
-           component_name,
-           component_mean,
-           body_mass,
-           diet)
+    dplyr::select(species_latin_name_gbif,
+                  component_name,
+                  component_mean,
+                  body_mass,
+                  diet)
   
   # Average over species
   
@@ -1580,26 +1599,34 @@ plots_ds = function(data, data_fluxes) {
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
-    plots_bm[[i]] = ggplot2::ggplot(data_element ,
-                                    aes(
-                                      x = log10(body_mass),
-                                      y = avg_component_mean,
-                                      col = as.factor(diet)
-                                    )) +
+    plots_bm[[i]] = ggplot2::ggplot(
+      data_element ,
+      aes(
+        x = log10(body_mass),
+        y = avg_component_mean,
+        col = as.factor(diet),
+        group = as.factor(diet)
+      )
+    ) +
       ylim(NA, ylim_max) +
-      geom_smooth(method = "lm", color = "black") +
-      geom_point() +
+      geom_point(alpha = 0.7) +
+      geom_smooth(method = "lm",
+                  se = FALSE,
+                  fullrange = TRUE) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
-           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
-      scale_color_manual(name = 'Diet',
-                         values = colours_diet) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+      ) +
       theme(legend.position = "right")
     
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_cloaca.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_bm_cloaca_dg.pdf", sep = ""),
       plot = plots_bm[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1616,7 +1643,7 @@ plots_ds = function(data, data_fluxes) {
                                         col = as.factor(diet)
                                       )) +
       ylim(NA, ylim_max) +
-      geom_smooth(method = "lm", color = "black") +
+      geom_smooth(method = "lm", color = "black")  +
       geom_jitter(
         color = "black",
         width = 0.2,
@@ -1624,11 +1651,15 @@ plots_ds = function(data, data_fluxes) {
         size = 0.4,
         alpha = 0.9
       ) +
-      geom_boxplot(outlier.shape = NA) +
+      geom_boxplot(outlier.shape = NA,
+                   alpha = 0.7) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
-      scale_color_manual(name = 'Diet',
-                         values = colours_diet) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+      ) +
       theme(
         legend.position = "right",
         axis.text.x = element_blank(),
@@ -1757,42 +1788,50 @@ plots_ds = function(data, data_fluxes) {
                                    aes(x = N,
                                        y = C,
                                        col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = N - NSD,
                      xmax = N + NSD,
                      y = C,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = C - CSD,
       ymax = C + CSD,
       x = N,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Waste %N",
          y = "Waste %C") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    scale_color_manual(
+      name = 'Diet',
+      values = colours_diet,
+      breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+    ) +
+    theme(legend.position = 'right')
   
   cp_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
                                    aes(x = P,
                                        y = C,
                                        col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = P - PSD,
                      xmax = P + PSD,
                      y = C,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = C - CSD,
       ymax = C + CSD,
       x = P,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Waste %P",
          y = "Waste %C") +
@@ -1803,19 +1842,21 @@ plots_ds = function(data, data_fluxes) {
                                    aes(x = P,
                                        y = N,
                                        col = as.factor(diet))) +
-    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 0) +
+    geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
                      xmin = P - PSD,
                      xmax = P + PSD,
                      y = N,
-                     colour = diet
+                     colour = diet,
+                     height = 0
                    )) +
     geom_errorbar(data = cnp_plan_data_summary, aes(
       ymin = N - NSD,
       ymax = N + NSD,
       x = P,
-      colour = diet
+      colour = diet,
+      width = 0
     )) +
     labs(x = "Waste %P",
          y = "Waste %N") +
@@ -1839,6 +1880,7 @@ plots_ds = function(data, data_fluxes) {
     legend = "right"
   )
   
+  
   complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans,
                                                bottom = "",
                                                top = "")
@@ -1854,7 +1896,58 @@ plots_ds = function(data, data_fluxes) {
     units = "in"
   )
   
+  # A larger figure combining both cloaca and non cloaca species
   
   
+  complete_cnp_plans_cnc = ggpubr::ggarrange(
+    NULL,
+    NULL,
+    NULL,
+    cn_plan_no_cloaca,
+    cp_plan_no_cloaca,
+    np_plan_no_cloaca,
+    NULL,
+    NULL,
+    NULL,
+    cn_plan_cloaca,
+    cp_plan_cloaca,
+    np_plan_cloaca,
+    ncol = 3,
+    nrow = 4,
+    labels = c("",
+               "",
+               "",
+               "a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.1,
+    label.x = 0,
+    heights = c(0.1, 1, 0.1, 1),
+    widths = c(1, 1, 1),
+    legend.grob = ggpubr::get_legend(cn_plan_cloaca),
+    legend = "right"
+  )
+  
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans_cnc,
+                                               bottom = "",
+                                               top = "")
+  
+  
+  ggsave(
+    filename = "cnp_biplots.pdf",
+    plot = complete_cnp_plans_cnc,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
   
 }
