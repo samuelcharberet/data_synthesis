@@ -81,7 +81,7 @@ plot_ds = function(data, data_f) {
   ##### I. FLUXES #####
   
   data_fluxes = data_f
-
+  
   # Nitrogen ####
   
   lucas_nitrogen = ggplot2::ggplot(data_fluxes ,
@@ -272,9 +272,10 @@ plot_ds = function(data, data_f) {
     stat_smooth(
       method = 'nls',
       formula = 'y~(k*x-E)/x',
-      method.args = list(start = c(k = 50, E = 0)),
-      se = FALSE,
-      colour = "black"
+      method.args = list(start = c(k = 100, E = 0.5)),
+      se = F,
+      colour = "black",
+      fullrange = TRUE
     ) +
     scale_color_manual(values = colours_diet) +
     labs(x = "Diet P (%DM)",
@@ -439,6 +440,37 @@ plot_ds = function(data, data_f) {
     scale = 1,
     width = 7,
     height = 4,
+    units = "in"
+  )
+  
+  # Complete Lucas plots ####
+  np_lucas_plot = ggpubr::ggarrange(
+    lucas_nitrogen,
+    lucas_phosphorus,
+    ncol = 2,
+    nrow = 1,
+    labels = c("a.",
+               "b."),
+    label.y = 1.1,
+    label.x = 0,
+    heights = c(1),
+    widths = c(1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  np_lucas_plot = ggpubr::annotate_figure(np_lucas_plot,
+                                          bottom = "",
+                                          top = "")
+  
+  ggsave(
+    filename = "lucas_np.pdf",
+    plot = np_lucas_plot,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 3,
     units = "in"
   )
   
