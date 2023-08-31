@@ -11,7 +11,7 @@
 #'
 
 model_ds = function(data, data_fluxes) {
-  # Fluxes
+  #### Fluxes ####
   
   # Nitrogen
   # Fit linear and nls models
@@ -93,20 +93,23 @@ model_ds = function(data, data_fluxes) {
     row.names = FALSE
   )
   
-  
+  #### Stocks ####
   # We make a model at the level of species averages as we have traits at this level only (body mass and diet)
   
   # One model for animals with a cloaca, and one for animals without
   
-  # No cloaca ####
+  # Mammals ####
   a_cnp_fsd = read.csv(here::here("1_data",
                                   "a_cnp_fsd.csv"))
   
   a_cnp_fsd$diet = as.factor(a_cnp_fsd$diet)
   a_cnp_fsd = within(a_cnp_fsd, diet <-
-                       relevel(diet, ref = "herbivore"))
-  a_cnp_fsd = a_cnp_fsd[, -which(names(a_cnp_fsd) == "n_obs")]
+                       relevel(diet, ref = "Herbivore"))
+  a_cnp_fsd = a_cnp_fsd[,-which(names(a_cnp_fsd) == "n_obs")]
   a_cnp_fsd = tidyr::pivot_wider(a_cnp_fsd, names_from = "component_name", values_from = "avg_component_mean")
+  
+  
+  
   
   #  lm with diet
   model_c = lm(C ~ diet, a_cnp_fsd)
@@ -115,11 +118,11 @@ model_ds = function(data, data_fluxes) {
   tmodel_n = broom::tidy(model_n)
   model_p = lm(P ~ diet, a_cnp_fsd)
   tmodel_p = broom::tidy(model_p)
-  model_cn = lm(CN ~ diet, a_cnp_fsd)
+  model_cn = lm(`C/N` ~ diet, a_cnp_fsd)
   tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(CP ~ diet, a_cnp_fsd)
+  model_cp = lm(`C/P` ~ diet, a_cnp_fsd)
   tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(NP ~ diet, a_cnp_fsd)
+  model_np = lm(`N/P` ~ diet, a_cnp_fsd)
   tmodel_np = broom::tidy(model_np)
   
   
@@ -180,11 +183,11 @@ model_ds = function(data, data_fluxes) {
   tmodel_n = broom::tidy(model_n)
   model_p = lm(P ~ body_mass * diet, a_cnp_fsd)
   tmodel_p = broom::tidy(model_p)
-  model_cn = lm(CN ~ body_mass * diet, a_cnp_fsd)
+  model_cn = lm(`C/N` ~ body_mass * diet, a_cnp_fsd)
   tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(CP ~ body_mass * diet, a_cnp_fsd)
+  model_cp = lm(`C/P` ~ body_mass * diet, a_cnp_fsd)
   tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(NP ~ body_mass * diet, a_cnp_fsd)
+  model_np = lm(`N/P` ~ body_mass * diet, a_cnp_fsd)
   tmodel_np = broom::tidy(model_np)
   
   
@@ -204,15 +207,15 @@ model_ds = function(data, data_fluxes) {
   )
   
   
-  # Cloaca ####
+  # Non-mammals ####
   
   a_cnp_gsd = read.csv(here::here("1_data",
                                   "a_cnp_gsd.csv"))
   
   a_cnp_gsd$diet = as.factor(a_cnp_gsd$diet)
   a_cnp_gsd = within(a_cnp_gsd, diet <-
-                       relevel(diet, ref = "herbivore"))
-  a_cnp_gsd = a_cnp_gsd[, -which(names(a_cnp_gsd) == "n_obs")]
+                       relevel(diet, ref = "Herbivore"))
+  a_cnp_gsd = a_cnp_gsd[,-which(names(a_cnp_gsd) == "n_obs")]
   a_cnp_gsd = tidyr::pivot_wider(a_cnp_gsd, names_from = "component_name", values_from = "avg_component_mean")
   
   #  lm with diet
@@ -222,11 +225,11 @@ model_ds = function(data, data_fluxes) {
   tmodel_n = broom::tidy(model_n)
   model_p = lm(P ~ diet, a_cnp_gsd)
   tmodel_p = broom::tidy(model_p)
-  model_cn = lm(CN ~ diet, a_cnp_gsd)
+  model_cn = lm(`C/N` ~ diet, a_cnp_gsd)
   tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(CP ~ diet, a_cnp_gsd)
+  model_cp = lm(`C/P` ~ diet, a_cnp_gsd)
   tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(NP ~ diet, a_cnp_gsd)
+  model_np = lm(`N/P` ~ diet, a_cnp_gsd)
   tmodel_np = broom::tidy(model_np)
   
   # Wastes stock data diet models
@@ -255,11 +258,11 @@ model_ds = function(data, data_fluxes) {
   tmodel_n = broom::tidy(model_n)
   model_p = lm(P ~ body_mass * diet, a_cnp_gsd)
   tmodel_p = broom::tidy(model_p)
-  model_cn = lm(CN ~ body_mass * diet, a_cnp_gsd)
+  model_cn = lm(`C/N` ~ body_mass * diet, a_cnp_gsd)
   tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(CP ~ body_mass * diet, a_cnp_gsd)
+  model_cp = lm(`C/P` ~ body_mass * diet, a_cnp_gsd)
   tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(NP ~ body_mass * diet, a_cnp_gsd)
+  model_np = lm(`N/P` ~ body_mass * diet, a_cnp_gsd)
   tmodel_np = broom::tidy(model_np)
   
   

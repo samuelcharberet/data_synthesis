@@ -32,7 +32,6 @@ plot_ds = function(data, data_f) {
     )
   
   # Use mutate() and across() to transform columns matching the strings
-  data$diet = str_to_title(data$diet)
   
   data <- data %>%
     mutate(across(matches(factor_columns), as.factor))
@@ -480,8 +479,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -503,8 +502,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -527,8 +526,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -551,8 +550,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -575,8 +574,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -599,8 +598,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -624,14 +623,15 @@ plot_ds = function(data, data_f) {
   
   ##### Number of reference per year #####
   
+  
   references_and_years  = unique(data[, c("reference_ID", "reference_year")])
   study_counts = table(references_and_years$reference_year)
   study_counts_df = data.frame(year = as.numeric(names(study_counts)), count = as.vector(study_counts))
   
   number_studies_f_time = ggplot(study_counts_df, aes(x = year, y = count)) +
-    geom_area(fill = "#3366CC",
-              color = "black",
-              size = 1.5) +
+    ylim(0, NA) +
+    geom_line(color = "black",
+              linewidth = 1) +
     labs(x = "Year", y = "Number of Studies") +
     scale_x_continuous(breaks = seq(1965, 2020, 5))
   
@@ -829,7 +829,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -858,7 +858,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -918,7 +918,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
+                           keyheight = 1, ),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1106,12 +1106,12 @@ plot_ds = function(data, data_f) {
   
   ##### 2. C, N, P stock plots #####
   
-  # No cloaca CNP diet bodymass plots ####
+  # Mammals CNP diet bodymass plots ####
   
   # For each element, and each ratio, we do plots versus body mass and diet
   # As well as a "chemical plan" plot
   
-  el_ra = c("C", "N", "P", "CN", "CP", "NP")
+  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1126,41 +1126,68 @@ plot_ds = function(data, data_f) {
   a_cnp_fsd = read.csv(here::here("1_data",
                                   "a_cnp_fsd.csv"))
   
+  a_cnp_fsd$diet = factor(a_cnp_fsd$diet,
+                          levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
+  
+  diet_comparisons = list(
+    c("Herbivore", "Omnivore"),
+    c("Herbivore", "Carnivore"),
+    c("Omnivore", "Carnivore")
+  )
+  
   
   for (i in 1:length(el_ra)) {
     data_element = subset(a_cnp_fsd, a_cnp_fsd$component_name == el_ra[i])
-    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.4 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
-    plots_bm[[i]] = ggplot2::ggplot(
-      data_element ,
-      aes(
-        x = log10(body_mass),
-        y = avg_component_mean,
-        col = as.factor(diet),
-        group = as.factor(diet)
-      )
-    ) +
+    plots_bm[[i]] = ggplot2::ggplot(data_element ,
+                                    aes(
+                                      x = log10(body_mass),
+                                      y = avg_component_mean,
+                                      col = diet,
+                                      group = diet
+                                    )) +
       ylim(NA, ylim_max) +
       geom_point(alpha = 0.7) +
-      geom_smooth(method = "lm",
-                  se = FALSE,
-                  fullrange = TRUE) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right")
     
     
+    # Calculate correlations and p-values for each diet group
+    cor_pvals = data_element %>%
+      dplyr::summarise(
+        .by = diet,
+        cor = cor(log10(body_mass), avg_component_mean),
+        p_value = cor.test(log10(body_mass), avg_component_mean)$p.value
+      )
+    
+    # Filter significant diet groups
+    significant_diets = cor_pvals$diet[cor_pvals$p_value < 0.05]
+    
+    # Add geom_smooth() only for significant diet groups
+    for (diet_group in significant_diets) {
+      plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+        data = subset(data_element, diet == diet_group),
+        method = "lm",
+        se = FALSE,
+        fullrange = TRUE,
+        aes(group = NULL)  # Remove grouping to avoid duplicated lines
+      )
+    }
+    
+    
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_no_cloaca_dg.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_bm_mammals_dg.pdf", sep = ""),
       plot = plots_bm[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1186,12 +1213,18 @@ plot_ds = function(data, data_f) {
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
+      stat_compare_means(
+        label = "p.signif",
+        comparisons = diet_comparisons,
+        vjust = 0.6,
+        hide.ns = T
+      ) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(
         legend.position = "right",
@@ -1202,7 +1235,7 @@ plot_ds = function(data, data_f) {
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_diet_no_cloaca.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_diet_mammals.pdf", sep = ""),
       plot = plots_diet[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1215,54 +1248,10 @@ plot_ds = function(data, data_f) {
     
   }
   
-  complete_cnp_plot = ggpubr::ggarrange(
-    plots_bm[[1]],
-    plots_bm[[2]],
-    plots_bm[[3]],
-    NULL,
-    NULL,
-    NULL,
+  cnp_diet_mammals = ggpubr::ggarrange(
     plots_diet[[1]],
     plots_diet[[2]],
     plots_diet[[3]],
-    ncol = 3,
-    nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
-    label.y = 1.16,
-    label.x = 0,
-    heights = c(1, 0.05, 1),
-    widths = c(1, 1, 1),
-    common.legend = TRUE,
-    legend = "right"
-  )
-  
-  complete_cnp_plot = ggpubr::annotate_figure(complete_cnp_plot,
-                                              bottom = "",
-                                              top = "")
-  
-  ggsave(
-    filename = "cnp_dietbm_no_cloaca.pdf",
-    plot = complete_cnp_plot,
-    device = cairo_pdf,
-    path = here::here("2_outputs", "2_figures"),
-    scale = 1,
-    width = 7,
-    height = 4,
-    units = "in"
-  )
-  
-  complete_ratios_plot = ggpubr::ggarrange(
-    plots_bm[[4]],
-    plots_bm[[5]],
-    plots_bm[[6]],
     NULL,
     NULL,
     NULL,
@@ -1283,18 +1272,62 @@ plot_ds = function(data, data_f) {
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  cnp_diet_mammals = ggpubr::annotate_figure(cnp_diet_mammals,
+                                             bottom = "",
+                                             top = "")
+  
+  ggsave(
+    filename = "cnp_diet_mammals.pdf",
+    plot = cnp_diet_mammals,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  cnp_bm_mammals = ggpubr::ggarrange(
+    plots_bm[[1]],
+    plots_bm[[2]],
+    plots_bm[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_bm[[4]],
+    plots_bm[[5]],
+    plots_bm[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
     widths = c(1, 1, 1, 1),
     common.legend = TRUE,
     legend = "right"
   )
   
-  complete_ratios_plot = ggpubr::annotate_figure(complete_ratios_plot,
-                                                 bottom = "",
-                                                 top = "")
+  cnp_bm_mammals = ggpubr::annotate_figure(cnp_bm_mammals,
+                                           bottom = "",
+                                           top = "")
   
   ggsave(
-    filename = "ratios_dietbm_no_cloaca.pdf",
-    plot = complete_ratios_plot,
+    filename = "cnp_bm_mammals.pdf",
+    plot = cnp_bm_mammals,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
     scale = 1,
@@ -1305,7 +1338,7 @@ plot_ds = function(data, data_f) {
   
   # We do %C, N% and %P biplots with averages and sd per diet group
   
-  # No cloaca CNP biplots ####
+  # Mammals CNP biplots ####
   
   
   cnp_plan_data = pivot_wider(a_cnp_fsd, names_from = "component_name", values_from = "avg_component_mean")
@@ -1322,10 +1355,10 @@ plot_ds = function(data, data_f) {
   )
   names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
   
-  cn_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                      aes(x = N,
-                                          y = C,
-                                          col = as.factor(diet))) +
+  cn_plan_mammals = ggplot2::ggplot(cnp_plan_data,
+                                    aes(x = N,
+                                        y = C,
+                                        col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1347,10 +1380,10 @@ plot_ds = function(data, data_f) {
     scale_color_manual(name = 'Diet',
                        values = colours_diet)
   
-  cp_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                      aes(x = P,
-                                          y = C,
-                                          col = as.factor(diet))) +
+  cp_plan_mammals = ggplot2::ggplot(cnp_plan_data,
+                                    aes(x = P,
+                                        y = C,
+                                        col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1372,10 +1405,10 @@ plot_ds = function(data, data_f) {
     scale_color_manual(name = 'Diet',
                        values = colours_diet)
   
-  np_plan_no_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                      aes(x = P,
-                                          y = N,
-                                          col = as.factor(diet))) +
+  np_plan_mammals = ggplot2::ggplot(cnp_plan_data,
+                                    aes(x = P,
+                                        y = N,
+                                        col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1398,9 +1431,9 @@ plot_ds = function(data, data_f) {
                        values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(
-    cn_plan_no_cloaca,
-    cp_plan_no_cloaca,
-    np_plan_no_cloaca,
+    cn_plan_mammals,
+    cp_plan_mammals,
+    np_plan_mammals,
     ncol = 3,
     nrow = 1,
     labels = c("a.",
@@ -1419,7 +1452,7 @@ plot_ds = function(data, data_f) {
                                                top = "")
   
   ggsave(
-    filename = "cnp_biplots_no_cloaca.pdf",
+    filename = "cnp_biplots_mammals.pdf",
     plot = complete_cnp_plans,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -1429,12 +1462,13 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Cloaca frass and guano plots #####
+  
+  ##### Non-mammals frass and guano plots #####
   
   # For each element, and each ratio, we do plots versus body mass and diet
   
   
-  el_ra = c("C", "N", "P", "CN", "CP", "NP")
+  el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1449,11 +1483,35 @@ plot_ds = function(data, data_f) {
   a_cnp_gsd = read.csv(here::here("1_data",
                                   "a_cnp_gsd.csv"))
   
-  # Cloaca CNP diet bodymass plots ####
+  a_cnp_gsd$diet = factor(a_cnp_gsd$diet,
+                          levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
+  
+  diet_comparisons = list(
+    c("Herbivore", "Omnivore"),
+    c("Herbivore", "Carnivore"),
+    c("Herbivore", "Detritivore"),
+    c("Omnivore", "Carnivore"),
+    c("Omnivore", "Detritivore"),
+    c("Carnivore", "Detritivore")
+  )
+  
+  # Non-mammals CNP diet bodymass plots ####
   
   for (i in 1:length(el_ra)) {
     data_element = subset(a_cnp_gsd, a_cnp_gsd$component_name == el_ra[i])
-    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+    
+    # Filter out diets with less than 3 rows
+    data_element = data_element %>%
+      group_by(diet) %>%
+      filter(!is.na(avg_component_mean)) %>%
+      filter(n() >= 3) %>%
+      ungroup() %>%
+      droplevels()
+    
+    ylim_max_bm = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+      max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
+    )
+    ylim_max_diet = max(data_element$avg_component_mean, na.rm = T) + 0.7 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
@@ -1466,25 +1524,44 @@ plot_ds = function(data, data_f) {
         group = as.factor(diet)
       )
     ) +
-      ylim(NA, ylim_max) +
+      ylim(NA, ylim_max_bm) +
       geom_point(alpha = 0.7) +
-      geom_smooth(method = "lm",
-                  se = FALSE,
-                  fullrange = TRUE) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+        breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right")
+    
+    # Calculate correlations and p-values for each diet group
+    cor_pvals = data_element %>%
+      dplyr::summarise(
+        .by = diet,
+        cor = cor(log10(body_mass), avg_component_mean),
+        p_value = cor.test(log10(body_mass), avg_component_mean, method = "pearson")$p.value
+      )
+    
+    # Filter significant diet groups
+    significant_diets = cor_pvals$diet[cor_pvals$p_value < 0.05]
+    
+    # Add geom_smooth() only for significant diet groups
+    for (diet_group in significant_diets) {
+      plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+        data = subset(data_element, diet == diet_group),
+        method = "lm",
+        se = FALSE,
+        fullrange = TRUE,
+        aes(group = NULL)  # Remove grouping to avoid duplicated lines
+      )
+    }
     
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_cloaca_dg.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_bm_nonmammals_dg.pdf", sep = ""),
       plot = plots_bm[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1500,7 +1577,7 @@ plot_ds = function(data, data_f) {
                                         y = avg_component_mean,
                                         col = as.factor(diet)
                                       )) +
-      ylim(NA, ylim_max) +
+      ylim(NA, ylim_max_diet) +
       geom_smooth(method = "lm", color = "black")  +
       geom_jitter(
         color = "black",
@@ -1511,12 +1588,18 @@ plot_ds = function(data, data_f) {
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
+      stat_compare_means(
+        label = "p.signif",
+        comparisons = diet_comparisons,
+        vjust = 0.6,
+        hide.ns = T
+      ) +
       labs(x = "Diet",
            y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore', 'Carnivore', 'Omnivore', 'Detritivore')
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(
         legend.position = "right",
@@ -1527,7 +1610,7 @@ plot_ds = function(data, data_f) {
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_diet_cloaca.pdf", sep = ""),
+      filename = paste(filenames[i], "_&_diet_nonmammals.pdf", sep = ""),
       plot = plots_diet[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
@@ -1538,54 +1621,10 @@ plot_ds = function(data, data_f) {
     )
   }
   
-  complete_cnp_plot = ggpubr::ggarrange(
-    plots_bm[[1]],
-    plots_bm[[2]],
-    plots_bm[[3]],
-    NULL,
-    NULL,
-    NULL,
+  cnp_diet_nonmammals = ggpubr::ggarrange(
     plots_diet[[1]],
     plots_diet[[2]],
     plots_diet[[3]],
-    ncol = 3,
-    nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
-    label.y = 1.16,
-    label.x = 0,
-    heights = c(1, 0.05, 1),
-    widths = c(1, 1, 1, 1),
-    common.legend = TRUE,
-    legend = "right"
-  )
-  
-  complete_cnp_plot = ggpubr::annotate_figure(complete_cnp_plot,
-                                              bottom = "",
-                                              top = "")
-  
-  ggsave(
-    filename = "cnp_dietbm_cloaca.pdf",
-    plot = complete_cnp_plot,
-    device = cairo_pdf,
-    path = here::here("2_outputs", "2_figures"),
-    scale = 1,
-    width = 7,
-    height = 4,
-    units = "in"
-  )
-  
-  complete_ratios_plot = ggpubr::ggarrange(
-    plots_bm[[4]],
-    plots_bm[[5]],
-    plots_bm[[6]],
     NULL,
     NULL,
     NULL,
@@ -1606,18 +1645,18 @@ plot_ds = function(data, data_f) {
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
-    widths = c(1, 1, 1, 1),
-    common.legend = TRUE,
+    widths = c(1, 1, 1),
+    legend.grob = ggpubr::get_legend(plots_diet[[2]]),
     legend = "right"
   )
   
-  complete_ratios_plot = ggpubr::annotate_figure(complete_ratios_plot,
-                                                 bottom = "",
-                                                 top = "")
+  cnp_diet_nonmammals = ggpubr::annotate_figure(cnp_diet_nonmammals,
+                                                bottom = "",
+                                                top = "")
   
   ggsave(
-    filename = "ratios_dietbm_cloaca.pdf",
-    plot = complete_ratios_plot,
+    filename = "cnp_diet_nonmammals.pdf",
+    plot = cnp_diet_nonmammals,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
     scale = 1,
@@ -1626,7 +1665,51 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Cloaca CNP biplots ####
+  cnp_bm_nonmammals = ggpubr::ggarrange(
+    plots_bm[[1]],
+    plots_bm[[2]],
+    plots_bm[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_bm[[4]],
+    plots_bm[[5]],
+    plots_bm[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    legend.grob = ggpubr::get_legend(plots_bm[[2]]),
+    legend = "right"
+  )
+  
+  cnp_bm_nonmammals = ggpubr::annotate_figure(cnp_bm_nonmammals,
+                                              bottom = "",
+                                              top = "")
+  
+  ggsave(
+    filename = "cnp_bm_nonmammals.pdf",
+    plot = cnp_bm_nonmammals,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
+  # Non-mammals CNP biplots ####
   
   cnp_plan_data = pivot_wider(a_cnp_gsd, names_from = "component_name", values_from = "avg_component_mean")
   cnp_plan_data_summary = ddply(
@@ -1642,10 +1725,10 @@ plot_ds = function(data, data_f) {
   )
   names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
   
-  cn_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                   aes(x = N,
-                                       y = C,
-                                       col = as.factor(diet))) +
+  cn_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
+                                       aes(x = N,
+                                           y = C,
+                                           col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1671,10 +1754,10 @@ plot_ds = function(data, data_f) {
     ) +
     theme(legend.position = 'right')
   
-  cp_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                   aes(x = P,
-                                       y = C,
-                                       col = as.factor(diet))) +
+  cp_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
+                                       aes(x = P,
+                                           y = C,
+                                           col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1696,10 +1779,10 @@ plot_ds = function(data, data_f) {
     scale_color_manual(name = 'Diet',
                        values = colours_diet)
   
-  np_plan_cloaca = ggplot2::ggplot(cnp_plan_data,
-                                   aes(x = P,
-                                       y = N,
-                                       col = as.factor(diet))) +
+  np_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
+                                       aes(x = P,
+                                           y = N,
+                                           col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1722,9 +1805,9 @@ plot_ds = function(data, data_f) {
                        values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(
-    cn_plan_cloaca,
-    cp_plan_cloaca,
-    np_plan_cloaca,
+    cn_plan_nonmammals,
+    cp_plan_nonmammals,
+    np_plan_nonmammals,
     ncol = 3,
     nrow = 1,
     labels = c("a.",
@@ -1744,7 +1827,7 @@ plot_ds = function(data, data_f) {
                                                top = "")
   
   ggsave(
-    filename = "cnp_biplots_cloaca.pdf",
+    filename = "cnp_biplots_nonmammals.pdf",
     plot = complete_cnp_plans,
     device = cairo_pdf,
     path = here::here("2_outputs", "2_figures"),
@@ -1754,22 +1837,22 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # A larger figure combining both cloaca and non cloaca species
+  # A larger figure combining both nonmammals and non cloaca species
   
   
   complete_cnp_plans_cnc = ggpubr::ggarrange(
     NULL,
     NULL,
     NULL,
-    cn_plan_no_cloaca,
-    cp_plan_no_cloaca,
-    np_plan_no_cloaca,
+    cn_plan_mammals,
+    cp_plan_mammals,
+    np_plan_mammals,
     NULL,
     NULL,
     NULL,
-    cn_plan_cloaca,
-    cp_plan_cloaca,
-    np_plan_cloaca,
+    cn_plan_nonmammals,
+    cp_plan_nonmammals,
+    np_plan_nonmammals,
     ncol = 3,
     nrow = 4,
     labels = c("",
@@ -1788,7 +1871,7 @@ plot_ds = function(data, data_f) {
     label.x = 0,
     heights = c(0.1, 1, 0.1, 1),
     widths = c(1, 1, 1),
-    legend.grob = ggpubr::get_legend(cn_plan_cloaca),
+    legend.grob = ggpubr::get_legend(cn_plan_nonmammals),
     legend = "right"
   )
   

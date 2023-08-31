@@ -26,7 +26,10 @@ tar_option_set(
     "ggtree",
     "ggtreeExtra",
     "ggnewscale",
-    "ggtext"
+    "ggtext",
+    "FactoMineR",
+    "factoextra",
+    "ggpubr"
   )
 )
 

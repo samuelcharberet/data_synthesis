@@ -30,6 +30,7 @@ library(ggtext)
 library(ape)
 library(nlme)
 library(caper)
+library(ggpubr)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 
@@ -64,6 +65,6 @@ data_traits = load_dt(data_traits_file)
 
 data = combine_nutrients_traits(data_nutrients, data_traits)
 
-plots_ds(data, data_fluxes)
+plots_ds(data = data, data_f = data_fluxes)
 
-model_ds(data, data_fluxes)
+model_ds(data = data, data_f = data_fluxes)

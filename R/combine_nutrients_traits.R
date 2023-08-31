@@ -25,10 +25,10 @@ combine_nutrients_traits = function(data_n, data_t) {
   
   for (i in 1:n_species) {
     row_species = which(data$species == species[i])
-    species_body_mass = data_traits[i, ]$body_mass
-    species_diet = data_traits[i, ]$diet
-    data[row_species, ]$body_mass = species_body_mass
-    data[row_species, ]$diet = species_diet
+    species_body_mass = data_traits[i,]$body_mass
+    species_diet = data_traits[i,]$diet
+    data[row_species,]$body_mass = species_body_mass
+    data[row_species,]$diet = species_diet
   }
   
   ###### Structuration of the table ######
@@ -59,7 +59,16 @@ combine_nutrients_traits = function(data_n, data_t) {
   
   #### No cloaca (mammals) species averages with body mass and diet ####
   
+  # Re-order the diet factor
+  
+  data$diet = str_to_title(data$diet)
+  data$diet = str_to_title(data$diet)
+  data$diet = factor(data$diet,
+                     levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
+  
+  
   # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
+  
   
   data <- data |>
     filter(component_weight_type != "fw")
@@ -107,7 +116,7 @@ combine_nutrients_traits = function(data_n, data_t) {
                    a_cnp_fsd$component_name == "P")
     cn_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CN",
+      component_name = "C/N",
       avg_component_mean = ifelse(
         any(crow) &&
           any(nrow),
@@ -117,13 +126,13 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"),]),
+                                        cnp_fsd$component_name == "C"), ]),
                    nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "N"),]))
+                                        cnp_fsd$component_name == "N"), ]))
     )
     cp_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CP",
+      component_name = "C/P",
       avg_component_mean = ifelse(
         any(crow) &&
           any(prow),
@@ -133,13 +142,13 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"),]),
+                                        cnp_fsd$component_name == "C"), ]),
                    nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "P"),]))
+                                        cnp_fsd$component_name == "P"), ]))
     )
     np_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "NP",
+      component_name = "N/P",
       avg_component_mean = ifelse(
         any(nrow) &&
           any(prow),
@@ -149,9 +158,9 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "N"),]),
+                                        cnp_fsd$component_name == "N"), ]),
                    nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "P"),]))
+                                        cnp_fsd$component_name == "P"), ]))
     )
     
     # Add Row using rbind()
@@ -208,7 +217,7 @@ combine_nutrients_traits = function(data_n, data_t) {
                    a_cnp_gsd$component_name == "P")
     cn_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CN",
+      component_name = "C/N",
       avg_component_mean = ifelse(
         any(crow) &&
           any(nrow),
@@ -218,13 +227,13 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "C"),]),
+                                        cnp_gsd$component_name == "C"), ]),
                    nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "N"),]))
+                                        cnp_gsd$component_name == "N"), ]))
     )
     cp_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "CP",
+      component_name = "C/P",
       avg_component_mean = ifelse(
         any(crow) &&
           any(prow),
@@ -234,13 +243,13 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "C"),]),
+                                        cnp_gsd$component_name == "C"), ]),
                    nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "P"),]))
+                                        cnp_gsd$component_name == "P"), ]))
     )
     np_row = data.frame(
       species_latin_name_gbif = i,
-      component_name = "NP",
+      component_name = "N/P",
       avg_component_mean = ifelse(
         any(nrow) &&
           any(prow),
@@ -250,9 +259,9 @@ combine_nutrients_traits = function(data_n, data_t) {
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
       diet = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "diet"],
       n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "N"),]),
+                                        cnp_gsd$component_name == "N"), ]),
                    nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "P"),]))
+                                        cnp_gsd$component_name == "P"), ]))
     )
     
     # Add Row using rbind()
