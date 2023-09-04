@@ -29,7 +29,8 @@ tar_option_set(
     "ggtext",
     "FactoMineR",
     "factoextra",
-    "ggpubr"
+    "ggpubr",
+    "rstatix"
   )
 )
 

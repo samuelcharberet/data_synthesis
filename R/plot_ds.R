@@ -479,8 +479,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -502,8 +502,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -526,8 +526,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -550,8 +550,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -574,8 +574,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -598,8 +598,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -829,7 +829,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -858,7 +858,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -918,7 +918,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1, ),
+                           keyheight = 1,),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1138,6 +1138,15 @@ plot_ds = function(data, data_f) {
   
   for (i in 1:length(el_ra)) {
     data_element = subset(a_cnp_fsd, a_cnp_fsd$component_name == el_ra[i])
+    
+    # Filter out diets with less than 3 rows
+    data_element = data_element %>%
+      group_by(diet) %>%
+      filter(!is.na(avg_component_mean)) %>%
+      filter(n() >= 3) %>%
+      ungroup() %>%
+      droplevels()
+    
     ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.4 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
@@ -1163,15 +1172,17 @@ plot_ds = function(data, data_f) {
     
     
     # Calculate correlations and p-values for each diet group
-    cor_pvals = data_element %>%
+    lm_pvals = data_element %>%
       dplyr::summarise(
         .by = diet,
         cor = cor(log10(body_mass), avg_component_mean),
-        p_value = cor.test(log10(body_mass), avg_component_mean)$p.value
+        p_value = summary(lm(
+          avg_component_mean ~ log10(body_mass)
+        ))$coefficients[2, 4]
       )
     
     # Filter significant diet groups
-    significant_diets = cor_pvals$diet[cor_pvals$p_value < 0.05]
+    significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
     
     # Add geom_smooth() only for significant diet groups
     for (diet_group in significant_diets) {
@@ -1197,13 +1208,20 @@ plot_ds = function(data, data_f) {
       units = "in"
     )
     
+    wilcox_test = data_element %>%
+      wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
+      adjust_pvalue(method = "holm") %>%
+      add_significance("p.adj") %>%
+      add_xy_position(x = "diet",
+                      step.increase = 0.4)
+    
+    
     plots_diet[[i]] = ggplot2::ggplot(data_element,
                                       aes(
                                         x = diet,
                                         y = avg_component_mean,
                                         col = as.factor(diet)
                                       )) +
-      ylim(NA, ylim_max) +
       geom_jitter(
         color = "black",
         width = 0.2,
@@ -1213,10 +1231,10 @@ plot_ds = function(data, data_f) {
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
-      stat_compare_means(
-        label = "p.signif",
-        comparisons = diet_comparisons,
-        vjust = 0.6,
+      stat_pvalue_manual(
+        wilcox_test,
+        label = "p.adj.signif",
+        tip.length = 0,
         hide.ns = T
       ) +
       labs(x = "Diet",
@@ -1230,7 +1248,8 @@ plot_ds = function(data, data_f) {
         legend.position = "right",
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
-      )
+      ) +
+      scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
     
     
     # Save each plot
@@ -1537,15 +1556,17 @@ plot_ds = function(data, data_f) {
       theme(legend.position = "right")
     
     # Calculate correlations and p-values for each diet group
-    cor_pvals = data_element %>%
+    lm_pvals = data_element %>%
       dplyr::summarise(
         .by = diet,
         cor = cor(log10(body_mass), avg_component_mean),
-        p_value = cor.test(log10(body_mass), avg_component_mean, method = "pearson")$p.value
+        p_value = summary(lm(
+          avg_component_mean ~ log10(body_mass)
+        ))$coefficients[2, 4]
       )
     
     # Filter significant diet groups
-    significant_diets = cor_pvals$diet[cor_pvals$p_value < 0.05]
+    significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
     
     # Add geom_smooth() only for significant diet groups
     for (diet_group in significant_diets) {
@@ -1571,13 +1592,19 @@ plot_ds = function(data, data_f) {
       units = "in"
     )
     
+    wilcox_test = data_element %>%
+      wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
+      adjust_pvalue(method = "holm") %>%
+      add_significance("p.adj") %>%
+      add_xy_position(x = "diet",
+                      step.increase = 0.2)
+    
     plots_diet[[i]] = ggplot2::ggplot(data_element ,
                                       aes(
                                         x = diet,
                                         y = avg_component_mean,
                                         col = as.factor(diet)
                                       )) +
-      ylim(NA, ylim_max_diet) +
       geom_smooth(method = "lm", color = "black")  +
       geom_jitter(
         color = "black",
@@ -1588,10 +1615,10 @@ plot_ds = function(data, data_f) {
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
-      stat_compare_means(
-        label = "p.signif",
-        comparisons = diet_comparisons,
-        vjust = 0.6,
+      stat_pvalue_manual(
+        wilcox_test,
+        label = "p.adj.signif",
+        tip.length = 0,
         hide.ns = T
       ) +
       labs(x = "Diet",
@@ -1605,7 +1632,8 @@ plot_ds = function(data, data_f) {
         legend.position = "right",
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
-      )
+      ) +
+      scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
     
     
     # Save each plot
