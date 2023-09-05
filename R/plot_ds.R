@@ -803,7 +803,7 @@ plot_ds = function(data, data_f) {
   )
   
   
-  ##### A phylogenetic with diet, bodymasses distribution and sample type #####
+  ##### A phylogenetic tree with diet, bodymasses distribution and sample type #####
   taxize_classes = readRDS(file = here::here("1_data",
                                              "4_data_taxonomy",
                                              "taxize_classes.RData"))
@@ -1213,7 +1213,7 @@ plot_ds = function(data, data_f) {
       adjust_pvalue(method = "holm") %>%
       add_significance("p.adj") %>%
       add_xy_position(x = "diet",
-                      step.increase = 0.4)
+                      step.increase = 0.2)
     
     
     plots_diet[[i]] = ggplot2::ggplot(data_element,
@@ -1248,10 +1248,21 @@ plot_ds = function(data, data_f) {
         legend.position = "right",
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
-      ) +
-      scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+      )
     
-    
+    if (length(levels(data_element$diet)) >= 3) {
+      plots_diet[[i]] = plots_diet[[i]] +
+        stat_compare_means(
+          method = "kruskal.test",
+          label = "p.signif",
+          col = "grey70",
+          label.x.npc = 'center',
+          label.y.npc = 'top',
+          size = 7,
+          hide.ns = T
+        ) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.3)))
+    }
     # Save each plot
     ggsave(
       filename = paste(filenames[i], "_&_diet_mammals.pdf", sep = ""),
@@ -1632,9 +1643,21 @@ plot_ds = function(data, data_f) {
         legend.position = "right",
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
-      ) +
-      scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+      )
     
+    if (length(levels(data_element$diet)) >= 3) {
+      plots_diet[[i]] = plots_diet[[i]] +
+        stat_compare_means(
+          method = "kruskal.test",
+          label = "p.signif",
+          col = "grey70",
+          label.x.npc = 'center',
+          label.y.npc = 'top',
+          size = 7,
+          hide.ns = T
+        ) +
+        scale_y_continuous(expand = expansion(mult = c(0, 0.3)))
+    }
     
     # Save each plot
     ggsave(
