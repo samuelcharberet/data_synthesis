@@ -30,7 +30,8 @@ tar_option_set(
     "FactoMineR",
     "factoextra",
     "ggpubr",
-    "rstatix"
+    "rstatix",
+    "ggrepel"
   )
 )
 

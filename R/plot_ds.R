@@ -479,8 +479,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -502,8 +502,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -526,8 +526,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -550,8 +550,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -574,8 +574,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -598,8 +598,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -829,7 +829,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -858,7 +858,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -918,7 +918,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
+                           keyheight = 1, ),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1158,7 +1158,6 @@ plot_ds = function(data, data_f) {
                                       col = diet,
                                       group = diet
                                     )) +
-      ylim(NA, ylim_max) +
       geom_point(alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
@@ -1195,7 +1194,18 @@ plot_ds = function(data, data_f) {
       )
     }
     
-    
+    if (length(significant_diets) > 0) {
+      plots_bm[[i]] = plots_bm[[i]] +
+        ylim(NA, ylim_max) +
+        stat_cor(
+          data = filter(data_element, diet %in% significant_diets),
+          aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
+          size = 2.2,
+          label.x.npc = 0,
+          label.y.npc = 1,
+          geom = "text"
+        )
+    }
     # Save each plot
     ggsave(
       filename = paste(filenames[i], "_&_bm_mammals_dg.pdf", sep = ""),
@@ -1590,6 +1600,18 @@ plot_ds = function(data, data_f) {
       )
     }
     
+    if (length(significant_diets) > 0) {
+      plots_bm[[i]] = plots_bm[[i]] +
+        ylim(NA, ylim_max) +
+        stat_cor(
+          data = filter(data_element, diet %in% significant_diets),
+          aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
+          size = 2.2,
+          label.x.npc = 0,
+          label.y.npc = 1,
+          geom = "text"
+        )
+    }
     
     # Save each plot
     ggsave(
