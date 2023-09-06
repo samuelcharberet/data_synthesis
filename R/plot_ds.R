@@ -1156,9 +1156,9 @@ plot_ds = function(data, data_f) {
                                       x = log10(body_mass),
                                       y = avg_component_mean,
                                       col = diet,
-                                      group = diet
+                                      group = diet,
                                     )) +
-      geom_point(alpha = 0.7) +
+      geom_point(shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
@@ -1237,7 +1237,8 @@ plot_ds = function(data, data_f) {
         width = 0.2,
         height = 0.2,
         size = 0.4,
-        alpha = 0.9
+        alpha = 0.9,
+        shape = 16
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
@@ -1565,7 +1566,7 @@ plot_ds = function(data, data_f) {
       )
     ) +
       ylim(NA, ylim_max_bm) +
-      geom_point(alpha = 0.7) +
+      geom_point(shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
       theme(axis.title.x = element_markdown()) +
@@ -1644,7 +1645,8 @@ plot_ds = function(data, data_f) {
         width = 0.2,
         height = 0.2,
         size = 0.4,
-        alpha = 0.9
+        alpha = 0.9,
+        shape = 16
       ) +
       geom_boxplot(outlier.shape = NA,
                    alpha = 0.7) +
