@@ -1172,26 +1172,24 @@ plot_ds = function(data, data_f) {
     
     # Calculate correlations and p-values for each diet group
     lm_pvals = data_element %>%
-      dplyr::summarise(
-        .by = diet,
-        cor = cor(log10(body_mass), avg_component_mean),
-        p_value = summary(lm(
-          avg_component_mean ~ log10(body_mass)
-        ))$coefficients[2, 4]
-      )
+      dplyr::summarise(.by = diet,
+                       p_value = summary(lm(
+                         avg_component_mean ~ log10(body_mass)
+                       ))$coefficients[2, 4])
     
     # Filter significant diet groups
     significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
     
     # Add geom_smooth() only for significant diet groups
-    for (diet_group in significant_diets) {
-      plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
-        data = subset(data_element, diet == diet_group),
-        method = "lm",
-        se = FALSE,
-        fullrange = TRUE,
-        aes(group = NULL)  # Remove grouping to avoid duplicated lines
-      )
+    if (length(significant_diets) > 0) {
+      for (j in 1:length(significant_diets)) {
+        plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+          data = subset(data_element, diet == significant_diets[j]),
+          method = "lm",
+          se = FALSE,
+          fullrange = TRUE
+        )
+      }
     }
     
     if (length(significant_diets) > 0) {
@@ -1218,12 +1216,14 @@ plot_ds = function(data, data_f) {
       units = "in"
     )
     
-    wilcox_test = data_element %>%
-      wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
-      adjust_pvalue(method = "holm") %>%
-      add_significance("p.adj") %>%
-      add_xy_position(x = "diet",
-                      step.increase = 0.2)
+    if (length(levels(data_element$diet)) > 1) {
+      wilcox_test = data_element %>%
+        wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
+        adjust_pvalue(method = "holm") %>%
+        add_significance("p.adj") %>%
+        add_xy_position(x = "diet",
+                        step.increase = 0.2)
+    }
     
     
     plots_diet[[i]] = ggplot2::ggplot(data_element,
@@ -1545,14 +1545,14 @@ plot_ds = function(data, data_f) {
     data_element = data_element %>%
       group_by(diet) %>%
       filter(!is.na(avg_component_mean)) %>%
-      filter(n() >= 3) %>%
+      filter(n() >= 5) %>%
       ungroup() %>%
       droplevels()
     
     ylim_max_bm = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
-    ylim_max_diet = max(data_element$avg_component_mean, na.rm = T) + 0.7 * (
+    ylim_max_diet = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
@@ -1577,33 +1577,31 @@ plot_ds = function(data, data_f) {
       ) +
       theme(legend.position = "right")
     
-    # Calculate correlations and p-values for each diet group
+    # Calculate lm and p-values for each diet group
     lm_pvals = data_element %>%
-      dplyr::summarise(
-        .by = diet,
-        cor = cor(log10(body_mass), avg_component_mean),
-        p_value = summary(lm(
-          avg_component_mean ~ log10(body_mass)
-        ))$coefficients[2, 4]
-      )
+      dplyr::summarise(.by = diet,
+                       p_value = summary(lm(
+                         avg_component_mean ~ log10(body_mass)
+                       ))$coefficients[2, 4])
     
     # Filter significant diet groups
     significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
     
     # Add geom_smooth() only for significant diet groups
-    for (diet_group in significant_diets) {
-      plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
-        data = subset(data_element, diet == diet_group),
-        method = "lm",
-        se = FALSE,
-        fullrange = TRUE,
-        aes(group = NULL)  # Remove grouping to avoid duplicated lines
-      )
+    if (length(significant_diets) > 0) {
+      for (j in 1:length(significant_diets)) {
+        plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+          data = subset(data_element, diet == significant_diets[j]),
+          method = "lm",
+          se = FALSE,
+          fullrange = TRUE
+        )
+      }
     }
     
     if (length(significant_diets) > 0) {
       plots_bm[[i]] = plots_bm[[i]] +
-        ylim(NA, ylim_max) +
+        ylim(NA, ylim_max_bm) +
         stat_cor(
           data = filter(data_element, diet %in% significant_diets),
           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
@@ -1626,12 +1624,14 @@ plot_ds = function(data, data_f) {
       units = "in"
     )
     
-    wilcox_test = data_element %>%
-      wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
-      adjust_pvalue(method = "holm") %>%
-      add_significance("p.adj") %>%
-      add_xy_position(x = "diet",
-                      step.increase = 0.2)
+    if (length(levels(data_element$diet)) > 1) {
+      wilcox_test = data_element %>%
+        wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
+        adjust_pvalue(method = "holm") %>%
+        add_significance("p.adj") %>%
+        add_xy_position(x = "diet",
+                        step.increase = 0.2)
+    }
     
     plots_diet[[i]] = ggplot2::ggplot(data_element ,
                                       aes(
