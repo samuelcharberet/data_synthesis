@@ -1118,10 +1118,12 @@ plot_ds = function(data, data_f) {
   variables = c("body_mass", "diet")
   nb_variables = length(variables)
   
-  plots_bm = vector("list", nb_elements)
-  names(plots_bm) = el_ra
+  plots_bm_diet = vector("list", nb_elements)
+  names(plots_bm_diet) = el_ra
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
+  plots_bm = vector("list", nb_elements)
+  names(plots_bm) = el_ra
   
   a_cnp_fsd = read.csv(here::here("1_data",
                                   "a_cnp_fsd.csv"))
@@ -1151,13 +1153,61 @@ plot_ds = function(data, data_f) {
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
+    # The body mass plot
+    
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
-                                    aes(
-                                      x = log10(body_mass),
-                                      y = avg_component_mean,
-                                      col = diet,
-                                      group = diet,
-                                    )) +
+                                    aes(x = log10(body_mass),
+                                        y = avg_component_mean, )) +
+      geom_point(aes(col = diet),
+                 shape = 16,
+                 alpha = 0.7) +
+      labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
+           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+      theme(axis.title.x = element_markdown()) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
+      ) +
+      theme(legend.position = "right") +
+      geom_smooth(
+        method = "lm",
+        se = FALSE,
+        fullrange = TRUE,
+        col = "black"
+      ) +
+      ylim(NA, ylim_max) +
+      stat_cor(
+        aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
+        size = 2.2,
+        label.x.npc = 0,
+        label.y.npc = 1,
+        geom = "text"
+      )
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_bm_mammals.pdf", sep = ""),
+      plot = plots_bm[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+    
+    
+    # The body mass diet plot
+    
+    
+    plots_bm_diet[[i]] = ggplot2::ggplot(data_element ,
+                                         aes(
+                                           x = log10(body_mass),
+                                           y = avg_component_mean,
+                                           col = diet,
+                                           group = diet,
+                                         )) +
       geom_point(shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
@@ -1183,7 +1233,7 @@ plot_ds = function(data, data_f) {
     # Add geom_smooth() only for significant diet groups
     if (length(significant_diets) > 0) {
       for (j in 1:length(significant_diets)) {
-        plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+        plots_bm_diet[[i]] = plots_bm_diet[[i]] + geom_smooth(
           data = subset(data_element, diet == significant_diets[j]),
           method = "lm",
           se = FALSE,
@@ -1193,7 +1243,7 @@ plot_ds = function(data, data_f) {
     }
     
     if (length(significant_diets) > 0) {
-      plots_bm[[i]] = plots_bm[[i]] +
+      plots_bm_diet[[i]] = plots_bm_diet[[i]] +
         ylim(NA, ylim_max) +
         stat_cor(
           data = filter(data_element, diet %in% significant_diets),
@@ -1206,8 +1256,8 @@ plot_ds = function(data, data_f) {
     }
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_mammals_dg.pdf", sep = ""),
-      plot = plots_bm[[i]],
+      filename = paste(filenames[i], "_&_bm_&_diet_mammals_dg.pdf", sep = ""),
+      plot = plots_bm_diet[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
       scale = 1,
@@ -1225,6 +1275,8 @@ plot_ds = function(data, data_f) {
                         step.increase = 0.2)
     }
     
+    
+    # The diet plot
     
     plots_diet[[i]] = ggplot2::ggplot(data_element,
                                       aes(
@@ -1377,6 +1429,50 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
+  cnp_bm_diet_mammals = ggpubr::ggarrange(
+    plots_bm_diet[[1]],
+    plots_bm_diet[[2]],
+    plots_bm_diet[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_bm_diet[[4]],
+    plots_bm_diet[[5]],
+    plots_bm_diet[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    common.legend = TRUE,
+    legend = "right"
+  )
+  
+  cnp_bm_diet_mammals = ggpubr::annotate_figure(cnp_bm_diet_mammals,
+                                                bottom = "",
+                                                top = "")
+  
+  ggsave(
+    filename = "cnp_bm_diet_mammals.pdf",
+    plot = cnp_bm_diet_mammals,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
   # We do %C, N% and %P biplots with averages and sd per diet group
   
   # Mammals CNP biplots ####
@@ -1518,6 +1614,8 @@ plot_ds = function(data, data_f) {
   
   plots_bm = vector("list", nb_elements)
   names(plots_bm) = el_ra
+  plots_bm_diet = vector("list", nb_elements)
+  names(plots_bm_diet) = el_ra
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
   
@@ -1556,7 +1654,54 @@ plot_ds = function(data, data_f) {
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
-    plots_bm[[i]] = ggplot2::ggplot(
+    # The body mass plot
+    
+    plots_bm[[i]] = ggplot2::ggplot(data_element ,
+                                    aes(x = log10(body_mass),
+                                        y = avg_component_mean)) +
+      ylim(NA, ylim_max_bm) +
+      geom_point(aes(col = diet),
+                 shape = 16,
+                 alpha = 0.7) +
+      labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
+           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+      theme(axis.title.x = element_markdown()) +
+      scale_color_manual(
+        name = 'Diet',
+        values = colours_diet,
+        breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
+      ) +
+      theme(legend.position = "right") +
+      geom_smooth(
+        method = "lm",
+        se = FALSE,
+        fullrange = TRUE,
+        col = "black"
+      ) +
+      stat_cor(
+        aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
+        size = 2.2,
+        label.x.npc = 0,
+        label.y.npc = 1,
+        geom = "text"
+      )
+    
+    # Save each plot
+    ggsave(
+      filename = paste(filenames[i], "_&_bm_nonmammals.pdf", sep = ""),
+      plot = plots_bm[[i]],
+      device = cairo_pdf,
+      path = here::here("2_outputs", "2_figures"),
+      scale = 1,
+      width = 7,
+      height = 4,
+      units = "in"
+    )
+    
+    # The body mass diet plot
+    
+    
+    plots_bm_diet[[i]] = ggplot2::ggplot(
       data_element ,
       aes(
         x = log10(body_mass),
@@ -1590,7 +1735,7 @@ plot_ds = function(data, data_f) {
     # Add geom_smooth() only for significant diet groups
     if (length(significant_diets) > 0) {
       for (j in 1:length(significant_diets)) {
-        plots_bm[[i]] = plots_bm[[i]] + geom_smooth(
+        plots_bm_diet[[i]] = plots_bm_diet[[i]] + geom_smooth(
           data = subset(data_element, diet == significant_diets[j]),
           method = "lm",
           se = FALSE,
@@ -1600,7 +1745,7 @@ plot_ds = function(data, data_f) {
     }
     
     if (length(significant_diets) > 0) {
-      plots_bm[[i]] = plots_bm[[i]] +
+      plots_bm_diet[[i]] = plots_bm_diet[[i]] +
         ylim(NA, ylim_max_bm) +
         stat_cor(
           data = filter(data_element, diet %in% significant_diets),
@@ -1614,8 +1759,8 @@ plot_ds = function(data, data_f) {
     
     # Save each plot
     ggsave(
-      filename = paste(filenames[i], "_&_bm_nonmammals_dg.pdf", sep = ""),
-      plot = plots_bm[[i]],
+      filename = paste(filenames[i], "_&_bm_&_diet_nonmammals_dg.pdf", sep = ""),
+      plot = plots_bm_diet[[i]],
       device = cairo_pdf,
       path = here::here("2_outputs", "2_figures"),
       scale = 1,
@@ -1632,6 +1777,8 @@ plot_ds = function(data, data_f) {
         add_xy_position(x = "diet",
                         step.increase = 0.2)
     }
+    
+    # Plot diet
     
     plots_diet[[i]] = ggplot2::ggplot(data_element ,
                                       aes(
@@ -1739,6 +1886,51 @@ plot_ds = function(data, data_f) {
     height = 4,
     units = "in"
   )
+  
+  cnp_bm_diet_nonmammals = ggpubr::ggarrange(
+    plots_bm_diet[[1]],
+    plots_bm_diet[[2]],
+    plots_bm_diet[[3]],
+    NULL,
+    NULL,
+    NULL,
+    plots_bm_diet[[4]],
+    plots_bm_diet[[5]],
+    plots_bm_diet[[6]],
+    ncol = 3,
+    nrow = 3,
+    labels = c("a.",
+               "b.",
+               "c.",
+               "",
+               "",
+               "",
+               "d.",
+               "e.",
+               "f."),
+    label.y = 1.16,
+    label.x = 0,
+    heights = c(1, 0.05, 1),
+    widths = c(1, 1, 1, 1),
+    legend.grob = ggpubr::get_legend(plots_bm_diet[[2]]),
+    legend = "right"
+  )
+  
+  cnp_bm_diet_nonmammals = ggpubr::annotate_figure(cnp_bm_diet_nonmammals,
+                                                   bottom = "",
+                                                   top = "")
+  
+  ggsave(
+    filename = "cnp_bm_diet_nonmammals.pdf",
+    plot = cnp_bm_diet_nonmammals,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
+  
   
   cnp_bm_nonmammals = ggpubr::ggarrange(
     plots_bm[[1]],
