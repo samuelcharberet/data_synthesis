@@ -32,6 +32,8 @@ library(nlme)
 library(caper)
 library(ggpubr)
 library(rstatix)
+library(magrittr)
+library(reporter)
 
 lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
 

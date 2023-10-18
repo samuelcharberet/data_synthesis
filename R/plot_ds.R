@@ -479,8 +479,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -502,8 +502,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -526,8 +526,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -550,8 +550,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -574,8 +574,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -598,8 +598,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -788,7 +788,10 @@ plot_ds = function(data, data_f) {
   ) +
     scale_fill_manual(values = colours_diet) +
     labs(x = "Body mass <br> (log<sub>10</sub> g)", y = "Number of species", fill = "Diet") +
-    theme_bw()
+    theme_bw() +
+    theme(axis.title.x = element_markdown())
+  
+  
   
   # Save the plot as a PDF
   ggsave(
@@ -815,6 +818,37 @@ plot_ds = function(data, data_f) {
   
   classes_phylo = classes_tree$phylo
   
+  # Group the data by class and spcies, and calculate the count for each combination
+  grouped_data_nb_species <- species_traits_taxonomy %>%
+    group_by(class, species) %>%
+    dplyr::summarise(count = n())
+  
+  # Compute the total count of species for each class
+  class_totals_nb_species <- grouped_data_nb_species %>%
+    group_by(class) %>%
+    dplyr::summarise(total = sum(count)) %>%
+    na.omit()
+  
+  tree_classes = c(
+    "Insecta",
+    "Diplopoda",
+    "Arachnida",
+    "Malacostraca",
+    "Collembola",
+    "Aves",
+    "Mammalia",
+    "Squamata",
+    "Amphibia",
+    "Testudines",
+    "Gastropoda"
+  )
+  class_totals_nb_species$class =
+    factor(class_totals_nb_species$class, levels = tree_classes)
+  
+  matching_indices = match(tree_classes, class_totals_nb_species$class)
+  class_totals_nb_species = class_totals_nb_species[matching_indices,]
+  
+  
   # Group the data by class and diet, and calculate the count for each combination
   grouped_data <- species_traits_taxonomy %>%
     group_by(class, diet) %>%
@@ -829,7 +863,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -840,7 +874,7 @@ plot_ds = function(data, data_f) {
     )
   
   # Group the data by class and component_data_type in the wastes data and calculate the count for each combination
-  grouped_data <- data %>%
+  grouped_data_component_data_type <- data %>%
     filter(
       sample_type == "feces" |
         sample_type == "urine" |
@@ -850,15 +884,20 @@ plot_ds = function(data, data_f) {
     dplyr::summarise(count = n())
   
   # Compute the total count for each class
-  class_totals <- grouped_data %>%
+  class_totals_component_data_type <-
+    grouped_data_component_data_type %>%
     group_by(class) %>%
     dplyr::summarise(total = sum(count))
   
+  class_totals_component_data_type$class = factor(class_totals_component_data_type$class, levels = tree_classes)
+  matching_indices = match(tree_classes, class_totals_component_data_type$class)
+  class_totals_component_data_type = class_totals_component_data_type[matching_indices,]
+  
   # Calculate the proportion of each component_data_type within each class
-  proportions <- grouped_data %>%
-    left_join(class_totals, by = "class") %>%
+  proportions <- grouped_data_component_data_type %>%
+    left_join(class_totals_component_data_type, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -877,13 +916,13 @@ plot_ds = function(data, data_f) {
       mapping = aes(y = class, x = log(body_mass)),
       axis.params = list(
         axis = "x",
-        title = "Body mass <br> (log<sub>10</sub> g)",
+        title = "Body mass \n (log g)",
         title.height = 0.2,
-        text.size = 0.8
+        text.size = 1.5
       ),
       grid.params = list(),
-      offset = 1,
-      pwidth = 0.4
+      offset = 2,
+      pwidth = 1
     ) +
     geom_fruit(
       data = long_data_diet,
@@ -895,9 +934,10 @@ plot_ds = function(data, data_f) {
         title = "Diet",
         title.height = 0.2,
         line.color = "white",
+        text.size = 1.5
       ),
-      offset = 0.2,
-      pwidth = 0.4
+      offset = 0.1,
+      pwidth = 1
     ) +
     scale_fill_manual(
       name = "Diet",
@@ -918,7 +958,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1, ),
+                           keyheight = 1,),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -929,12 +969,13 @@ plot_ds = function(data, data_f) {
       stat = "identity",
       axis.params = list(
         axis = "x",
-        title = "Waste data type",
+        title = "Waste \n data type",
         title.height = 0.2,
         line.color = "white",
+        text.size = 1.5
       ),
-      offset = 0.2,
-      pwidth = 0.4
+      offset = 0.1,
+      pwidth = 1
     ) +
     scale_fill_manual(
       name = "Waste data type",
@@ -948,6 +989,35 @@ plot_ds = function(data, data_f) {
         "flux" = "darkorange",
         "rate" = "red4"
       )
+    ) +
+    geom_fruit(
+      data = class_totals_nb_species,
+      geom = geom_text,
+      label = na.omit(class_totals_nb_species)$total,
+      mapping = aes(y = class, x = ""),
+      axis.params = list(
+        axis = "x",
+        title = "Nb \n species",
+        title.height = 0.2,
+        line.color = "white",
+        text.size = 0.5
+      ),
+      offset = 0.3,
+      pwidth = 0.2
+    ) +
+    geom_fruit(
+      data = class_totals_component_data_type,
+      geom = geom_text,
+      label = na.omit(class_totals_component_data_type)$total,
+      mapping = aes(y = class, x = ""),
+      axis.params = list(
+        axis = "x",
+        title = "Nb \n obs",
+        title.height = 0.2,
+        line.color = "white",
+      ),
+      offset = 0.4,
+      pwidth = 0.2
     )
   
   ggsave(
@@ -1031,7 +1101,12 @@ plot_ds = function(data, data_f) {
       )
     ) +
     labs(x = "Wastes observation resolution", y = "Number of osbervations", fill = "Diet") +
-    theme_bw()
+    theme_bw() +
+    theme(axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      hjust = 1
+    ))
   
   # Save the plot as a PDF
   ggsave(
@@ -1046,8 +1121,8 @@ plot_ds = function(data, data_f) {
   )
   
   ##### Number of observation for sample type according to matrix #####
-  
-  df_split <- split(data, data$component_data_type)
+  data_p = data[!is.na(data$sample_type), ]
+  df_split <- split(data_p, data_p$component_data_type)
   
   plots_matrix_diet_unit_list <-
     lapply(df_split, function(df) {
@@ -1065,7 +1140,7 @@ plot_ds = function(data, data_f) {
       
       ggplot(df, aes(x = sample_type, fill = diet)) +
         geom_bar(color = 'black', alpha = 0.7) +
-        labs(x = "Sample Type", y = "Number of Observations") +
+        labs(x = "Sample Type", y = "Number of observations") +
         scale_fill_manual(values = colours_diet) +
         theme_bw()
     })
@@ -1157,7 +1232,7 @@ plot_ds = function(data, data_f) {
     
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
                                     aes(x = log10(body_mass),
-                                        y = avg_component_mean, )) +
+                                        y = avg_component_mean,)) +
       geom_point(aes(col = diet),
                  shape = 16,
                  alpha = 0.7) +
@@ -1639,13 +1714,24 @@ plot_ds = function(data, data_f) {
   for (i in 1:length(el_ra)) {
     data_element = subset(a_cnp_gsd, a_cnp_gsd$component_name == el_ra[i])
     
-    # Filter out diets with less than 3 rows
+    # Filter out diets with less than 5 rows
     data_element = data_element %>%
       group_by(diet) %>%
       filter(!is.na(avg_component_mean)) %>%
       filter(n() >= 5) %>%
       ungroup() %>%
       droplevels()
+    
+    # Get the unique levels of diet from data_element$diet
+    diet_levels = levels(data_element$diet)
+    
+    # Filter diet_comparisons to keep only the valid comparisons
+    valid_comparisons = lapply(diet_comparisons, function(comp) {
+      all(comp %in% diet_levels)
+    })
+    
+    # Keep only the valid comparisons
+    diet_comparisons = diet_comparisons[which(unlist(valid_comparisons))]
     
     ylim_max_bm = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)

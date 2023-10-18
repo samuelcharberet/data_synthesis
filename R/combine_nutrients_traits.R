@@ -66,19 +66,13 @@ combine_nutrients_traits = function(data_n, data_t) {
   data$diet = factor(data$diet,
                      levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
   
-  
-  # We select only dry weight data, as fresh weight are more rare and not comparable to dry weight data
-  
-  
-  data <- data |>
-    filter(component_weight_type != "fw")
   stock_data <- data |>
     filter(component_data_type == "stock")
   
   faeces_stock_data <- stock_data |>
     filter(cloaca == 0)
   faeces_stock_data <- faeces_stock_data |>
-    filter(sample_type == "feces" | sample_type == "faeces")
+    filter(sample_type == "feces" | sample_type == "faeces" & component_weight_type == "dw")
   # Selecting CNP in faeces stock data
   cnp_fsd <- faeces_stock_data |>
     filter(component_name == "C" |
@@ -180,7 +174,7 @@ combine_nutrients_traits = function(data_n, data_t) {
   guano_stock_data <- stock_data |>
     filter(cloaca == 1)
   guano_stock_data <- guano_stock_data |>
-    filter(sample_type == "frass" | sample_type == "guano")
+    filter(sample_type == "frass" | sample_type == "guano" | component_weight_type == "dw")
   # Selecting CNP in guano stock data
   cnp_gsd <- guano_stock_data |>
     filter(component_name == "C" |
