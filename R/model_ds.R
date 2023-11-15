@@ -304,30 +304,30 @@ model_ds = function(data, data_fluxes) {
   
   
   # Faeces stock data stoichiometric models
-  bmodels_fsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
-  bmodels_fsd_diet_bodymass = bmodels_fsd_diet_bodymass %>%
+  bmodels_gsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
+  bmodels_gsd_diet_bodymass = bmodels_gsd_diet_bodymass %>%
     mutate_if(is.numeric, signif, 3)
   
   write.csv(
-    bmodels_fsd_diet_bodymass,
+    bmodels_gsd_diet_bodymass,
     here::here(
       "2_outputs",
       "1_statistical_results",
-      "bmodels_fsd_diet_bodymass.csv"
+      "bmodels_gsd_diet_bodymass.csv"
     ),
     row.names = FALSE
   )
   
-  gmodels_fsd_diet_bodymass = rbind(gmodel_c, gmodel_n, gmodel_p, gmodel_cn, gmodel_cp, gmodel_np)
-  gmodels_fsd_diet_bodymass = gmodels_fsd_diet_bodymass %>%
+  gmodels_gsd_diet_bodymass = rbind(gmodel_c, gmodel_n, gmodel_p, gmodel_cn, gmodel_cp, gmodel_np)
+  gmodels_gsd_diet_bodymass = gmodels_gsd_diet_bodymass %>%
     mutate_if(is.numeric, signif, 3)
   
   write.csv(
-    gmodels_fsd_diet_bodymass,
+    gmodels_gsd_diet_bodymass,
     here::here(
       "2_outputs",
       "1_statistical_results",
-      "gmodels_fsd_diet_bodymass.csv"
+      "gmodels_gsd_diet_bodymass.csv"
     ),
     row.names = FALSE
   )
