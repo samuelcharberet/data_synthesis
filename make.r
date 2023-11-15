@@ -66,8 +66,8 @@ data_traits_file = here::here("1_data",
 
 data_traits = load_dt(data_traits_file)
 
-data = combine_nutrients_traits(data_nutrients, data_traits)
+data = combine_nutrients_traits(data_n = data_nutrients, data_t = data_traits)
 
-plots_ds(data = data, data_f = data_fluxes)
+plot_ds(data = data, data_f = data_fluxes)
 
 model_ds(data = data, data_f = data_fluxes)

@@ -73,7 +73,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_weight_type == "ww"),]$component_weight_type = "fw"
   
   # of the component detail
-  data_nutrients[which(data_nutrients$component_detail == "TOC"),]$component_weight_type = "organic"
+  data_nutrients[which(data_nutrients$component_detail == "TOC"),]$component_detail = "organic"
   
   # of the component measure method
   
@@ -116,7 +116,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"),]$component_measure_method = "kjeldahl"
   
   # of the drying time unit
-  data_nutrients[which(data_nutrients$drying_time_unit == "h"),]$drying_temp_unit = "hour"
+  data_nutrients[which(data_nutrients$drying_time_unit == "h"),]$drying_time_unit = "hour"
   
   
   # of the drying temperature unit

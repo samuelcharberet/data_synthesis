@@ -399,15 +399,15 @@ plot_ds = function(data, data_f) {
   
   # Complete Lucas plots ####
   complete_lucas_plot = ggpubr::ggarrange(
-    lucas_nitrogen,
     lucas_phosphorus,
     lucas_potassium,
-    NULL,
-    NULL,
-    NULL,
     lucas_calcium,
+    NULL,
+    NULL,
+    NULL,
     lucas_magnesium,
     lucas_sodium,
+    NULL,
     ncol = 3,
     nrow = 3,
     labels = c("a.",
@@ -417,8 +417,7 @@ plot_ds = function(data, data_f) {
                "",
                "",
                "d.",
-               "e.",
-               "f."),
+               "e."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -442,7 +441,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Complete Lucas plots ####
+  # Lucas plots ####
   np_lucas_plot = ggpubr::ggarrange(
     lucas_nitrogen,
     lucas_phosphorus,
@@ -479,8 +478,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
-                                                                       Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
+                                                                      Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -502,8 +501,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
-                                                                        Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
+                                                                       Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -526,8 +525,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
-                                                                        Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
+                                                                       Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -550,8 +549,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
-                                                                      P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
+                                                                     P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -574,8 +573,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
-                                                                      K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
+                                                                     K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -598,8 +597,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
-                                                                        Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
+                                                                       Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -780,7 +779,7 @@ plot_ds = function(data, data_f) {
   
   grouped_data <- unique(selected_data)
   
-  bodymass_diet_histogram = ggplot(grouped_data, aes(log(body_mass))) + geom_histogram(
+  bodymass_diet_histogram = ggplot(grouped_data, aes(log10(body_mass))) + geom_histogram(
     aes(fill = diet),
     bins = 50,
     color = 'black',
@@ -805,6 +804,213 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
+  ##### Histograms showing the proportion of supplementary figures #####
+  
+  datref0 = subset(data, first_author != "charberet")
+  datref = datref0[order(datref0$first_author, decreasing = FALSE), ]
+  datref$obsref_ID = interaction(datref$reference_ID, datref$observation_ID)
+  dim(datref0)
+  dim(datref)
+  
+  papers = unique(datref$reference_ID)
+  length(papers)
+  sample_types = unique(datref$sample_type)
+  tabref0 = matrix(0, nrow = length(papers), ncol = c(3 + length(sample_types) *
+                                                        3))
+  colnames(tabref0) = c("ref", "first_author", "year", paste(rep(sample_types, each =
+                                                                   3), rep(
+                                                                     c("sp", "obs", "data"), length(sample_types)
+                                                                   ), sep = "_"))
+  tabref = as.data.frame((tabref0))
+  
+  for (i in 1:length(papers)) {
+    x = subset(datref, reference_ID == papers[i])
+    x = droplevels(x)
+    tabref[i, "ref"] = x[1, "reference_ID"]
+    tabref[i, "first_author"] = x[1, "first_author"]
+    tabref[i, "year"] = x[1, "reference_year"]
+    st_x = unique(x$sample_type)
+    for (j in 1:length(st_x)) {
+      st = st_x[j]
+      sub = subset(x, sample_type == st)
+      tabref[i, paste(st, "sp", sep = "_")] = length(unique(sub$species))
+      tabref[i, paste(st, "obs", sep = "_")] = length(unique(sub$obsref_ID))
+      tabref[i, paste(st, "data", sep = "_")] = nrow(sub)
+    }
+  }
+  head(tabref)
+  
+  #--- Add total
+  total = tabref[1, ]
+  total[1, "ref"] = 0
+  total[1, "first_author"] = "total"
+  total[1, "year"] = 2023
+  for (i in 1:length(sample_types)) {
+    st = sample_types[i]
+    sub = subset(datref, sample_type == st)
+    sub = droplevels(sub)
+    total[1, paste(st, "sp", sep = "_")] = length(unique(sub$species))
+    total[1, paste(st, "obs", sep = "_")] = length(unique(sub$obsref_ID))
+    total[1, paste(st, "data", sep = "_")] = nrow(sub)
+  }
+  tabref = rbind(tabref, total)
+  
+  #--- select only feces, guano, frass
+  unique(data$sample_type)
+  dat2 = subset(data, !is.na(sample_type) == T & !is.na(class) == T)
+  datwaste = subset(dat2, sample_type %in% c("feces", "guano", "frass"))
+  datwaste = droplevels(datwaste)
+  
+  #--- add a column for observations across refs
+  datwaste$obsref_ID = interaction(datwaste$reference_ID, datwaste$observation_ID)
+  
+  #--- make 2 datasets for literature versus addition by Samuel
+  nosam = subset(datwaste, first_author != "charberet")
+  sam = subset(datwaste, first_author == "charberet")
+  
+  #--- add log10 body mass
+  nosam$log10_bodymass = log10(as.numeric(nosam$body_mass))
+  sam$log10_bodymass = log10(as.numeric(sam$body_mass))
+  
+  
+  #--- add log body mass classes (20 classes) based on an histogram
+  b = hist(nosam$log10_bodymass, freq = T, breaks = 20)
+  
+  mids = b$mids
+  #a = hist(sam$log10_bodymass,freq=T,ylim=c(0,870),breaks=br)
+  findbodyclass = function(x)
+    return(which(abs(mids - x) == min(abs(mids - x)))[1])
+  sam$bodymass_class = unlist(lapply(sam$log10_bodymass, FUN = findbodyclass))
+  nosam$bodymass_class = unlist(lapply(nosam$log10_bodymass, FUN = findbodyclass))
+  
+  
+  #--- Table for body mass classes
+  tab = tabspecies = matrix(
+    NA,
+    nrow = 2,
+    ncol = length(mids),
+    dimnames = list(c("Litterature", "Zoo addition"), mids)
+  )
+  for (i in 1:length(mids)) {
+    x = subset(nosam, bodymass_class == i)
+    x2 = subset(sam, bodymass_class == i)
+    tab[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$obsref_ID)))
+    tab[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(x2$obsref_ID)))
+    tabspecies[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(c(
+      x$species, x2$species
+    ))) - length(unique(x$species)))
+    tabspecies[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$species)))
+  }
+  
+  #--- Table for diet
+  tab2 = tabspecies2 = matrix(NA,
+                              nrow = 2,
+                              ncol = 4,
+                              dimnames = list(
+                                c("Litterature", "Zoo addition"),
+                                c("Detritivore", "Herbivore", "Omnivore", "Carnivore")
+                              ))
+  for (i in 1:4) {
+    x = subset(nosam, diet == colnames(tab2)[i])
+    x2 = subset(sam, diet == colnames(tab2)[i])
+    tab2[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$obsref_ID)))
+    tab2[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(x2$obsref_ID)))
+    tabspecies2[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(c(
+      x$species, x2$species
+    ))) - length(unique(x$species)))
+    tabspecies2[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$species)))
+  }
+  
+  
+  
+  #--- Table for classes
+  classes = unique(datwaste$class)
+  
+  tab3 = tabspecies3 = matrix(
+    NA,
+    nrow = 2,
+    ncol = length(classes),
+    dimnames = list(c("Litterature", "Zoo addition"), classes)
+  )
+  for (i in 1:length(classes)) {
+    x = subset(nosam, class == colnames(tab3)[i])
+    x2 = subset(sam, class == colnames(tab3)[i])
+    tab3[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$obsref_ID)))
+    tab3[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(x2$obsref_ID)))
+    tabspecies3[2, i] = ifelse(nrow(x2) == 0, 0, length(unique(c(
+      x$species, x2$species
+    ))) - length(unique(x$species)))
+    tabspecies3[1, i] = ifelse(nrow(x) == 0, 0, length(unique(x$species)))
+  }
+  
+  
+  pdf(
+    file = here::here("2_outputs", "2_figures" , "addition_class_diet_bm.pdf"),
+    width = 7,
+    height = 5
+  )
+  
+  par(mar = c(5, 5, 2, 1))
+  layout(matrix(1:6, ncol = 3, byrow = T), widths = c(1.5, 1, 1.5))
+  barplot(
+    tab,
+    col = nrow(tab):1,
+    border = NA,
+    legend.text = TRUE,
+    args.legend = list(
+      x = "topleft",
+      inset = c(0, 0),
+      border = 0,
+      cex = 1,
+      bty = "n"
+    ),
+    las = 2,
+    xlab = "log10 body mass",
+    ylab = "number of observations",
+    main = "feces, guano, frass"
+  )
+  barplot(
+    tab2,
+    col = nrow(tab2):1,
+    border = NA,
+    las = 2,
+    ylab = "number of observations",
+    main = "feces, guano, frass"
+  )
+  barplot(
+    tab3,
+    col = nrow(tab3):1,
+    border = NA,
+    las = 2,
+    ylab = "number of observations",
+    main = "feces, guano, frass"
+  )
+  
+  par(mar = c(7, 5, 2, 1))
+  barplot(
+    tabspecies,
+    col = nrow(tabspecies):1,
+    border = NA,
+    las = 2,
+    xlab = "log10 body mass",
+    ylab = "number of species"
+  )
+  barplot(
+    tabspecies2,
+    col = nrow(tabspecies2):1,
+    border = NA,
+    las = 2,
+    ylab = "number of species"
+  )
+  barplot(
+    tabspecies3,
+    col = nrow(tabspecies3):1,
+    border = NA,
+    las = 2,
+    ylab = "number of species"
+  )
+  
+  dev.off()
   
   ##### A phylogenetic tree with diet, bodymasses distribution and sample type #####
   taxize_classes = readRDS(file = here::here("1_data",
@@ -846,7 +1052,7 @@ plot_ds = function(data, data_f) {
     factor(class_totals_nb_species$class, levels = tree_classes)
   
   matching_indices = match(tree_classes, class_totals_nb_species$class)
-  class_totals_nb_species = class_totals_nb_species[matching_indices,]
+  class_totals_nb_species = class_totals_nb_species[matching_indices, ]
   
   
   # Group the data by class and diet, and calculate the count for each combination
@@ -863,7 +1069,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -891,13 +1097,13 @@ plot_ds = function(data, data_f) {
   
   class_totals_component_data_type$class = factor(class_totals_component_data_type$class, levels = tree_classes)
   matching_indices = match(tree_classes, class_totals_component_data_type$class)
-  class_totals_component_data_type = class_totals_component_data_type[matching_indices,]
+  class_totals_component_data_type = class_totals_component_data_type[matching_indices, ]
   
   # Calculate the proportion of each component_data_type within each class
   proportions <- grouped_data_component_data_type %>%
     left_join(class_totals_component_data_type, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count, -total)
+    dplyr::select(-count,-total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -913,7 +1119,7 @@ plot_ds = function(data, data_f) {
     geom_fruit(
       data = species_traits_taxonomy,
       geom = geom_boxplot,
-      mapping = aes(y = class, x = log(body_mass)),
+      mapping = aes(y = class, x = log10(body_mass)),
       axis.params = list(
         axis = "x",
         title = "Body mass \n (log g)",
@@ -958,7 +1164,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
+                           keyheight = 1, ),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1121,7 +1327,7 @@ plot_ds = function(data, data_f) {
   )
   
   ##### Number of observation for sample type according to matrix #####
-  data_p = data[!is.na(data$sample_type), ]
+  data_p = data[!is.na(data$sample_type),]
   df_split <- split(data_p, data_p$component_data_type)
   
   plots_matrix_diet_unit_list <-
@@ -1187,6 +1393,14 @@ plot_ds = function(data, data_f) {
   # As well as a "chemical plan" plot
   
   el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  y_name = c(
+    "C",
+    "N",
+    "P",
+    "log<sub>10</sub> C/N",
+    "log<sub>10</sub> C/P",
+    "log<sub>10</sub> N/P"
+  )
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1232,13 +1446,14 @@ plot_ds = function(data, data_f) {
     
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
                                     aes(x = log10(body_mass),
-                                        y = avg_component_mean,)) +
+                                        y = avg_component_mean, )) +
       geom_point(aes(col = diet),
                  shape = 16,
                  alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
-           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+           y = paste("Faeces", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
+      theme(axis.title.y = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
@@ -1285,8 +1500,9 @@ plot_ds = function(data, data_f) {
                                          )) +
       geom_point(shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
-           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+           y = paste("Faeces", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
+      theme(axis.title.y = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
@@ -1376,7 +1592,8 @@ plot_ds = function(data, data_f) {
         hide.ns = T
       ) +
       labs(x = "Diet",
-           y = paste(el_ra[i], units[i], "in faeces", sep = " ")) +
+           y = paste("Faeces", y_name[i], units[i], sep = " ")) +
+      theme(axis.title.y = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
@@ -1681,6 +1898,14 @@ plot_ds = function(data, data_f) {
   
   
   el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
+  y_name = c(
+    "C",
+    "N",
+    "P",
+    "log<sub>10</sub> C/N",
+    "log<sub>10</sub> C/P",
+    "log<sub>10</sub> N/P"
+  )
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
   units = c("%", "%", "%", "", "", "")
@@ -1750,8 +1975,9 @@ plot_ds = function(data, data_f) {
                  shape = 16,
                  alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
-           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+           y = paste("Waste", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
+      theme(axis.title.y = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
@@ -1799,8 +2025,9 @@ plot_ds = function(data, data_f) {
       ylim(NA, ylim_max_bm) +
       geom_point(shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
-           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+           y = paste("Waste", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
+      theme(axis.title.y = element_markdown()) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
@@ -1890,12 +2117,13 @@ plot_ds = function(data, data_f) {
         hide.ns = T
       ) +
       labs(x = "Diet",
-           y = paste(el_ra[i], units[i], "in wastes", sep = " ")) +
+           y = paste("Waste", y_name[i], units[i], sep = " ")) +
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
         breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
+      theme(axis.title.y = element_markdown()) +
       theme(
         legend.position = "right",
         axis.text.x = element_blank(),
