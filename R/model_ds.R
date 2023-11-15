@@ -179,32 +179,58 @@ model_ds = function(data, data_fluxes) {
   #  lm with body mass and diet
   model_c = lm(C ~ body_mass * diet, a_cnp_fsd)
   tmodel_c = broom::tidy(model_c)
+  gmodel_c = broom::glance(model_c)
+  
   model_n = lm(N ~ body_mass * diet, a_cnp_fsd)
   tmodel_n = broom::tidy(model_n)
+  gmodel_n = broom::glance(model_n)
+  
   model_p = lm(P ~ body_mass * diet, a_cnp_fsd)
   tmodel_p = broom::tidy(model_p)
+  gmodel_p = broom::glance(model_p)
+  
   model_cn = lm(`C/N` ~ body_mass * diet, a_cnp_fsd)
   tmodel_cn = broom::tidy(model_cn)
+  gmodel_cn = broom::glance(model_cn)
+  
   model_cp = lm(`C/P` ~ body_mass * diet, a_cnp_fsd)
   tmodel_cp = broom::tidy(model_cp)
+  gmodel_cp = broom::glance(model_cp)
+  
   model_np = lm(`N/P` ~ body_mass * diet, a_cnp_fsd)
   tmodel_np = broom::tidy(model_np)
+  gmodel_np = broom::glance(model_np)
   
   
   # Faeces stock data stoichiometric models
-  models_fsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
-  models_fsd_diet_bodymass = models_fsd_diet_bodymass %>%
+  bmodels_fsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
+  bmodels_fsd_diet_bodymass = bmodels_fsd_diet_bodymass %>%
     mutate_if(is.numeric, signif, 3)
   
   write.csv(
-    models_fsd_diet_bodymass,
+    bmodels_fsd_diet_bodymass,
     here::here(
       "2_outputs",
       "1_statistical_results",
-      "models_fsd_diet_bodymass.csv"
+      "bmodels_fsd_diet_bodymass.csv"
     ),
     row.names = FALSE
   )
+  
+  gmodels_fsd_diet_bodymass = rbind(gmodel_c, gmodel_n, gmodel_p, gmodel_cn, gmodel_cp, gmodel_np)
+  gmodels_fsd_diet_bodymass = gmodels_fsd_diet_bodymass %>%
+    mutate_if(is.numeric, signif, 3)
+  
+  write.csv(
+    gmodels_fsd_diet_bodymass,
+    here::here(
+      "2_outputs",
+      "1_statistical_results",
+      "gmodels_fsd_diet_bodymass.csv"
+    ),
+    row.names = FALSE
+  )
+  
   
   
   # Non-mammals ####
@@ -254,29 +280,54 @@ model_ds = function(data, data_fluxes) {
   #  lm with body mass and diet
   model_c = lm(C ~ body_mass * diet, a_cnp_gsd)
   tmodel_c = broom::tidy(model_c)
+  gmodel_c = broom::glance(model_c)
+  
   model_n = lm(N ~ body_mass * diet, a_cnp_gsd)
   tmodel_n = broom::tidy(model_n)
+  gmodel_n = broom::glance(model_n)
+  
   model_p = lm(P ~ body_mass * diet, a_cnp_gsd)
   tmodel_p = broom::tidy(model_p)
+  gmodel_p = broom::glance(model_p)
+  
   model_cn = lm(`C/N` ~ body_mass * diet, a_cnp_gsd)
   tmodel_cn = broom::tidy(model_cn)
+  gmodel_cn = broom::glance(model_cn)
+  
   model_cp = lm(`C/P` ~ body_mass * diet, a_cnp_gsd)
   tmodel_cp = broom::tidy(model_cp)
+  gmodel_cp = broom::glance(model_cp)
+  
   model_np = lm(`N/P` ~ body_mass * diet, a_cnp_gsd)
   tmodel_np = broom::tidy(model_np)
+  gmodel_np = broom::glance(model_np)
   
   
-  # Wastes stock data stoichiometric models
-  models_gsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
-  models_gsd_diet_bodymass = models_gsd_diet_bodymass %>%
+  # Faeces stock data stoichiometric models
+  bmodels_fsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
+  bmodels_fsd_diet_bodymass = bmodels_fsd_diet_bodymass %>%
     mutate_if(is.numeric, signif, 3)
   
   write.csv(
-    models_gsd_diet_bodymass,
+    bmodels_fsd_diet_bodymass,
     here::here(
       "2_outputs",
       "1_statistical_results",
-      "models_gsd_diet_bodymass.csv"
+      "bmodels_fsd_diet_bodymass.csv"
+    ),
+    row.names = FALSE
+  )
+  
+  gmodels_fsd_diet_bodymass = rbind(gmodel_c, gmodel_n, gmodel_p, gmodel_cn, gmodel_cp, gmodel_np)
+  gmodels_fsd_diet_bodymass = gmodels_fsd_diet_bodymass %>%
+    mutate_if(is.numeric, signif, 3)
+  
+  write.csv(
+    gmodels_fsd_diet_bodymass,
+    here::here(
+      "2_outputs",
+      "1_statistical_results",
+      "gmodels_fsd_diet_bodymass.csv"
     ),
     row.names = FALSE
   )
