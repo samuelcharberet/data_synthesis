@@ -619,6 +619,69 @@ plot_ds = function(data, data_f) {
   
   ##### 1. Preliminary figures #####
   
+  #### Number of observation by elements ####
+  required_sample_types <- c("feces", "urine", "guano", "frass")
+  required_components <- c(
+    "C",
+    "N",
+    "P",
+    "Al",
+    "As",
+    "B",
+    "Ba",
+    "Ca",
+    "Cd",
+    "Cl",
+    "Co",
+    "Cr",
+    "Cu",
+    "Fe",
+    "Hg",
+    "K",
+    "Mg",
+    "Mn",
+    "Mo",
+    "Na",
+    "Ni",
+    "O",
+    "Pb",
+    "S",
+    "Se",
+    "Si",
+    "Sr",
+    "Ti",
+    "V",
+    "Zn"
+  )
+  
+  filtered_data <- data %>%
+    filter(sample_type %in% required_sample_types,
+           component_name %in% required_components) %>%
+    group_by(component_name) %>%
+    summarise(count = n())
+  
+  # Arrange the data by count in descending order
+  filtered_data <- filtered_data %>%
+    arrange(desc(count))
+  
+  # Create the bar plot
+  number_obs_elements = ggplot(filtered_data, aes(x = reorder(component_name, count), y = count)) +
+    geom_col(fill = "#3366CC", color = "black") +
+    coord_flip() +
+    labs(x = "Element", y = "Number of observation (wastes)") +
+    theme_pubclean()
+  
+  
+  ggsave(
+    filename = "number_obs_elements.pdf",
+    plot = number_obs_elements,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
   
   ##### Number of reference per year #####
   
@@ -686,50 +749,86 @@ plot_ds = function(data, data_f) {
   
   ##### Measure method proportion for C, N and P #####
   
+  # Replace values based on specific conditions
+  data$component_measure_method[data$component_measure_method == "autoanalyzer"] <-
+    "Autoanalyzer"
+  data$component_measure_method[data$component_measure_method == "elemental_analyser"] <-
+    "Elemental analyzer"
+  data$component_measure_method[data$component_measure_method %in% c("micro_kjeldahl", "macro_kjeldahl", "kjeldahl")] <-
+    "Kjeldahl"
+  data$component_measure_method[data$component_measure_method %in% c("icp", "icp_oes")] <-
+    "ICP"
+  data$component_measure_method[data$component_measure_method == "ammonium_molybdate_method"] <-
+    "Ammonium molybdate"
   
-  # Step 1: Filter the data for "C", "N", and "P" components
+  # Define required methods
+  methods <- c(
+    "Autoanalyzer",
+    "Elemental analyzer",
+    "Kjeldahl",
+    "ICP",
+    "Ammonium molybdate",
+    "TOC"
+  )
+  
+  # Update values not in required_methods to "others"
+  data$component_measure_method[!(data$component_measure_method %in% methods)] <-
+    "Others"
+  
+  required_methods <- c(
+    "Autoanalyzer",
+    "Elemental analyzer",
+    "Kjeldahl",
+    "ICP",
+    "Ammonium molybdate",
+    "TOC",
+    "Others"
+  )
+  required_sample_types <- c("feces", "urine", "guano", "frass")
+  required_components <- c("C", "N", "P")
+  
   filtered_data <- data %>%
+    filter(
+      sample_type %in% required_sample_types,
+      component_name %in% required_components,
+      component_measure_method %in% required_methods
+    ) %>%
+    group_by(component_name, component_measure_method) %>%
+    summarise(count = n())
+  
+  library(ggplot2)
+  
+  # Filtered data containing only components C, N, and P
+  filtered_C_N_P <- filtered_data %>%
     filter(component_name %in% c("C", "N", "P"))
   
-  # Step 2: Group the filtered data by "component_name" and "component_measure_method" and calculate the count
-  grouped_data <- filtered_data %>%
-    group_by(component_name, component_measure_method) %>%
-    dplyr::summarise(count = n())
+  # Define the desired order for the legend
+  desired_order <- c("Elemental analyzer", "TOC", "ICP", "Autoanalyzer", "Kjeldahl", "Ammonium molybdate", "Others")
   
-  # Step 3: Create pie charts for each "component_name" and save as PDF
-  for (name in unique(grouped_data$component_name)) {
-    subset_data <- grouped_data %>% filter(component_name == name)
-    
-    # Step 4: Create a pie chart with measure method labels
-    p <-
-      ggplot(subset_data,
-             aes(x = "", y = count, fill = component_measure_method)) +
-      labs(title = paste("Proportion of measure methods for", name)) +
-      geom_bar(
-        stat = "identity",
-        width = 1,
-        color = "black",
-        alpha = 0.7
-      ) +
-      coord_polar("y", start = 0) +
-      scale_fill_brewer(palette = "Set3") +
-      theme_void()
-    
-    # Save the plot as a PDF with a specific name
-    file_name <-
-      paste(name, "measure_method_pie_chart.pdf", sep = "_")
-    ggsave(
-      filename = file_name,
-      plot = p,
-      device = cairo_pdf,
-      path = here::here("2_outputs", "2_figures"),
-      scale = 1,
-      width = 7,
-      height = 4,
-      units = "in"
-    )
-  }
+  # Convert 'component_measure_method' to a factor with the desired order
+  filtered_C_N_P$component_measure_method <- factor(filtered_data$component_measure_method, levels = desired_order)
   
+  
+  # Create a plot with facets for each component_name
+  plot_measure_methods = ggplot(filtered_C_N_P, aes(x = "", y = count, fill = component_measure_method)) +
+    geom_bar(stat = "identity", position = "fill", width = 1, color = "black", alpha = 0.7) +
+    coord_polar("y", start = 0) +
+    theme_void() +
+    ggsci::scale_fill_npg()+
+    facet_wrap(~ component_name, nrow = 1) +
+    labs(fill = "Measure method")
+
+  
+  ggsave(
+    filename = "plot_measure_methods.pdf",
+    plot = plot_measure_methods,
+    device = cairo_pdf,
+    path = here::here("2_outputs", "2_figures"),
+    scale = 1,
+    width = 7,
+    height = 4,
+    units = "in"
+  )
   
   ##### Map the sampling locations #####
   
@@ -1024,7 +1123,7 @@ plot_ds = function(data, data_f) {
   
   classes_phylo = classes_tree$phylo
   
-  # Group the data by class and spcies, and calculate the count for each combination
+  # Group the data by class and species, and calculate the count for each combination
   grouped_data_nb_species <- species_traits_taxonomy %>%
     group_by(class, species) %>%
     dplyr::summarise(count = n())
