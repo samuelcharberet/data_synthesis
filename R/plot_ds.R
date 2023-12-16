@@ -478,8 +478,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
-  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad),], aes(x =
-                                                                      Species_lat, y = CP_ad)) +
+  species_nad = ggplot(data_fluxes[!is.na(data_fluxes$CP_ad), ], aes(x =
+                                                                       Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "N AE (%)",
@@ -501,8 +501,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
   
-  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad),], aes(x =
-                                                                       Species_lat, y = Na_ad)) +
+  species_naad = ggplot(data_fluxes[!is.na(data_fluxes$Na_ad), ], aes(x =
+                                                                        Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Na AE (%)",
@@ -525,8 +525,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
                                                         T))
   
-  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad),], aes(x =
-                                                                       Species_lat, y = Mg_ad)) +
+  species_mgad = ggplot(data_fluxes[!is.na(data_fluxes$Mg_ad), ], aes(x =
+                                                                        Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Mg AE (%)",
@@ -549,8 +549,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
                                                         T))
   
-  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad),], aes(x = Species_lat, y =
-                                                                     P_ad)) +
+  species_pad = ggplot(data_fluxes[!is.na(data_fluxes$P_ad), ], aes(x = Species_lat, y =
+                                                                      P_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "P AE (%)",
@@ -573,8 +573,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
                                                         T))
   
-  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad),], aes(x = Species_lat, y =
-                                                                     K_ad)) +
+  species_kad = ggplot(data_fluxes[!is.na(data_fluxes$K_ad), ], aes(x = Species_lat, y =
+                                                                      K_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "K AE (%)",
@@ -597,8 +597,8 @@ plot_ds = function(data, data_f) {
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
                                                         T))
   
-  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad),], aes(x =
-                                                                       Species_lat, y = Ca_ad)) +
+  species_caad = ggplot(data_fluxes[!is.na(data_fluxes$Ca_ad), ], aes(x =
+                                                                        Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
     labs(y = "Ca AE (%)",
@@ -803,21 +803,38 @@ plot_ds = function(data, data_f) {
     filter(component_name %in% c("C", "N", "P"))
   
   # Define the desired order for the legend
-  desired_order <- c("Elemental analyzer", "TOC", "ICP", "Autoanalyzer", "Kjeldahl", "Ammonium molybdate", "Others")
+  desired_order <-
+    c(
+      "Elemental analyzer",
+      "TOC",
+      "ICP",
+      "Autoanalyzer",
+      "Kjeldahl",
+      "Ammonium molybdate",
+      "Others"
+    )
   
   # Convert 'component_measure_method' to a factor with the desired order
-  filtered_C_N_P$component_measure_method <- factor(filtered_data$component_measure_method, levels = desired_order)
+  filtered_C_N_P$component_measure_method <-
+    factor(filtered_data$component_measure_method, levels = desired_order)
   
   
   # Create a plot with facets for each component_name
-  plot_measure_methods = ggplot(filtered_C_N_P, aes(x = "", y = count, fill = component_measure_method)) +
-    geom_bar(stat = "identity", position = "fill", width = 1, color = "black", alpha = 0.7) +
+  plot_measure_methods = ggplot(filtered_C_N_P,
+                                aes(x = "", y = count, fill = component_measure_method)) +
+    geom_bar(
+      stat = "identity",
+      position = "fill",
+      width = 1,
+      color = "black",
+      alpha = 0.7
+    ) +
     coord_polar("y", start = 0) +
     theme_void() +
-    ggsci::scale_fill_npg()+
-    facet_wrap(~ component_name, nrow = 1) +
+    ggsci::scale_fill_npg() +
+    facet_wrap( ~ component_name, nrow = 1) +
     labs(fill = "Measure method")
-
+  
   
   ggsave(
     filename = "plot_measure_methods.pdf",
@@ -906,7 +923,7 @@ plot_ds = function(data, data_f) {
   ##### Histograms showing the proportion of supplementary figures #####
   
   datref0 = subset(data, first_author != "charberet")
-  datref = datref0[order(datref0$first_author, decreasing = FALSE), ]
+  datref = datref0[order(datref0$first_author, decreasing = FALSE),]
   datref$obsref_ID = interaction(datref$reference_ID, datref$observation_ID)
   dim(datref0)
   dim(datref)
@@ -940,7 +957,7 @@ plot_ds = function(data, data_f) {
   head(tabref)
   
   #--- Add total
-  total = tabref[1, ]
+  total = tabref[1,]
   total[1, "ref"] = 0
   total[1, "first_author"] = "total"
   total[1, "year"] = 2023
@@ -956,7 +973,7 @@ plot_ds = function(data, data_f) {
   
   #--- select only feces, guano, frass
   unique(data$sample_type)
-  dat2 = subset(data, !is.na(sample_type) == T & !is.na(class) == T)
+  dat2 = subset(data,!is.na(sample_type) == T & !is.na(class) == T)
   datwaste = subset(dat2, sample_type %in% c("feces", "guano", "frass"))
   datwaste = droplevels(datwaste)
   
@@ -1151,7 +1168,7 @@ plot_ds = function(data, data_f) {
     factor(class_totals_nb_species$class, levels = tree_classes)
   
   matching_indices = match(tree_classes, class_totals_nb_species$class)
-  class_totals_nb_species = class_totals_nb_species[matching_indices, ]
+  class_totals_nb_species = class_totals_nb_species[matching_indices,]
   
   
   # Group the data by class and diet, and calculate the count for each combination
@@ -1168,7 +1185,7 @@ plot_ds = function(data, data_f) {
   proportions <- grouped_data %>%
     left_join(class_totals, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_diet <- proportions %>%
@@ -1196,13 +1213,13 @@ plot_ds = function(data, data_f) {
   
   class_totals_component_data_type$class = factor(class_totals_component_data_type$class, levels = tree_classes)
   matching_indices = match(tree_classes, class_totals_component_data_type$class)
-  class_totals_component_data_type = class_totals_component_data_type[matching_indices, ]
+  class_totals_component_data_type = class_totals_component_data_type[matching_indices,]
   
   # Calculate the proportion of each component_data_type within each class
   proportions <- grouped_data_component_data_type %>%
     left_join(class_totals_component_data_type, by = "class") %>%
     mutate(proportion = count / total) %>%
-    dplyr::select(-count,-total)
+    dplyr::select(-count, -total)
   
   # Convert the data to long format
   long_data_component_data_type <- proportions %>%
@@ -1263,7 +1280,7 @@ plot_ds = function(data, data_f) {
         "Detritivore"
       ),
       guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1, ),
+                           keyheight = 1,),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1426,7 +1443,7 @@ plot_ds = function(data, data_f) {
   )
   
   ##### Number of observation for sample type according to matrix #####
-  data_p = data[!is.na(data$sample_type),]
+  data_p = data[!is.na(data$sample_type), ]
   df_split <- split(data_p, data_p$component_data_type)
   
   plots_matrix_diet_unit_list <-
@@ -1545,7 +1562,7 @@ plot_ds = function(data, data_f) {
     
     plots_bm[[i]] = ggplot2::ggplot(data_element ,
                                     aes(x = log10(body_mass),
-                                        y = avg_component_mean, )) +
+                                        y = avg_component_mean,)) +
       geom_point(aes(col = diet),
                  shape = 16,
                  alpha = 0.7) +
@@ -1608,7 +1625,7 @@ plot_ds = function(data, data_f) {
         breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right")
-    
+
     
     # Calculate correlations and p-values for each diet group
     lm_pvals = data_element %>%
@@ -2132,7 +2149,8 @@ plot_ds = function(data, data_f) {
         values = colours_diet,
         breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
       ) +
-      theme(legend.position = "right")
+      theme(legend.position = "right") +
+      scale_y_continuous(trans = 'log10')
     
     # Calculate lm and p-values for each diet group
     lm_pvals = data_element %>%

@@ -114,7 +114,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(crow) &&
           any(nrow),
-        log(a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[nrow]),
+        log10(a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[nrow]),
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
@@ -130,7 +130,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(crow) &&
           any(prow),
-        log(a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[prow]),
+        log10(a_cnp_fsd$avg_component_mean[crow] / a_cnp_fsd$avg_component_mean[prow]),
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
@@ -146,7 +146,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(nrow) &&
           any(prow),
-        log(a_cnp_fsd$avg_component_mean[nrow] / a_cnp_fsd$avg_component_mean[prow]),
+        log10(a_cnp_fsd$avg_component_mean[nrow] / a_cnp_fsd$avg_component_mean[prow]),
         NA
       ),
       body_mass = a_cnp_fsd[which(a_cnp_fsd$species_latin_name_gbif == i)[1], "body_mass"],
@@ -216,7 +216,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(crow) &&
           any(nrow),
-        log(a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[nrow]),
+        log10(a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[nrow]),
         NA
       ),
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
@@ -232,7 +232,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(crow) &&
           any(prow),
-        log(a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[prow]),
+        log10(a_cnp_gsd$avg_component_mean[crow] / a_cnp_gsd$avg_component_mean[prow]),
         NA
       ),
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
@@ -248,7 +248,7 @@ combine_nutrients_traits = function(data_n, data_t) {
       avg_component_mean = ifelse(
         any(nrow) &&
           any(prow),
-        log(a_cnp_gsd$avg_component_mean[nrow] / a_cnp_gsd$avg_component_mean[prow]),
+        log10(a_cnp_gsd$avg_component_mean[nrow] / a_cnp_gsd$avg_component_mean[prow]),
         NA
       ),
       body_mass = a_cnp_gsd[which(a_cnp_gsd$species_latin_name_gbif == i)[1], "body_mass"],
