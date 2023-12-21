@@ -1590,7 +1590,6 @@ plot_ds = function(data, data_f) {
         label.y.npc = 1,
         geom = "text"
       )
-    
     # Save each plot
     ggsave(
       filename = paste(filenames[i], "_&_bm_mammals.pdf", sep = ""),
@@ -2149,9 +2148,8 @@ plot_ds = function(data, data_f) {
         values = colours_diet,
         breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
       ) +
-      theme(legend.position = "right") +
-      scale_y_continuous(trans = 'log10')
-    
+      theme(legend.position = "right")
+
     # Calculate lm and p-values for each diet group
     lm_pvals = data_element %>%
       dplyr::summarise(.by = diet,
