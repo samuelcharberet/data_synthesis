@@ -83,9 +83,7 @@ plot_ds = function(data, data_f) {
   
   # Nitrogen ####
   
-  lucas_nitrogen = ggplot2::ggplot(data_fluxes ,
-                                   aes(x = CP_Crude_Protein_diet,
-                                       y = CP_ad)) +
+  lucas_nitrogen = ggplot2::ggplot(data_fluxes , aes(x = CP_Crude_Protein_diet, y = CP_ad)) +
     coord_cartesian(xlim = c(0, max(
       data_fluxes$CP_Crude_Protein_diet, na.rm = T
     ))) +
@@ -119,8 +117,7 @@ plot_ds = function(data, data_f) {
       colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet N (%DM)",
-         y = "N AE (%)") +
+    labs(x = "Diet N (%DM)", y = "N AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -138,9 +135,7 @@ plot_ds = function(data, data_f) {
   
   # Sodium ####
   
-  lucas_sodium = ggplot2::ggplot(data_fluxes ,
-                                 aes(x = Na_diet,
-                                     y = Na_ad)) +
+  lucas_sodium = ggplot2::ggplot(data_fluxes , aes(x = Na_diet, y = Na_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Na_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -172,8 +167,7 @@ plot_ds = function(data, data_f) {
       colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet Na (%DM)",
-         y = "Na AE (%)") +
+    labs(x = "Diet Na (%DM)", y = "Na AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -190,9 +184,7 @@ plot_ds = function(data, data_f) {
   
   # Magnesium ####
   
-  lucas_magnesium = ggplot2::ggplot(data_fluxes ,
-                                    aes(x = Mg_diet,
-                                        y = Mg_ad)) +
+  lucas_magnesium = ggplot2::ggplot(data_fluxes , aes(x = Mg_diet, y = Mg_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Mg_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -224,8 +216,7 @@ plot_ds = function(data, data_f) {
       colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet Mg (%DM)",
-         y = "Mg AE (%)") +
+    labs(x = "Diet Mg (%DM)", y = "Mg AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -242,9 +233,7 @@ plot_ds = function(data, data_f) {
   
   # Phosphorus ####
   
-  lucas_phosphorus = ggplot2::ggplot(data_fluxes ,
-                                     aes(x = P_diet,
-                                         y = P_ad)) +
+  lucas_phosphorus = ggplot2::ggplot(data_fluxes , aes(x = P_diet, y = P_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$P_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -277,8 +266,7 @@ plot_ds = function(data, data_f) {
       fullrange = TRUE
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet P (%DM)",
-         y = "P AE (%)") +
+    labs(x = "Diet P (%DM)", y = "P AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -295,9 +283,7 @@ plot_ds = function(data, data_f) {
   
   # Potassium ####
   
-  lucas_potassium = ggplot2::ggplot(data_fluxes ,
-                                    aes(x = K_diet,
-                                        y = K_ad)) +
+  lucas_potassium = ggplot2::ggplot(data_fluxes , aes(x = K_diet, y = K_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$K_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -329,8 +315,7 @@ plot_ds = function(data, data_f) {
       colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet K (%DM)",
-         y = "K AE (%)") +
+    labs(x = "Diet K (%DM)", y = "K AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -347,9 +332,7 @@ plot_ds = function(data, data_f) {
   
   # Calcium ####
   
-  lucas_calcium = ggplot2::ggplot(data_fluxes ,
-                                  aes(x = Ca_diet,
-                                      y = Ca_ad)) +
+  lucas_calcium = ggplot2::ggplot(data_fluxes , aes(x = Ca_diet, y = Ca_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Ca_diet, na.rm = T))) +
     geom_rect(
       aes(
@@ -381,8 +364,7 @@ plot_ds = function(data, data_f) {
       colour = "black"
     ) +
     scale_color_manual(values = colours_diet) +
-    labs(x = "Diet Ca (%DM)",
-         y = "Ca AE (%)") +
+    labs(x = "Diet Ca (%DM)", y = "Ca AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
   # Save the plot
@@ -410,14 +392,7 @@ plot_ds = function(data, data_f) {
     NULL,
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -426,9 +401,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  complete_lucas_plot = ggpubr::annotate_figure(complete_lucas_plot,
-                                                bottom = "",
-                                                top = "")
+  complete_lucas_plot = ggpubr::annotate_figure(complete_lucas_plot, bottom = "", top = "")
   
   ggsave(
     filename = "lucas_all.pdf",
@@ -447,8 +420,7 @@ plot_ds = function(data, data_f) {
     lucas_phosphorus,
     ncol = 2,
     nrow = 1,
-    labels = c("a.",
-               "b."),
+    labels = c("a.", "b."),
     label.y = 1.1,
     label.x = 0,
     heights = c(1),
@@ -457,9 +429,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  np_lucas_plot = ggpubr::annotate_figure(np_lucas_plot,
-                                          bottom = "",
-                                          top = "")
+  np_lucas_plot = ggpubr::annotate_figure(np_lucas_plot, bottom = "", top = "")
   
   ggsave(
     filename = "lucas_np.pdf",
@@ -482,8 +452,7 @@ plot_ds = function(data, data_f) {
                                                                        Species_lat, y = CP_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "N AE (%)",
-         x = "Species")
+    labs(y = "N AE (%)", x = "Species")
   
   ggsave(
     filename = "species_nad.pdf",
@@ -505,8 +474,7 @@ plot_ds = function(data, data_f) {
                                                                         Species_lat, y = Na_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Na AE (%)",
-         x = "Species")
+    labs(y = "Na AE (%)", x = "Species")
   
   ggsave(
     filename = "species_naad.pdf",
@@ -529,8 +497,7 @@ plot_ds = function(data, data_f) {
                                                                         Species_lat, y = Mg_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Mg AE (%)",
-         x = "Species")
+    labs(y = "Mg AE (%)", x = "Species")
   
   ggsave(
     filename = "species_mgad.pdf",
@@ -553,8 +520,7 @@ plot_ds = function(data, data_f) {
                                                                       P_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "P AE (%)",
-         x = "Species")
+    labs(y = "P AE (%)", x = "Species")
   
   ggsave(
     filename = "species_pad.pdf",
@@ -577,8 +543,7 @@ plot_ds = function(data, data_f) {
                                                                       K_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "K AE (%)",
-         x = "Species")
+    labs(y = "K AE (%)", x = "Species")
   
   ggsave(
     filename = "species_kad.pdf",
@@ -601,8 +566,7 @@ plot_ds = function(data, data_f) {
                                                                         Species_lat, y = Ca_ad)) +
     geom_boxplot() +
     coord_flip() +
-    labs(y = "Ca AE (%)",
-         x = "Species")
+    labs(y = "Ca AE (%)", x = "Species")
   
   ggsave(
     filename = "species_caad.pdf",
@@ -658,7 +622,7 @@ plot_ds = function(data, data_f) {
     filter(sample_type %in% required_sample_types,
            component_name %in% required_components) %>%
     group_by(component_name) %>%
-    summarise(count = n())
+    tally(name = "count")
   
   # Arrange the data by count in descending order
   filtered_data <- filtered_data %>%
@@ -692,8 +656,7 @@ plot_ds = function(data, data_f) {
   
   number_studies_f_time = ggplot(study_counts_df, aes(x = year, y = count)) +
     ylim(0, NA) +
-    geom_line(color = "black",
-              linewidth = 1) +
+    geom_line(color = "black", linewidth = 1) +
     labs(x = "Year", y = "Number of Studies") +
     scale_x_continuous(breaks = seq(1965, 2020, 5))
   
@@ -794,7 +757,7 @@ plot_ds = function(data, data_f) {
       component_measure_method %in% required_methods
     ) %>%
     group_by(component_name, component_measure_method) %>%
-    summarise(count = n())
+    tally(name = "count")
   
   library(ggplot2)
   
@@ -832,7 +795,7 @@ plot_ds = function(data, data_f) {
     coord_polar("y", start = 0) +
     theme_void() +
     ggsci::scale_fill_npg() +
-    facet_wrap( ~ component_name, nrow = 1) +
+    facet_wrap(~ component_name, nrow = 1) +
     labs(fill = "Measure method")
   
   
@@ -923,7 +886,7 @@ plot_ds = function(data, data_f) {
   ##### Histograms showing the proportion of supplementary figures #####
   
   datref0 = subset(data, first_author != "charberet")
-  datref = datref0[order(datref0$first_author, decreasing = FALSE),]
+  datref = datref0[order(datref0$first_author, decreasing = FALSE), ]
   datref$obsref_ID = interaction(datref$reference_ID, datref$observation_ID)
   dim(datref0)
   dim(datref)
@@ -957,7 +920,7 @@ plot_ds = function(data, data_f) {
   head(tabref)
   
   #--- Add total
-  total = tabref[1,]
+  total = tabref[1, ]
   total[1, "ref"] = 0
   total[1, "first_author"] = "total"
   total[1, "year"] = 2023
@@ -973,7 +936,7 @@ plot_ds = function(data, data_f) {
   
   #--- select only feces, guano, frass
   unique(data$sample_type)
-  dat2 = subset(data,!is.na(sample_type) == T & !is.na(class) == T)
+  dat2 = subset(data, !is.na(sample_type) == T & !is.na(class) == T)
   datwaste = subset(dat2, sample_type %in% c("feces", "guano", "frass"))
   datwaste = droplevels(datwaste)
   
@@ -1129,9 +1092,7 @@ plot_ds = function(data, data_f) {
   dev.off()
   
   ##### A phylogenetic tree with diet, bodymasses distribution and sample type #####
-  taxize_classes = readRDS(file = here::here("1_data",
-                                             "4_data_taxonomy",
-                                             "taxize_classes.RData"))
+  taxize_classes = readRDS(file = here::here("1_data", "4_data_taxonomy", "taxize_classes.RData"))
   
   species_traits_taxonomy = unique(data[, c("species", "class", "diet", "body_mass")])
   
@@ -1143,7 +1104,7 @@ plot_ds = function(data, data_f) {
   # Group the data by class and species, and calculate the count for each combination
   grouped_data_nb_species <- species_traits_taxonomy %>%
     group_by(class, species) %>%
-    dplyr::summarise(count = n())
+    dplyr::tally(name = "count")
   
   # Compute the total count of species for each class
   class_totals_nb_species <- grouped_data_nb_species %>%
@@ -1168,13 +1129,13 @@ plot_ds = function(data, data_f) {
     factor(class_totals_nb_species$class, levels = tree_classes)
   
   matching_indices = match(tree_classes, class_totals_nb_species$class)
-  class_totals_nb_species = class_totals_nb_species[matching_indices,]
+  class_totals_nb_species = class_totals_nb_species[matching_indices, ]
   
   
   # Group the data by class and diet, and calculate the count for each combination
   grouped_data <- species_traits_taxonomy %>%
     group_by(class, diet) %>%
-    dplyr::summarise(count = n())
+    dplyr::tally(name = "count")
   
   # Compute the total count for each class
   class_totals <- grouped_data %>%
@@ -1203,7 +1164,7 @@ plot_ds = function(data, data_f) {
         sample_type == "guano" | sample_type == "frass"
     ) %>%
     group_by(class, component_data_type) %>%
-    dplyr::summarise(count = n())
+    dplyr::tally(name = "count")
   
   # Compute the total count for each class
   class_totals_component_data_type <-
@@ -1213,7 +1174,7 @@ plot_ds = function(data, data_f) {
   
   class_totals_component_data_type$class = factor(class_totals_component_data_type$class, levels = tree_classes)
   matching_indices = match(tree_classes, class_totals_component_data_type$class)
-  class_totals_component_data_type = class_totals_component_data_type[matching_indices,]
+  class_totals_component_data_type = class_totals_component_data_type[matching_indices, ]
   
   # Calculate the proportion of each component_data_type within each class
   proportions <- grouped_data_component_data_type %>%
@@ -1279,8 +1240,7 @@ plot_ds = function(data, data_f) {
         "Insectivore",
         "Detritivore"
       ),
-      guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1,),
+      guide = guide_legend(keywidth = 0.6, keyheight = 1, ),
       values = colours_diet
     ) +
     new_scale_fill() +
@@ -1304,8 +1264,7 @@ plot_ds = function(data, data_f) {
       breaks = c("stock", "flux", "rate"),
       labels = c("Stock", "Flux", "Rate"),
       na.translate = T,
-      guide = guide_legend(keywidth = 0.6,
-                           keyheight = 1),
+      guide = guide_legend(keywidth = 0.6, keyheight = 1),
       values = c(
         "stock" = "lightgoldenrod2",
         "flux" = "darkorange",
@@ -1362,9 +1321,7 @@ plot_ds = function(data, data_f) {
   
   selected_data <- drop_na(dplyr::select(data, environment, diet))
   
-  environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet),
-                                                                                  color = 'black',
-                                                                                  alpha = 0.7) +
+  environment_diet_histogram = ggplot(selected_data, aes(environment)) + geom_bar(aes(fill = diet), color = 'black', alpha = 0.7) +
     scale_fill_manual(values = colours_diet) +
     labs(x = "Sampling environment", y = "Number of osbervations", fill = "Diet") +
     theme_bw()
@@ -1530,8 +1487,7 @@ plot_ds = function(data, data_f) {
   plots_bm = vector("list", nb_elements)
   names(plots_bm) = el_ra
   
-  a_cnp_fsd = read.csv(here::here("1_data",
-                                  "a_cnp_fsd.csv"))
+  a_cnp_fsd = read.csv(here::here("1_data", "a_cnp_fsd.csv"))
   
   a_cnp_fsd$diet = factor(a_cnp_fsd$diet,
                           levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
@@ -1560,12 +1516,8 @@ plot_ds = function(data, data_f) {
     
     # The body mass plot
     
-    plots_bm[[i]] = ggplot2::ggplot(data_element ,
-                                    aes(x = log10(body_mass),
-                                        y = avg_component_mean,)) +
-      geom_point(aes(col = diet),
-                 shape = 16,
-                 alpha = 0.7) +
+    plots_bm[[i]] = ggplot2::ggplot(data_element , aes(x = log10(body_mass), y = avg_component_mean, )) +
+      geom_point(aes(col = diet), shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste("Faeces", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
@@ -1624,14 +1576,13 @@ plot_ds = function(data, data_f) {
         breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right")
-
+    
     
     # Calculate correlations and p-values for each diet group
     lm_pvals = data_element %>%
-      dplyr::summarise(.by = diet,
-                       p_value = summary(lm(
-                         avg_component_mean ~ log10(body_mass)
-                       ))$coefficients[2, 4])
+      dplyr::summarise(.by = diet, p_value = summary(lm(
+        avg_component_mean ~ log10(body_mass)
+      ))$coefficients[2, 4])
     
     # Filter significant diet groups
     significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
@@ -1677,8 +1628,7 @@ plot_ds = function(data, data_f) {
         wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
         adjust_pvalue(method = "holm") %>%
         add_significance("p.adj") %>%
-        add_xy_position(x = "diet",
-                        step.increase = 0.2)
+        add_xy_position(x = "diet", step.increase = 0.2)
     }
     
     
@@ -1698,8 +1648,7 @@ plot_ds = function(data, data_f) {
         alpha = 0.9,
         shape = 16
       ) +
-      geom_boxplot(outlier.shape = NA,
-                   alpha = 0.7) +
+      geom_boxplot(outlier.shape = NA, alpha = 0.7) +
       stat_pvalue_manual(
         wilcox_test,
         label = "p.adj.signif",
@@ -1760,15 +1709,7 @@ plot_ds = function(data, data_f) {
     plots_diet[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -1777,9 +1718,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_diet_mammals = ggpubr::annotate_figure(cnp_diet_mammals,
-                                             bottom = "",
-                                             top = "")
+  cnp_diet_mammals = ggpubr::annotate_figure(cnp_diet_mammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_diet_mammals.pdf",
@@ -1804,15 +1743,7 @@ plot_ds = function(data, data_f) {
     plots_bm[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -1821,9 +1752,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_bm_mammals = ggpubr::annotate_figure(cnp_bm_mammals,
-                                           bottom = "",
-                                           top = "")
+  cnp_bm_mammals = ggpubr::annotate_figure(cnp_bm_mammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_bm_mammals.pdf",
@@ -1848,15 +1777,7 @@ plot_ds = function(data, data_f) {
     plots_bm_diet[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -1865,9 +1786,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_bm_diet_mammals = ggpubr::annotate_figure(cnp_bm_diet_mammals,
-                                                bottom = "",
-                                                top = "")
+  cnp_bm_diet_mammals = ggpubr::annotate_figure(cnp_bm_diet_mammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_bm_diet_mammals.pdf",
@@ -1899,10 +1818,7 @@ plot_ds = function(data, data_f) {
   )
   names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
   
-  cn_plan_mammals = ggplot2::ggplot(cnp_plan_data,
-                                    aes(x = N,
-                                        y = C,
-                                        col = as.factor(diet))) +
+  cn_plan_mammals = ggplot2::ggplot(cnp_plan_data, aes(x = N, y = C, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1919,15 +1835,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %N",
-         y = "Faeces %C") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    labs(x = "Faeces %N", y = "Faeces %C") +
+    scale_color_manual(name = 'Diet', values = colours_diet)
   
-  cp_plan_mammals = ggplot2::ggplot(cnp_plan_data,
-                                    aes(x = P,
-                                        y = C,
-                                        col = as.factor(diet))) +
+  cp_plan_mammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = C, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1944,15 +1855,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %P",
-         y = "Faeces %C") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    labs(x = "Faeces %P", y = "Faeces %C") +
+    scale_color_manual(name = 'Diet', values = colours_diet)
   
-  np_plan_mammals = ggplot2::ggplot(cnp_plan_data,
-                                    aes(x = P,
-                                        y = N,
-                                        col = as.factor(diet))) +
+  np_plan_mammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = N, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -1969,10 +1875,8 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %P",
-         y = "Faeces %N") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    labs(x = "Faeces %P", y = "Faeces %N") +
+    scale_color_manual(name = 'Diet', values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(
     cn_plan_mammals,
@@ -1980,9 +1884,7 @@ plot_ds = function(data, data_f) {
     np_plan_mammals,
     ncol = 3,
     nrow = 1,
-    labels = c("a.",
-               "b.",
-               "c."),
+    labels = c("a.", "b.", "c."),
     label.y = 1,
     label.x = 0,
     heights = c(1),
@@ -1991,9 +1893,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans,
-                                               bottom = "",
-                                               top = "")
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_biplots_mammals.pdf",
@@ -2034,8 +1934,7 @@ plot_ds = function(data, data_f) {
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
   
-  a_cnp_gsd = read.csv(here::here("1_data",
-                                  "a_cnp_gsd.csv"))
+  a_cnp_gsd = read.csv(here::here("1_data", "a_cnp_gsd.csv"))
   
   a_cnp_gsd$diet = factor(a_cnp_gsd$diet,
                           levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
@@ -2082,13 +1981,9 @@ plot_ds = function(data, data_f) {
     
     # The body mass plot
     
-    plots_bm[[i]] = ggplot2::ggplot(data_element ,
-                                    aes(x = log10(body_mass),
-                                        y = avg_component_mean)) +
+    plots_bm[[i]] = ggplot2::ggplot(data_element , aes(x = log10(body_mass), y = avg_component_mean)) +
       ylim(NA, ylim_max_bm) +
-      geom_point(aes(col = diet),
-                 shape = 16,
-                 alpha = 0.7) +
+      geom_point(aes(col = diet), shape = 16, alpha = 0.7) +
       labs(x = "Body mass <br> (log<sub>10</sub> g)" ,
            y = paste("Waste", y_name[i], units[i], sep = " ")) +
       theme(axis.title.x = element_markdown()) +
@@ -2096,7 +1991,7 @@ plot_ds = function(data, data_f) {
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right") +
       geom_smooth(
@@ -2146,16 +2041,15 @@ plot_ds = function(data, data_f) {
       scale_color_manual(
         name = 'Diet',
         values = colours_diet,
-        breaks = c('Herbivore',  'Omnivore', 'Carnivore', 'Detritivore')
+        breaks = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
       ) +
       theme(legend.position = "right")
-
+    
     # Calculate lm and p-values for each diet group
     lm_pvals = data_element %>%
-      dplyr::summarise(.by = diet,
-                       p_value = summary(lm(
-                         avg_component_mean ~ log10(body_mass)
-                       ))$coefficients[2, 4])
+      dplyr::summarise(.by = diet, p_value = summary(lm(
+        avg_component_mean ~ log10(body_mass)
+      ))$coefficients[2, 4])
     
     # Filter significant diet groups
     significant_diets = lm_pvals$diet[lm_pvals$p_value < 0.05]
@@ -2202,8 +2096,7 @@ plot_ds = function(data, data_f) {
         wilcox_test(avg_component_mean ~ diet, comparisons = diet_comparisons) %>%
         adjust_pvalue(method = "holm") %>%
         add_significance("p.adj") %>%
-        add_xy_position(x = "diet",
-                        step.increase = 0.2)
+        add_xy_position(x = "diet", step.increase = 0.2)
     }
     
     # Plot diet
@@ -2223,8 +2116,7 @@ plot_ds = function(data, data_f) {
         alpha = 0.9,
         shape = 16
       ) +
-      geom_boxplot(outlier.shape = NA,
-                   alpha = 0.7) +
+      geom_boxplot(outlier.shape = NA, alpha = 0.7) +
       stat_pvalue_manual(
         wilcox_test,
         label = "p.adj.signif",
@@ -2284,15 +2176,7 @@ plot_ds = function(data, data_f) {
     plots_diet[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -2301,9 +2185,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_diet_nonmammals = ggpubr::annotate_figure(cnp_diet_nonmammals,
-                                                bottom = "",
-                                                top = "")
+  cnp_diet_nonmammals = ggpubr::annotate_figure(cnp_diet_nonmammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_diet_nonmammals.pdf",
@@ -2328,15 +2210,7 @@ plot_ds = function(data, data_f) {
     plots_bm_diet[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -2345,9 +2219,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_bm_diet_nonmammals = ggpubr::annotate_figure(cnp_bm_diet_nonmammals,
-                                                   bottom = "",
-                                                   top = "")
+  cnp_bm_diet_nonmammals = ggpubr::annotate_figure(cnp_bm_diet_nonmammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_bm_diet_nonmammals.pdf",
@@ -2373,15 +2245,7 @@ plot_ds = function(data, data_f) {
     plots_bm[[6]],
     ncol = 3,
     nrow = 3,
-    labels = c("a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.16,
     label.x = 0,
     heights = c(1, 0.05, 1),
@@ -2390,9 +2254,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  cnp_bm_nonmammals = ggpubr::annotate_figure(cnp_bm_nonmammals,
-                                              bottom = "",
-                                              top = "")
+  cnp_bm_nonmammals = ggpubr::annotate_figure(cnp_bm_nonmammals, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_bm_nonmammals.pdf",
@@ -2421,10 +2283,7 @@ plot_ds = function(data, data_f) {
   )
   names(cnp_plan_data_summary)[2:4] = c("C", "N", "P")
   
-  cn_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
-                                       aes(x = N,
-                                           y = C,
-                                           col = as.factor(diet))) +
+  cn_plan_nonmammals = ggplot2::ggplot(cnp_plan_data, aes(x = N, y = C, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -2441,8 +2300,7 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %N",
-         y = "Waste %C") +
+    labs(x = "Waste %N", y = "Waste %C") +
     scale_color_manual(
       name = 'Diet',
       values = colours_diet,
@@ -2450,10 +2308,7 @@ plot_ds = function(data, data_f) {
     ) +
     theme(legend.position = 'right')
   
-  cp_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
-                                       aes(x = P,
-                                           y = C,
-                                           col = as.factor(diet))) +
+  cp_plan_nonmammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = C, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -2470,15 +2325,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %P",
-         y = "Waste %C") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    labs(x = "Waste %P", y = "Waste %C") +
+    scale_color_manual(name = 'Diet', values = colours_diet)
   
-  np_plan_nonmammals = ggplot2::ggplot(cnp_plan_data,
-                                       aes(x = P,
-                                           y = N,
-                                           col = as.factor(diet))) +
+  np_plan_nonmammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = N, col = as.factor(diet))) +
     geom_point(data = cnp_plan_data_summary, aes(colour = diet), shape = 16) +
     geom_errorbarh(data = cnp_plan_data_summary,
                    aes(
@@ -2495,10 +2345,8 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %P",
-         y = "Waste %N") +
-    scale_color_manual(name = 'Diet',
-                       values = colours_diet)
+    labs(x = "Waste %P", y = "Waste %N") +
+    scale_color_manual(name = 'Diet', values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(
     cn_plan_nonmammals,
@@ -2506,9 +2354,7 @@ plot_ds = function(data, data_f) {
     np_plan_nonmammals,
     ncol = 3,
     nrow = 1,
-    labels = c("a.",
-               "b.",
-               "c."),
+    labels = c("a.", "b.", "c."),
     label.y = 1,
     label.x = 0,
     heights = c(1),
@@ -2518,9 +2364,7 @@ plot_ds = function(data, data_f) {
   )
   
   
-  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans,
-                                               bottom = "",
-                                               top = "")
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans, bottom = "", top = "")
   
   ggsave(
     filename = "cnp_biplots_nonmammals.pdf",
@@ -2551,18 +2395,7 @@ plot_ds = function(data, data_f) {
     np_plan_nonmammals,
     ncol = 3,
     nrow = 4,
-    labels = c("",
-               "",
-               "",
-               "a.",
-               "b.",
-               "c.",
-               "",
-               "",
-               "",
-               "d.",
-               "e.",
-               "f."),
+    labels = c("", "", "", "a.", "b.", "c.", "", "", "", "d.", "e.", "f."),
     label.y = 1.1,
     label.x = 0,
     heights = c(0.1, 1, 0.1, 1),
@@ -2571,9 +2404,7 @@ plot_ds = function(data, data_f) {
     legend = "right"
   )
   
-  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans_cnc,
-                                               bottom = "",
-                                               top = "")
+  complete_cnp_plans = ggpubr::annotate_figure(complete_cnp_plans_cnc, bottom = "", top = "")
   
   
   ggsave(
