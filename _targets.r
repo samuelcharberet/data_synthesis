@@ -124,6 +124,11 @@ list(
     data_combined,
     combine_nutrients_traits(data_n = data_nutrients_combined, data_t = data_traits_combined)
   ),
+  # Generate usable datatables for analysis
+  tar_target(
+    datasets_for_analyses,
+    create_datasets_for_analyses(data = data_combined)
+  ),
   # define fluxes file
   tar_target(
     data_fluxes_file,

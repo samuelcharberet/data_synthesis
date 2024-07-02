@@ -19,14 +19,14 @@ combine_nutrient_data = function(data_nl, data_np) {
   # We remove rows containing only NAs
   data_nutrients = data_nutrients[rowSums(is.na(data_nutrients)) != ncol(data_nutrients), ]
   
-  ######  4. Homogenize the nomenclature of the species variables ####
+  ######  4. Homogenization #####
   
-  # of the species variables
+  ##### of the nomenclature of the species name ####
+  
   data_nutrients$species_latin_name_gbif = tolower(data_nutrients$species_latin_name_gbif)
   data_nutrients$species_latin_name_gbif = gsub(" ", "_", data_nutrients$species_latin_name_gbif)
   
-  
-  # of the component names
+  ###### of the component names ####
   data_nutrients[which(data_nutrients$component_name == "egestion_rate"),]$component_name = "egestion"
   data_nutrients[which(data_nutrients$component_name == "15N"),]$component_name =
     "d15N"
@@ -39,25 +39,25 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_name == "C:N"),]$component_name = "C/N"
   data_nutrients[which(data_nutrients$component_name == "PO43-"),]$component_name = "PO4"
   
-  # of the bodymass weight type
+  ###### of the bodymass weight type ####
   data_nutrients[which(data_nutrients$bodymass_weight_type == "ww"),]$bodymass_weight_type = "fw"
   data_nutrients[which(data_nutrients$bodymass_weight_type == "WW"),]$bodymass_weight_type = "fw"
   
-  # of the age error type
+  ###### of the age error type ####
   data_nutrients[which(data_nutrients$age_error_type == "sd"),]$age_error_type = "standard_deviation"
   
-  # of the sampling environment
+  ###### of the sampling environment ####
   data_nutrients[which(data_nutrients$environment == "lab"),]$environment = "laboratory"
   
-  # of the observation resolution
+  ###### of the observation resolution ####
   data_nutrients[which(data_nutrients$observation_resolution == "intra_indiv"),]$observation_resolution = "intra_individual"
   data_nutrients[which(data_nutrients$observation_resolution == "inter_indiv"),]$observation_resolution = "inter_individual"
   
-  # of the component error type
+  ###### of the component error type ####
   data_nutrients[which(data_nutrients$component_error_type == "sd"),]$component_error_type = "standard_deviation"
   data_nutrients[which(data_nutrients$component_error_type == "SE"),]$component_error_type = "standard_error"
   
-  # of the component error type
+  ###### of the component unit ####
   data_nutrients[which(data_nutrients$component_unit == "mg/g"),]$component_unit = "g/kg"
   data_nutrients[which(data_nutrients$component_unit == "pourcentage"),]$component_unit = "percent"
   data_nutrients[which(data_nutrients$component_unit == "percentage"),]$component_unit = "percent"
@@ -69,14 +69,13 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_unit == "parts_per_thousand"),]$component_unit = "g/kg"
   data_nutrients[which(data_nutrients$component_unit == "%"),]$component_unit = "percent"
   
-  # of the component weight type
+  ###### of the component weight type ####
   data_nutrients[which(data_nutrients$component_weight_type == "ww"),]$component_weight_type = "fw"
   
-  # of the component detail
+  ###### of the component detail ####
   data_nutrients[which(data_nutrients$component_detail == "TOC"),]$component_detail = "organic"
   
-  # of the component measure method
-  
+  ###### of the component measure method ####
   data_nutrients[which(data_nutrients$component_measure_method == "CHN"),]$component_measure_method = "elemental_analyser"
   data_nutrients[which(data_nutrients$component_measure_method == "flow_injection_analysis"),]$component_measure_method = "autoanalyzer"
   data_nutrients[which(data_nutrients$component_measure_method == "colorimetry_autoanalyzer"),]$component_measure_method = "autoanalyzer"
@@ -115,15 +114,14 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_measure_method == "walkley-black"),]$component_measure_method = "walkley_black"
   data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"),]$component_measure_method = "kjeldahl"
   
-  # of the drying time unit
+  ###### of the drying time unit ####
   data_nutrients[which(data_nutrients$drying_time_unit == "h"),]$drying_time_unit = "hour"
   
-  
-  # of the drying temperature unit
+  ###### of the drying temperature unit ####
   data_nutrients[which(data_nutrients$drying_temp_unit == "°C"),]$drying_temp_unit = "c"
   data_nutrients[which(data_nutrients$drying_temp_unit == "C"),]$drying_temp_unit = "c"
   
-  # of the grinding fineness unit
+  ###### of the grinding fineness unit ####
   data_nutrients[which(data_nutrients$grinding_fineness_unit == "microns"),]$grinding_fineness_unit = "µm"
   
   
