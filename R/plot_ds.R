@@ -795,7 +795,7 @@ plot_ds = function(data, data_f) {
     coord_polar("y", start = 0) +
     theme_void() +
     ggsci::scale_fill_npg() +
-    facet_wrap(~ component_name, nrow = 1) +
+    facet_wrap( ~ component_name, nrow = 1) +
     labs(fill = "Measure method")
   
   
@@ -883,7 +883,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Histograms showing the proportion of supplementary figures #####
+  ##### Histograms showing the proportion of supplementary data #####
   
   datref0 = subset(data, first_author != "charberet")
   datref = datref0[order(datref0$first_author, decreasing = FALSE), ]
@@ -1467,16 +1467,16 @@ plot_ds = function(data, data_f) {
   
   el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
   y_name = c(
-    "C",
-    "N",
-    "P",
+    "log<sub>10</sub> C",
+    "log<sub>10</sub> N",
+    "log<sub>10</sub> P",
     "log<sub>10</sub> C/N",
     "log<sub>10</sub> C/P",
     "log<sub>10</sub> N/P"
   )
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
-  units = c("%", "%", "%", "", "", "")
+  units = c("", "", "", "", "", "")
   variables = c("body_mass", "diet")
   nb_variables = length(variables)
   
@@ -1487,10 +1487,12 @@ plot_ds = function(data, data_f) {
   plots_bm = vector("list", nb_elements)
   names(plots_bm) = el_ra
   
-  a_cnp_fsd = read.csv(here::here("1_data", "a_cnp_fsd.csv"))
+  cnp_fsd_species = read.csv(here::here("1_data", "cnp_fsd_species.csv"))
   
-  a_cnp_fsd$diet = factor(a_cnp_fsd$diet,
-                          levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
+  cnp_fsd_species$diet = factor(
+    cnp_fsd_species$diet,
+    levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
+  )
   
   diet_comparisons = list(
     c("Herbivore", "Omnivore"),
@@ -1500,7 +1502,7 @@ plot_ds = function(data, data_f) {
   
   
   for (i in 1:length(el_ra)) {
-    data_element = subset(a_cnp_fsd, a_cnp_fsd$component_name == el_ra[i])
+    data_element = subset(cnp_fsd_species, cnp_fsd_species$component_name == el_ra[i])
     
     # Filter out diets with less than 3 rows
     data_element = data_element %>%
@@ -1510,7 +1512,7 @@ plot_ds = function(data, data_f) {
       ungroup() %>%
       droplevels()
     
-    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.4 * (
+    ylim_max = max(data_element$avg_component_mean, na.rm = T) + 0.5 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
@@ -1539,7 +1541,7 @@ plot_ds = function(data, data_f) {
         aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
         size = 2.2,
         label.x.npc = 0,
-        label.y.npc = 1,
+        label.y.npc = 0.99,
         geom = "text"
       )
     # Save each plot
@@ -1599,6 +1601,7 @@ plot_ds = function(data, data_f) {
       }
     }
     
+    # Add the statistical correlation for significant diet groups
     if (length(significant_diets) > 0) {
       plots_bm_diet[[i]] = plots_bm_diet[[i]] +
         ylim(NA, ylim_max) +
@@ -1607,7 +1610,7 @@ plot_ds = function(data, data_f) {
           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
           size = 2.2,
           label.x.npc = 0,
-          label.y.npc = 1,
+          label.y.npc = 0.99,
           geom = "text"
         )
     }
@@ -1804,7 +1807,9 @@ plot_ds = function(data, data_f) {
   # Mammals CNP biplots ####
   
   
-  cnp_plan_data = pivot_wider(a_cnp_fsd, names_from = "component_name", values_from = "avg_component_mean")
+  cnp_plan_data = pivot_wider(cnp_fsd_species,
+                              names_from = "component_name",
+                              values_from = "avg_component_mean")
   cnp_plan_data_summary = ddply(
     cnp_plan_data,
     .(diet),
@@ -1835,7 +1840,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %N", y = "Faeces %C") +
+    labs(
+      x = paste("Faeces log<sub>10</sub> N"),
+      y = paste("Faeces log<sub>10</sub> C")
+    ) +
     scale_color_manual(name = 'Diet', values = colours_diet)
   
   cp_plan_mammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = C, col = as.factor(diet))) +
@@ -1855,7 +1863,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %P", y = "Faeces %C") +
+    labs(
+      x = paste("Faeces log<sub>10</sub> P"),
+      y = paste("Faeces log<sub>10</sub> C")
+    ) +
     scale_color_manual(name = 'Diet', values = colours_diet)
   
   np_plan_mammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = N, col = as.factor(diet))) +
@@ -1875,7 +1886,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Faeces %P", y = "Faeces %N") +
+    labs(
+      x = paste("Faeces log<sub>10</sub> P"),
+      y = paste("Faeces log<sub>10</sub> N")
+    ) +
     scale_color_manual(name = 'Diet', values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(
@@ -1914,16 +1928,16 @@ plot_ds = function(data, data_f) {
   
   el_ra = c("C", "N", "P", "C/N", "C/P", "N/P")
   y_name = c(
-    "C",
-    "N",
-    "P",
+    "log<sub>10</sub> C",
+    "log<sub>10</sub> N",
+    "log<sub>10</sub> P",
     "log<sub>10</sub> C/N",
     "log<sub>10</sub> C/P",
     "log<sub>10</sub> N/P"
   )
   filenames = c("C", "N", "P", "CN", "CP", "NP")
   nb_elements = length(el_ra)
-  units = c("%", "%", "%", "", "", "")
+  units = c("", "", "", "", "", "")
   variables = c("body_mass", "diet")
   nb_variables = length(variables)
   
@@ -1934,10 +1948,12 @@ plot_ds = function(data, data_f) {
   plots_diet = vector("list", nb_elements)
   names(plots_diet) = el_ra
   
-  a_cnp_gsd = read.csv(here::here("1_data", "a_cnp_gsd.csv"))
+  cnp_gsd_species = read.csv(here::here("1_data", "cnp_gsd_species.csv"))
   
-  a_cnp_gsd$diet = factor(a_cnp_gsd$diet,
-                          levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
+  cnp_gsd_species$diet = factor(
+    cnp_gsd_species$diet,
+    levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore')
+  )
   
   diet_comparisons = list(
     c("Herbivore", "Omnivore"),
@@ -1951,7 +1967,7 @@ plot_ds = function(data, data_f) {
   # Non-mammals CNP diet bodymass plots ####
   
   for (i in 1:length(el_ra)) {
-    data_element = subset(a_cnp_gsd, a_cnp_gsd$component_name == el_ra[i])
+    data_element = subset(cnp_gsd_species, cnp_gsd_species$component_name == el_ra[i])
     
     # Filter out diets with less than 5 rows
     data_element = data_element %>%
@@ -1972,10 +1988,10 @@ plot_ds = function(data, data_f) {
     # Keep only the valid comparisons
     diet_comparisons = diet_comparisons[which(unlist(valid_comparisons))]
     
-    ylim_max_bm = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+    ylim_max_bm = max(data_element$avg_component_mean, na.rm = T) + 0.5 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
-    ylim_max_diet = max(data_element$avg_component_mean, na.rm = T) + 0.2 * (
+    ylim_max_diet = max(data_element$avg_component_mean, na.rm = T) + 0.5 * (
       max(data_element$avg_component_mean, na.rm = T) - min(data_element$avg_component_mean, na.rm = T)
     )
     
@@ -2004,7 +2020,7 @@ plot_ds = function(data, data_f) {
         aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
         size = 2.2,
         label.x.npc = 0,
-        label.y.npc = 1,
+        label.y.npc = 0.99,
         geom = "text"
       )
     
@@ -2074,7 +2090,7 @@ plot_ds = function(data, data_f) {
           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
           size = 2.2,
           label.x.npc = 0,
-          label.y.npc = 1,
+          label.y.npc = 0.99,
           geom = "text"
         )
     }
@@ -2269,7 +2285,9 @@ plot_ds = function(data, data_f) {
   
   # Non-mammals CNP biplots ####
   
-  cnp_plan_data = pivot_wider(a_cnp_gsd, names_from = "component_name", values_from = "avg_component_mean")
+  cnp_plan_data = pivot_wider(cnp_gsd_species,
+                              names_from = "component_name",
+                              values_from = "avg_component_mean")
   cnp_plan_data_summary = ddply(
     cnp_plan_data,
     .(diet),
@@ -2300,7 +2318,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %N", y = "Waste %C") +
+    labs(
+      x = paste("Waste log<sub>10</sub> N"),
+      y = paste("Waste log<sub>10</sub> C")
+    ) +
     scale_color_manual(
       name = 'Diet',
       values = colours_diet,
@@ -2325,7 +2346,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %P", y = "Waste %C") +
+    labs(
+      x = paste("Waste log<sub>10</sub> P"),
+      y = paste("Waste log<sub>10</sub> C")
+    ) +
     scale_color_manual(name = 'Diet', values = colours_diet)
   
   np_plan_nonmammals = ggplot2::ggplot(cnp_plan_data, aes(x = P, y = N, col = as.factor(diet))) +
@@ -2345,7 +2369,10 @@ plot_ds = function(data, data_f) {
       colour = diet,
       width = 0
     )) +
-    labs(x = "Waste %P", y = "Waste %N") +
+    labs(
+      x = paste("Waste log<sub>10</sub> P"),
+      y = paste("Waste log<sub>10</sub> N")
+    ) +
     scale_color_manual(name = 'Diet', values = colours_diet)
   
   complete_cnp_plans = ggpubr::ggarrange(

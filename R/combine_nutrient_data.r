@@ -113,6 +113,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_measure_method == "ascorbic_acid_method"),]$component_measure_method = "micro-ascorbic_acid"
   data_nutrients[which(data_nutrients$component_measure_method == "walkley-black"),]$component_measure_method = "walkley_black"
   data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"),]$component_measure_method = "kjeldahl"
+  data_nutrients[which(data_nutrients$component_measure_method == "gv_mass_spectrometer"),]$component_measure_method = "elemental_analyser"
   
   ###### of the drying time unit ####
   data_nutrients[which(data_nutrients$drying_time_unit == "h"),]$drying_time_unit = "hour"

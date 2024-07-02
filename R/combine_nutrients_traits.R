@@ -23,12 +23,13 @@ combine_nutrients_traits = function(data_n, data_t) {
   species = na.omit(unique(data_nutrients$species))
   n_species = length(species)
   
-  for (i in 1:n_species) {
-    row_species = which(data$species == species[i])
-    species_body_mass = data_traits[i, ]$body_mass
-    species_diet = data_traits[i, ]$diet
-    data[row_species, ]$body_mass = species_body_mass
-    data[row_species, ]$diet = species_diet
+  for (i in species) {
+    row_species_in_data = which(data$species == i)
+    row_species_in_data_traits  = which(data_traits$species == i)
+    species_body_mass = data_traits[row_species_in_data_traits, ]$body_mass
+    species_diet = data_traits[row_species_in_data_traits, ]$diet
+    data[row_species_in_data, ]$body_mass = species_body_mass
+    data[row_species_in_data, ]$diet = species_diet
   }
   
   ###### Structuration of the table ######

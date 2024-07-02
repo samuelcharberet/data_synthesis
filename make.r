@@ -51,10 +51,12 @@ data_traits = load_dt(data_traits_file)
 
 data = combine_nutrients_traits(data_n = data_nutrients, data_t = data_traits)
 
+create_datasets_for_analyses(data)
+
 data_fluxes_file = here::here("1_data", "2_data_fluxes", "data_fluxes.csv")
 
 data_fluxes = load_df(data_fluxes_file)
 
 plot_ds(data = data, data_f = data_fluxes)
 
-model_ds(data = data, data_f = data_fluxes)
+model_ds()
