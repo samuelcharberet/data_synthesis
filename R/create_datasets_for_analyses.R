@@ -14,7 +14,7 @@
 
 create_datasets_for_analyses = function(data) {
   # Selecting data based on the method
-  data_selected_method <- data |>
+  data_selected <- data |>
     filter(
       component_measure_method %in% c(
         "elemental_analyser",
@@ -26,282 +26,289 @@ create_datasets_for_analyses = function(data) {
         "macro_kjeldahl",
         "atomic_fluorescence_spectrometry",
         "icp"
+      ),
+      component_name == "C" |
+        component_name == "N" | component_name == "P",
+      component_data_type == "stock",
+      component_weight_type == "dw"
+    )
+  
+  
+  ##### The function to create species-level datasets #####
+  
+  create_species_datasets = function(data) {
+    # Keep only relevant rows
+    data <- data |>
+      dplyr::select(species_latin_name_gbif,
+                    component_name,
+                    component_mean,
+                    body_mass,
+                    diet)
+    
+    # Average over species
+    
+    data_species <- data |>
+      group_by(species_latin_name_gbif, component_name) |>
+      dplyr::summarise(
+        avg_component_mean = mean(component_mean),
+        n_obs = length(component_mean),
+        body_mass = first(body_mass),
+        diet = first(diet)
       )
-    )
-  
-  
-  #### No cloaca (mammals) species averages with body mass and diet ####
-  stock_data <- data_selected_method |>
-    filter(component_data_type == "stock")
-  
-  faeces_stock_data <- stock_data |>
-    filter(cloaca == 0)
-  faeces_stock_data <- faeces_stock_data |>
-    filter(sample_type == "feces" |
-             sample_type == "faeces" &
-             component_weight_type == "dw")
-  # Selecting CNP in faeces stock data
-  cnp_fsd <- faeces_stock_data |>
-    filter(component_name == "C" |
-             component_name == "N" | component_name == "P")
-  
-  # Keep only relevant rows
-  
-  cnp_fsd <- cnp_fsd |>
-    dplyr::select(species_latin_name_gbif,
-                  component_name,
-                  component_mean,
-                  body_mass,
-                  diet)
-  
-  # Average over species
-  
-  cnp_fsd_species <- cnp_fsd |>
-    group_by(species_latin_name_gbif, component_name) |>
-    dplyr::summarise(
-      avg_component_mean = mean(component_mean),
-      n_obs = length(component_mean),
-      body_mass = first(body_mass),
-      diet = first(diet)
-    )
-  
-  # Compute the ratios
-  species = unique(cnp_fsd_species$species_latin_name_gbif)
-  
-  for (i in species) {
-    crow = which(
-      cnp_fsd_species$species_latin_name_gbif == i &
-        cnp_fsd_species$component_name == "C"
-    )
-    nrow = which(
-      cnp_fsd_species$species_latin_name_gbif == i &
-        cnp_fsd_species$component_name == "N"
-    )
-    prow = which(
-      cnp_fsd_species$species_latin_name_gbif == i &
-        cnp_fsd_species$component_name == "P"
-    )
-    cn_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/N",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(nrow),
-        log10(
-          cnp_fsd_species$avg_component_mean[crow] / cnp_fsd_species$avg_component_mean[nrow]
+    
+    # Compute the ratios
+    species = unique(data_species$species_latin_name_gbif)
+    
+    for (i in species) {
+      crow = which(data_species$species_latin_name_gbif == i &
+                     data_species$component_name == "C")
+      nrow = which(data_species$species_latin_name_gbif == i &
+                     data_species$component_name == "N")
+      prow = which(data_species$species_latin_name_gbif == i &
+                     data_species$component_name == "P")
+      cn_row = data.frame(
+        species_latin_name_gbif = i,
+        component_name = "C/N",
+        avg_component_mean = ifelse(
+          any(crow) &&
+            any(nrow),
+          log10(
+            data_species$avg_component_mean[crow] / data_species$avg_component_mean[nrow]
+          ),
+          NA
         ),
-        NA
-      ),
-      body_mass = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"), ]), nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                                                                                 cnp_fsd$component_name == "N"), ]))
-    )
-    cp_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/P",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(prow),
-        log10(
-          cnp_fsd_species$avg_component_mean[crow] / cnp_fsd_species$avg_component_mean[prow]
+        body_mass = data_species[which(data_species$species_latin_name_gbif == i)[1], "body_mass"],
+        diet = data_species[which(data_species$species_latin_name_gbif == i)[1], "diet"],
+        n_obs = mean(nrow(data[which(data$species_latin_name_gbif == i &
+                                       data$component_name == "C"), ]), nrow(data[which(data$species_latin_name_gbif == i &
+                                                                                          data$component_name == "N"), ]))
+      )
+      cp_row = data.frame(
+        species_latin_name_gbif = i,
+        component_name = "C/P",
+        avg_component_mean = ifelse(
+          any(crow) &&
+            any(prow),
+          log10(
+            data_species$avg_component_mean[crow] / data_species$avg_component_mean[prow]
+          ),
+          NA
         ),
-        NA
-      ),
-      body_mass = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "C"), ]), nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                                                                                 cnp_fsd$component_name == "P"), ]))
-    )
-    np_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "N/P",
-      avg_component_mean = ifelse(
-        any(nrow) &&
-          any(prow),
-        log10(
-          cnp_fsd_species$avg_component_mean[nrow] / cnp_fsd_species$avg_component_mean[prow]
+        body_mass = data_species[which(data_species$species_latin_name_gbif == i)[1], "body_mass"],
+        diet = data_species[which(data_species$species_latin_name_gbif == i)[1], "diet"],
+        n_obs = mean(nrow(data[which(data$species_latin_name_gbif == i &
+                                       data$component_name == "C"), ]), nrow(data[which(data$species_latin_name_gbif == i &
+                                                                                          data$component_name == "P"), ]))
+      )
+      np_row = data.frame(
+        species_latin_name_gbif = i,
+        component_name = "N/P",
+        avg_component_mean = ifelse(
+          any(nrow) &&
+            any(prow),
+          log10(
+            data_species$avg_component_mean[nrow] / data_species$avg_component_mean[prow]
+          ),
+          NA
         ),
-        NA
-      ),
-      body_mass = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_fsd_species[which(cnp_fsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                        cnp_fsd$component_name == "N"), ]), nrow(cnp_fsd[which(cnp_fsd$species_latin_name_gbif == i &
-                                                                                                 cnp_fsd$component_name == "P"), ]))
+        body_mass = data_species[which(data_species$species_latin_name_gbif == i)[1], "body_mass"],
+        diet = data_species[which(data_species$species_latin_name_gbif == i)[1], "diet"],
+        n_obs = mean(nrow(data[which(data$species_latin_name_gbif == i &
+                                       data$component_name == "N"), ]), nrow(data[which(data$species_latin_name_gbif == i &
+                                                                                          data$component_name == "P"), ]))
+      )
+      
+      # Add Row using rbind()
+      data_species = rbind(data_species, cn_row, cp_row, np_row)
+    }
+    
+    # Log C, N and P contents (they are also ratios in nature)
+    
+    for (i in 1:nrow(data_species)) {
+      if (data_species$component_name[i] %in% c("C", "N", "P")) {
+        data_species$avg_component_mean[i] = log10(data_species$avg_component_mean[i] /
+                                                     100)
+      }
+    }
+    return(data_species)
+  }
+  
+  
+  #### Create a mammals dataset at the species level ####
+  
+  data_mammals <- data_selected |>
+    filter(class == "Mammalia", sample_type == "feces")
+  
+  data_mammals_species = create_species_datasets(data_mammals)
+  
+  write.csv(
+    data_mammals_species,
+    here::here("1_data", "data_mammals_species.csv"),
+    row.names = FALSE
+  )
+  
+  #### Create a Sauropsids dataset at the species level ####
+  
+  data_sauropsids <- data_selected |>
+    filter(
+      class == "Aves" | class == "Squamata" | class == "Testudines",
+      sample_type == "guano" | sample_type == "feces"
+    )
+  
+  data_sauropsids_species = create_species_datasets(data_sauropsids)
+  
+  write.csv(
+    data_sauropsids_species,
+    here::here("1_data", "data_sauropsids_species.csv"),
+    row.names = FALSE
+  )
+  
+  #### Create a arthropods dataset at the species level ####
+  
+  data_arthropods <- data_selected |>
+    filter(
+      class == "Insecta" |
+        class == "Diplopoda" |
+        class == "Arachnida" |
+        class == "Malacostraca" | class == "Collembola",
+      sample_type == "frass" | sample_type == "feces"
+    )
+  
+  data_arthropods_species = create_species_datasets(data_arthropods)
+  
+  write.csv(
+    data_arthropods_species,
+    here::here("1_data", "data_arthropods_species.csv"),
+    row.names = FALSE
+  )
+  
+  
+  ##### The function to create observation-level datasets #####
+  
+  create_observations_datasets = function(data) {
+    # Attributing a custom body mass
+    # Either the known faeces producer average bodymass, or the average species body mass from the trait database
+    for (i in 1:nrow(data)) {
+      if (!is.na(data$bodymass_mean[i])) {
+        data$body_mass[i] = data$bodymass_mean[i]
+      }
+    }
+    
+    # We give each row unique sample ID
+    
+    for (i in 1:nrow(data)) {
+      if (!is.na(data$repetition_ID[i])) {
+        data$sample_ID[i] = as.character(interaction(
+          data$reference_ID[i],
+          data$feces_ID[i],
+          data$repetition_ID[i]
+        ))
+      } else {
+        data$sample_ID[i] = as.character(interaction(data$reference_ID[i], data$feces_ID[i]))
+      }
+    }
+    
+    # We compute CNP ratios
+    sample_IDs = unique(data$sample_ID)
+    
+    column_ratios = c(
+      "location_in_reference",
+      "observation_ID",
+      grep("component", colnames(data), value = TRUE),
+      "freezing",
+      "autoclaving",
+      "drying",
+      "oven",
+      "drying_time",
+      "drying_time_unit",
+      "drying_temp",
+      "drying_temp_unit",
+      "grinding",
+      "grinding_fineness",
+      "grinding_fineness_unit",
+      "comments"
     )
     
-    # Add Row using rbind()
-    cnp_fsd_species = rbind(cnp_fsd_species, cn_row, cp_row, np_row)
-  }
-  
-  # Log C, N and P contents (they are also ratios in nature)
-  
-  for (i in 1:nrow(cnp_fsd_species)) {
-    if (cnp_fsd_species$component_name[i] %in% c("C", "N", "P")) {
-      cnp_fsd_species$avg_component_mean[i] = log10(cnp_fsd_species$avg_component_mean[i] /
-                                                      100)
-    }
-  }
-  
-  write.csv(cnp_fsd_species,
-            here::here("1_data", "cnp_fsd_species.csv"),
-            row.names = FALSE)
-  
-  
-  #### Cloaca species averages with body mass and diet ####
-  
-  guano_stock_data <- stock_data |>
-    filter(cloaca == 1)
-  guano_stock_data <- guano_stock_data |>
-    filter(sample_type == "frass" |
-             sample_type == "guano" | component_weight_type == "dw")
-  # Selecting CNP in guano stock data
-  cnp_gsd <- guano_stock_data |>
-    filter(component_name == "C" |
-             component_name == "N" | component_name == "P")
-  
-  # Keep only relevant rows
-  
-  cnp_gsd <- cnp_gsd |>
-    dplyr::select(species_latin_name_gbif,
-                  component_name,
-                  component_mean,
-                  body_mass,
-                  diet)
-  
-  # Average over species
-  
-  cnp_gsd_species <- cnp_gsd |>
-    group_by(species_latin_name_gbif, component_name) |>
-    dplyr::summarise(
-      avg_component_mean = mean(component_mean),
-      body_mass = first(body_mass),
-      diet = first(diet)
-    )
-  
-  # Compute the ratios
-  species = unique(cnp_gsd_species$species_latin_name_gbif)
-  
-  for (i in species) {
-    crow = which(
-      cnp_gsd_species$species_latin_name_gbif == i &
-        cnp_gsd_species$component_name == "C"
-    )
-    nrow = which(
-      cnp_gsd_species$species_latin_name_gbif == i &
-        cnp_gsd_species$component_name == "N"
-    )
-    prow = which(
-      cnp_gsd_species$species_latin_name_gbif == i &
-        cnp_gsd_species$component_name == "P"
-    )
-    cn_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/N",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(nrow),
-        log10(
-          cnp_gsd_species$avg_component_mean[crow] / cnp_gsd_species$avg_component_mean[nrow]
-        ),
-        NA
-      ),
-      body_mass = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "C"), ]), nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                                                                                 cnp_gsd$component_name == "N"), ]))
-    )
-    cp_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "C/P",
-      avg_component_mean = ifelse(
-        any(crow) &&
-          any(prow),
-        log10(
-          cnp_gsd_species$avg_component_mean[crow] / cnp_gsd_species$avg_component_mean[prow]
-        ),
-        NA
-      ),
-      body_mass = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "C"), ]), nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                                                                                 cnp_gsd$component_name == "P"), ]))
-    )
-    np_row = data.frame(
-      species_latin_name_gbif = i,
-      component_name = "N/P",
-      avg_component_mean = ifelse(
-        any(nrow) &&
-          any(prow),
-        log10(
-          cnp_gsd_species$avg_component_mean[nrow] / cnp_gsd_species$avg_component_mean[prow]
-        ),
-        NA
-      ),
-      body_mass = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "body_mass"],
-      diet = cnp_gsd_species[which(cnp_gsd_species$species_latin_name_gbif == i)[1], "diet"],
-      n_obs = mean(nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                        cnp_gsd$component_name == "N"), ]), nrow(cnp_gsd[which(cnp_gsd$species_latin_name_gbif == i &
-                                                                                                 cnp_gsd$component_name == "P"), ]))
-    )
+    selected_columns = which(names(data) %in% column_ratios)
+    couples = list(c("C", "N"), c("C", "P"), c("N", "P"))
     
-    # Add Row using rbind()
-    cnp_gsd_species = rbind(cnp_gsd_species, cn_row, cp_row, np_row)
-  }
-  
-  
-  # Log C, N and P contents (they are also ratios in nature)
-  
-  for (i in 1:nrow(cnp_gsd_species)) {
-    if (cnp_gsd_species$component_name[i] %in% c("C", "N", "P")) {
-      cnp_gsd_species$avg_component_mean[i] = log10(cnp_gsd_species$avg_component_mean[i] /
-                                                      100)
+    for (i in sample_IDs) {
+      sample_rows = which(data$sample_ID == i)
+      reference_rows = which(data$reference_ID == data$reference_ID[sample_rows[1]])
+      elements = unique(data[sample_rows, ]$component_name)
+      
+      for (j in couples) {
+        row_n = which(data$sample_ID == i &
+                        data$component_name == j[[1]])
+        
+        row_d = which(data$sample_ID == i &
+                        data$component_name == j[[2]])
+        
+        if (all(j %in% elements)) {
+          # We create a new row
+          data[nrow(data) + 1, -selected_columns] = data[sample_rows[1], -selected_columns]
+          
+          # The component mean is computed
+          component_mean = data$component_mean[row_n] / data$component_mean[row_d]
+          data[nrow(data), selected_columns] = list(
+            NA,
+            max(as.numeric(data$observation_ID[reference_rows])) + 1,
+            paste(j[[1]], "/", j[[2]], sep = ""),
+            component_mean,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            "dw",
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA,
+            NA
+          )
+        }
+      }
     }
   }
   
-  ### Write data file ###
+  #### Create a mammals dataset at the observation level ####
   
-  write.csv(cnp_gsd_species,
-            here::here("1_data", "cnp_gsd_species.csv"),
-            row.names = FALSE)
+  data_mammals_observations = create_observations_datasets(data_mammals)
+  write.csv(
+    data_mammals_observations,
+    here::here("1_data", "data_mammals_observations.csv"),
+    row.names = FALSE
+  )
   
-  #### Mammalia species data with custom bodymass and ratios ####
+  #### Create a sauropsids dataset at the observation level ####
   
-  # Selecting CNP in faeces stock data
-  cnp_fsd <- faeces_stock_data |>
-    filter(component_name == "C" |
-             component_name == "N" | component_name == "P") 
+  data_sauropsids_observations = create_observations_datasets(data_sauropsids)
+  write.csv(
+    data_sauropsids_observations,
+    here::here("1_data", "data_sauropsids_observations.csv"),
+    row.names = FALSE
+  )
   
-  for (i in 1:nrow(cnp_fsd)) {
-    if (!is.na(cnp_fsd$bodymass_mean[i])){
-      cnp_fsd$body_mass[i] = cnp_fsd$bodymass_mean[i]
-    }
-  }
+  #### Create an arthropod dataset at the observation level ####
   
-  # Pivot the data to get C, N, P in separate columns
-  df_pivot <- cnp_fsd %>%
-    select(reference_ID,
-           feces_ID,
-           repetition_ID,
-           component_name,
-           component_mean) %>%
-    pivot_wider(names_from = component_name, values_from = component_mean)
+  data_arthropods_observations = create_observations_datasets(data_arthropods)
+  write.csv(
+    data_arthropods_observations,
+    here::here("1_data", "data_arthropods_observations.csv"),
+    row.names = FALSE
+  )
   
-  # Calculate ratios
-  df_ratios <- df_pivot %>%
-    mutate(
-      C_N = ifelse(!is.na(C) & !is.na(N), C / N, NA),
-      C_P = ifelse(!is.na(C) & !is.na(P), C / P, NA),
-      N_P = ifelse(!is.na(N) & !is.na(P), N / P, NA)
-    )
-  
-  a = cnp_fsd %>%
-    left_join(df_ratios, by = c("reference_ID", "feces_ID", "repetition_ID"))
-  
-
 }
