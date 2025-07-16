@@ -16,6 +16,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   data_nutrients = plyr::rbind.fill (plyr::rbind.fill(data_nl), data_np)
   rm(data_nl, data_np)
+  
   # We remove rows containing only NAs
   data_nutrients = data_nutrients[rowSums(is.na(data_nutrients)) != ncol(data_nutrients), ]
   
@@ -264,38 +265,6 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   gbif_ids = unique(data_nutrients$gbif_id)
   
-  # We download the taxonomic data every three months at least
-  
-  if (file.exists(here::here("1_data", "4_data_taxonomy", "list_rank.RData")) ==
-      T) {
-    if (file.info(here::here("1_data", "4_data_taxonomy", "list_rank.RData"))$mtime - Sys.time() < as.difftime(12, units = "weeks")) {
-      list_data_gbif = readRDS(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))
-    }
-    list_rank = readRDS(here::here("1_data", "4_data_taxonomy", "list_rank.RData"))
-    update = F
-  } else {
-    list_rank = id2name(gbif_ids, db = "gbif")
-    saveRDS(list_rank,
-            file = here::here("1_data", "4_data_taxonomy", "list_rank.RData"))
-    update = T
-  }
-  rm(gbif_ids)
-  
-  rank_notspecies = which(sapply(list_rank, function(e)
-    ! is.element('species', e)))
-  not_species_id = as.integer(names(list_rank[rank_notspecies]))
-  rm(list_rank, rank_notspecies)
-  if (length(which(is.na(not_species_id))) > 0) {
-    not_species_id = not_species_id[-which(is.na(not_species_id))]
-  }
-  
-  ##### 7. Remove data with taxonomic level higher than species ####
-  
-  data_nutrients <-
-    data_nutrients[!(data_nutrients$gbif_id %in% not_species_id), ]
-  rm(not_species_id)
-  
-  
   ##### 8. Create a table with taxonomic data for each species  ####
   
   # creates a character object with n element, n the number of unique species name
@@ -309,20 +278,26 @@ combine_nutrient_data = function(data_nl, data_np) {
   # Here we create a list of data frames containing one or more match proposals
   
   # We download the taxonomic data every three months at least
+  
+  local_list_data_gbif = readRDS(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))
+  
+  
   if (file.exists(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")) == F) {
+    # If he file does not exist, download the data
     list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
     saveRDS(
       list_data_gbif,
       file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
     )
   } else if (Sys.time() - file.info(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))$mtime > as.difftime(12, units = "weeks")) {
+    # Else if the data is too old (more than 3 months old), dowload the data
     list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
     saveRDS(
       list_data_gbif,
       file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
     )
-  } else if (all(names(list_data_gbif) %in% gsub("_", " ", list_sp)) == F) {
-    # If there are some species in the list_data_gbif lacking from list_sp, then we dowload again
+  } else if (all(names(local_list_data_gbif) %in% gsub("_", " ", list_sp)) == F) {
+    # If there are some species in the list_data_gbif lacking from list_sp, then we download again
     list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
     saveRDS(
       list_data_gbif,
@@ -410,7 +385,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     print(subspecies)
     
     message(
-      "🔧 Open the table associated with these references ID to put back the species names instead of subspecies"
+      "🔧 Open the table associated with these references ID to put back the species names instead of subspecies. Also correct it in trait database."
     )
     
     stop("❌ Execution halted due to the presence of subspecies names in the database.")
@@ -436,7 +411,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     message("\n❗ The following synonym species names were found:")
     print(synonym)
     
-    message("🔧 Open the table associated with these reference ID(s) to correct the species names.")
+    message("🔧 Open the table associated with these reference ID(s) to correct the species names. Also correct it in trait database.")
     
     stop("❌ Execution halted due to synonym species names in the database.")
   }
@@ -460,7 +435,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     print(fuzzy)
     
     message(
-      "🔧 Open the table associated with these references ID to put back the right species names."
+      "🔧 Open the table associated with these references ID to put back the right species names. Also correct it in trait database."
     )
     
     stop("❌ Execution halted due to fuzzy species names in the database.")
@@ -569,7 +544,6 @@ combine_nutrient_data = function(data_nl, data_np) {
     here::here("1_data", "3_data_traits", "data_traits_blank.csv"),
     row.names = FALSE
   )
-  
   
   selected_data <- data_nutrients$class
   

@@ -12,6 +12,24 @@
 #'
 combine_nutrients_traits = function(data_n, data_t) {
   
+  # Check that species names in the data traits database are up to date
+  
+  species = na.omit(unique(data_n$species_latin_name_gbif))
+  
+  if (all(data_t$species_names %in% species) == F) {
+    message("⚠️  The trait database contains outdated species names.\n")
+    
+    message("❗ The following species names are outdated:")
+    print(data_t[which(data_t$species_names %in% species == F ), ]$species_names)
+    
+    message(
+      "🔧 Open the data_traits table to put back the right species names."
+    )
+    
+    stop("❌ Execution halted due to outdated species names in the data_traits database")
+  }
+  
+  
   # We keep species_name, body mass and diet to add the the data_nutrients dataframe
   data_traits = data_t
   data_nutrients = data_n
