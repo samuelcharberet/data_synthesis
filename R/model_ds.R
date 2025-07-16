@@ -99,30 +99,30 @@ model_ds = function(data, data_fluxes) {
   # One model for animals with a cloaca, and one for animals without
   
   # Mammals ####
-  cnp_fsd_species = read.csv(here::here("1_data",
-                                  "cnp_fsd_species.csv"))
+  data_mammals_species = read.csv(here::here("1_data",
+                                  "data_mammals_species.csv"))
   
-  cnp_fsd_species$diet = as.factor(cnp_fsd_species$diet)
-  cnp_fsd_species = within(cnp_fsd_species, diet <-
+  data_mammals_species$diet = as.factor(data_mammals_species$diet)
+  data_mammals_species = within(data_mammals_species, diet <-
                        relevel(diet, ref = "Herbivore"))
-  cnp_fsd_species = cnp_fsd_species[,-which(names(cnp_fsd_species) == "n_obs")]
-  cnp_fsd_species = tidyr::pivot_wider(cnp_fsd_species, names_from = "component_name", values_from = "avg_component_mean")
+  data_mammals_species = data_mammals_species[,-which(names(data_mammals_species) == "n_obs")]
+  data_mammals_species = tidyr::pivot_wider(data_mammals_species, names_from = "component_name", values_from = "avg_component_mean")
   
   
   
   
   #  lm with diet
-  model_c = lm(C ~ diet, cnp_fsd_species)
+  model_c = lm(C ~ diet, data_mammals_species)
   tmodel_c = broom::tidy(model_c)
-  model_n = lm(N ~ diet, cnp_fsd_species)
+  model_n = lm(N ~ diet, data_mammals_species)
   tmodel_n = broom::tidy(model_n)
-  model_p = lm(P ~ diet, cnp_fsd_species)
+  model_p = lm(P ~ diet, data_mammals_species)
   tmodel_p = broom::tidy(model_p)
-  model_cn = lm(`C/N` ~ diet, cnp_fsd_species)
+  model_cn = lm(`C/N` ~ diet, data_mammals_species)
   tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(`C/P` ~ diet, cnp_fsd_species)
+  model_cp = lm(`C/P` ~ diet, data_mammals_species)
   tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(`N/P` ~ diet, cnp_fsd_species)
+  model_np = lm(`N/P` ~ diet, data_mammals_species)
   tmodel_np = broom::tidy(model_np)
   
   
@@ -144,13 +144,13 @@ model_ds = function(data, data_fluxes) {
   
   # Creating a comparative data object incorporating phylogeny
   
-  # cnp_fsd_species$species_latin_name_gbif = stringr::str_to_sentence(gsub("_", " ", cnp_fsd_species$species_latin_name_gbif))
-  # species_names = cnp_fsd_species$species_latin_name_gbif
+  # data_mammals_species$species_latin_name_gbif = stringr::str_to_sentence(gsub("_", " ", data_mammals_species$species_latin_name_gbif))
+  # species_names = data_mammals_species$species_latin_name_gbif
   # taxize_species = classification(species_names, db = "gbif")
   # species_tree = class2tree(taxize_species, check = T)
   #
   # cdat = caper::comparative.data(
-  #   data = as.data.frame(cnp_fsd_species),
+  #   data = as.data.frame(data_mammals_species),
   #   phy = species_tree$phylo,
   #   names.col = "species_latin_name_gbif",
   #   force.root = T
@@ -158,9 +158,9 @@ model_ds = function(data, data_fluxes) {
   
   # Centering body mass to ease the interpretation of intercepts
   
-  cnp_fsd_species$body_mass =
-    log(cnp_fsd_species$body_mass) -
-    log(mean(cnp_fsd_species$body_mass))
+  data_mammals_species$body_mass =
+    log(data_mammals_species$body_mass) -
+    log(mean(data_mammals_species$body_mass))
   
   # Phylogenetic GLS with body mass and diet
   # model_c = caper::pgls(C ~ body_mass * diet, cdat)
@@ -177,27 +177,27 @@ model_ds = function(data, data_fluxes) {
   # summary(model_np)
   
   #  lm with body mass and diet
-  model_c = lm(C ~ body_mass * diet, cnp_fsd_species)
+  model_c = lm(C ~ body_mass * diet, data_mammals_species)
   tmodel_c = broom::tidy(model_c)
   gmodel_c = broom::glance(model_c)
   
-  model_n = lm(N ~ body_mass * diet, cnp_fsd_species)
+  model_n = lm(N ~ body_mass * diet, data_mammals_species)
   tmodel_n = broom::tidy(model_n)
   gmodel_n = broom::glance(model_n)
   
-  model_p = lm(P ~ body_mass * diet, cnp_fsd_species)
+  model_p = lm(P ~ body_mass * diet, data_mammals_species)
   tmodel_p = broom::tidy(model_p)
   gmodel_p = broom::glance(model_p)
   
-  model_cn = lm(`C/N` ~ body_mass * diet, cnp_fsd_species)
+  model_cn = lm(`C/N` ~ body_mass * diet, data_mammals_species)
   tmodel_cn = broom::tidy(model_cn)
   gmodel_cn = broom::glance(model_cn)
   
-  model_cp = lm(`C/P` ~ body_mass * diet, cnp_fsd_species)
+  model_cp = lm(`C/P` ~ body_mass * diet, data_mammals_species)
   tmodel_cp = broom::tidy(model_cp)
   gmodel_cp = broom::glance(model_cp)
   
-  model_np = lm(`N/P` ~ body_mass * diet, cnp_fsd_species)
+  model_np = lm(`N/P` ~ body_mass * diet, data_mammals_species)
   tmodel_np = broom::tidy(model_np)
   gmodel_np = broom::glance(model_np)
   
@@ -231,106 +231,7 @@ model_ds = function(data, data_fluxes) {
     row.names = FALSE
   )
   
-  
-  
-  # Non-mammals ####
-  
-  cnp_gsd_species = read.csv(here::here("1_data",
-                                  "cnp_gsd_species.csv"))
-  
-  cnp_gsd_species$diet = as.factor(cnp_gsd_species$diet)
-  cnp_gsd_species = within(cnp_gsd_species, diet <-
-                       relevel(diet, ref = "Herbivore"))
-  cnp_gsd_species = cnp_gsd_species[,-which(names(cnp_gsd_species) == "n_obs")]
-  cnp_gsd_species = tidyr::pivot_wider(cnp_gsd_species, names_from = "component_name", values_from = "avg_component_mean")
-  
-  #  lm with diet
-  model_c = lm(C ~ diet, cnp_gsd_species)
-  tmodel_c = broom::tidy(model_c)
-  model_n = lm(N ~ diet, cnp_gsd_species)
-  tmodel_n = broom::tidy(model_n)
-  model_p = lm(P ~ diet, cnp_gsd_species)
-  tmodel_p = broom::tidy(model_p)
-  model_cn = lm(`C/N` ~ diet, cnp_gsd_species)
-  tmodel_cn = broom::tidy(model_cn)
-  model_cp = lm(`C/P` ~ diet, cnp_gsd_species)
-  tmodel_cp = broom::tidy(model_cp)
-  model_np = lm(`N/P` ~ diet, cnp_gsd_species)
-  tmodel_np = broom::tidy(model_np)
-  
-  # Wastes stock data diet models
-  models_gsd_diet = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
-  models_gsd_diet = models_gsd_diet %>%
-    mutate_if(is.numeric, signif, 3)
-  
-  write.csv(
-    models_gsd_diet,
-    here::here(
-      "2_outputs",
-      "1_statistical_results",
-      "models_gsd_diet.csv"
-    ),
-    row.names = FALSE
-  )
-  
-  # Centering body mass to ease the interpretation of intercepts
-  
-  cnp_gsd_species$body_mass = log(cnp_gsd_species$body_mass) - log(mean(cnp_gsd_species$body_mass))
-  
-  #  lm with body mass and diet
-  model_c = lm(C ~ body_mass * diet, cnp_gsd_species)
-  tmodel_c = broom::tidy(model_c)
-  gmodel_c = broom::glance(model_c)
-  
-  model_n = lm(N ~ body_mass * diet, cnp_gsd_species)
-  tmodel_n = broom::tidy(model_n)
-  gmodel_n = broom::glance(model_n)
-  
-  model_p = lm(P ~ body_mass * diet, cnp_gsd_species)
-  tmodel_p = broom::tidy(model_p)
-  gmodel_p = broom::glance(model_p)
-  
-  model_cn = lm(`C/N` ~ body_mass * diet, cnp_gsd_species)
-  tmodel_cn = broom::tidy(model_cn)
-  gmodel_cn = broom::glance(model_cn)
-  
-  model_cp = lm(`C/P` ~ body_mass * diet, cnp_gsd_species)
-  tmodel_cp = broom::tidy(model_cp)
-  gmodel_cp = broom::glance(model_cp)
-  
-  model_np = lm(`N/P` ~ body_mass * diet, cnp_gsd_species)
-  tmodel_np = broom::tidy(model_np)
-  gmodel_np = broom::glance(model_np)
-  
-  
-  # Faeces stock data stoichiometric models
-  bmodels_gsd_diet_bodymass = rbind(tmodel_c, tmodel_n, tmodel_p, tmodel_cn, tmodel_cp, tmodel_np)
-  bmodels_gsd_diet_bodymass = bmodels_gsd_diet_bodymass %>%
-    mutate_if(is.numeric, signif, 3)
-  
-  write.csv(
-    bmodels_gsd_diet_bodymass,
-    here::here(
-      "2_outputs",
-      "1_statistical_results",
-      "bmodels_gsd_diet_bodymass.csv"
-    ),
-    row.names = FALSE
-  )
-  
-  gmodels_gsd_diet_bodymass = rbind(gmodel_c, gmodel_n, gmodel_p, gmodel_cn, gmodel_cp, gmodel_np)
-  gmodels_gsd_diet_bodymass = gmodels_gsd_diet_bodymass %>%
-    mutate_if(is.numeric, signif, 3)
-  
-  write.csv(
-    gmodels_gsd_diet_bodymass,
-    here::here(
-      "2_outputs",
-      "1_statistical_results",
-      "gmodels_gsd_diet_bodymass.csv"
-    ),
-    row.names = FALSE
-  )
+
   
   
 }

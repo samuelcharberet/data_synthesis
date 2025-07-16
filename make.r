@@ -59,4 +59,4 @@ data_fluxes = load_df(data_fluxes_file)
 
 plot_ds(data = data, data_f = data_fluxes)
 
-model_ds()
+model_ds(data = data, data_f = data_fluxes)

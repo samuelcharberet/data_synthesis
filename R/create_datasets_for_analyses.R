@@ -209,7 +209,7 @@ create_datasets_for_analyses = function(data) {
     }
     
     # We compute CNP ratios
-    sample_IDs = unique(data$sample_ID)
+    sample_IDs = unique(data$sample_ID[!is.na(data$sample_ID)])
     
     column_ratios = c(
       "location_in_reference",
@@ -239,10 +239,10 @@ create_datasets_for_analyses = function(data) {
       
       for (j in couples) {
         row_n = which(data$sample_ID == i &
-                        data$component_name == j[[1]])
+                        data$component_name == j[1])
         
         row_d = which(data$sample_ID == i &
-                        data$component_name == j[[2]])
+                        data$component_name == j[2])
         
         if (all(j %in% elements)) {
           # We create a new row
@@ -253,7 +253,7 @@ create_datasets_for_analyses = function(data) {
           data[nrow(data), selected_columns] = list(
             NA,
             max(as.numeric(data$observation_ID[reference_rows])) + 1,
-            paste(j[[1]], "/", j[[2]], sep = ""),
+            paste(j[1], "/", j[2], sep = ""),
             component_mean,
             NA,
             NA,
