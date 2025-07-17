@@ -51,12 +51,11 @@ if ("ggtreeExtra" %in% new.packages) {
 
 tar_option_set(
   packages = c(
-    "ggplot2",
+    "tidyverse",
+    "mgcv",
     "grid",
     "readr",
-    "plyr" ,
-    "dplyr",
-    "tidyr",
+    "plyr",
     "taxize",
     "here",
     "traitdataform",
@@ -71,12 +70,20 @@ tar_option_set(
     "ggpubr",
     "rstatix",
     "ggrepel",
-    "devtools"
+    "devtools",
+    "ggsci",
+    "patchwork",
+    "ape"
   )
 )
 
-# We source all functions contained in all files in the R directory
-lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
+# We source all functions contained in all R files in the R directory
+tar_source(
+  files = here::here("R"),
+  envir = targets::tar_option_get("envir"),
+  change_directory = FALSE
+)
+
 
 list(
   # define nutrient literature files
