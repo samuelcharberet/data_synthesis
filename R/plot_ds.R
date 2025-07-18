@@ -11,7 +11,8 @@
 #'
 
 plot_ds = function(data, data_f) {
-  ##### Structuring data  #####
+  
+  # Structuring data  #####
   
   # Specify the strings to match in factor column names
   factor_columns =
@@ -47,7 +48,7 @@ plot_ds = function(data, data_f) {
     mutate(across(matches(numeric_columns), as.numeric))
   
   
-  ##### Global option for the plots  #####
+  # Global option for the plots  #####
   
   # Set global options for the ggplot2 plots
   ggplot2::theme_set(theme_classic() + theme(
@@ -77,11 +78,14 @@ plot_ds = function(data, data_f) {
   ) # The colors used for diet
   
   
-  ##### I. FLUXES #####
+  # FLUXES #####
   
   data_fluxes = data_f
   
-  # Nitrogen ####
+  ## Apparent digestibility according to food nutrient content ####
+  
+  
+  ### Nitrogen ####
   
   lucas_nitrogen = ggplot2::ggplot(data_fluxes , aes(x = CP_Crude_Protein_diet, y = CP_ad)) +
     coord_cartesian(xlim = c(0, max(
@@ -120,7 +124,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet N (%DM)", y = "N AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_nitrogen.pdf",
     plot = lucas_nitrogen,
@@ -133,7 +137,7 @@ plot_ds = function(data, data_f) {
   )
   
   
-  # Sodium ####
+  ### Sodium ####
   
   lucas_sodium = ggplot2::ggplot(data_fluxes , aes(x = Na_diet, y = Na_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Na_diet, na.rm = T))) +
@@ -170,7 +174,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet Na (%DM)", y = "Na AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_sodium.pdf",
     plot = lucas_sodium,
@@ -182,7 +186,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Magnesium ####
+  ### Magnesium ####
   
   lucas_magnesium = ggplot2::ggplot(data_fluxes , aes(x = Mg_diet, y = Mg_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Mg_diet, na.rm = T))) +
@@ -219,7 +223,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet Mg (%DM)", y = "Mg AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_magnesium.pdf",
     plot = lucas_magnesium,
@@ -231,7 +235,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Phosphorus ####
+  ### Phosphorus ####
   
   lucas_phosphorus = ggplot2::ggplot(data_fluxes , aes(x = P_diet, y = P_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$P_diet, na.rm = T))) +
@@ -269,7 +273,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet P (%DM)", y = "P AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_phosphorus.pdf",
     plot = lucas_phosphorus,
@@ -281,7 +285,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Potassium ####
+  ### Potassium ####
   
   lucas_potassium = ggplot2::ggplot(data_fluxes , aes(x = K_diet, y = K_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$K_diet, na.rm = T))) +
@@ -318,7 +322,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet K (%DM)", y = "K AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_potassium.pdf",
     plot = lucas_potassium,
@@ -330,7 +334,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Calcium ####
+  ### Calcium ####
   
   lucas_calcium = ggplot2::ggplot(data_fluxes , aes(x = Ca_diet, y = Ca_ad)) +
     coord_cartesian(xlim = c(0, max(data_fluxes$Ca_diet, na.rm = T))) +
@@ -367,7 +371,7 @@ plot_ds = function(data, data_f) {
     labs(x = "Diet Ca (%DM)", y = "Ca AE (%)") +
     theme(legend.position = "right") + ylim(-100, 100)
   
-  # Save the plot
+  ### Save the plot
   ggsave(
     filename = "lucas_calcium.pdf",
     plot = lucas_calcium,
@@ -379,7 +383,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Complete Lucas plots ####
+  ### Complete plots ####
   complete_lucas_plot = ggpubr::ggarrange(
     lucas_phosphorus,
     lucas_potassium,
@@ -414,7 +418,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Lucas plots ####
+  ### Only NP ####
   np_lucas_plot = ggpubr::ggarrange(
     lucas_nitrogen,
     lucas_phosphorus,
@@ -442,9 +446,9 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Apparent digestibility according to species ####
+  ## Apparent digestibility according to species ####
   
-  # Nitrogen ####
+  ### Nitrogen ####
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , CP_ad, median , na.rm =
                                                         T))
   
@@ -465,7 +469,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Sodium ####
+  ### Sodium ####
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Na_ad, median , na.rm =
                                                         T))
@@ -487,7 +491,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Magnesium ####
+  ### Magnesium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Mg_ad, median , na.rm =
@@ -510,7 +514,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Phosphorus ####
+  ### Phosphorus ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , P_ad, median , na.rm =
@@ -533,7 +537,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Potassium ####
+  ### Potassium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , K_ad, median , na.rm =
@@ -556,7 +560,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  # Calcium ####
+  ### Calcium ####
   
   
   data_fluxes$Species_lat = with(data_fluxes, reorder(Species_lat , Ca_ad, median , na.rm =
@@ -579,11 +583,11 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### II. STOCKS #####
+  # STOCKS #####
   
-  ##### 1. Preliminary figures #####
+  ## Preliminary figures #####
   
-  #### Number of observation by elements ####
+  ### Number of observation by elements ####
   required_sample_types <- c("feces", "urine", "guano", "frass")
   required_components <- c(
     "C",
@@ -647,7 +651,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Number of reference per year #####
+  ### Number of reference per year #####
   
   
   references_and_years  = unique(data[, c("reference_ID", "reference_year")])
@@ -671,7 +675,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Number of species per study #####
+  ### Number of species per study #####
   
   # Step 1: Get the unique study IDs
   study_ids = unique(data$reference_ID)
@@ -710,7 +714,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Measure method proportion for C, N and P #####
+  ### Measure method proportion for C, N and P #####
   
   # Replace values based on specific conditions
   data$component_measure_method[data$component_measure_method == "autoanalyzer"] <-
@@ -810,7 +814,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Map the sampling locations #####
+  ### Map the sampling locations #####
   
   data$sampling_latitude = as.numeric(data$sampling_latitude)
   data$sampling_longitude = as.numeric(data$sampling_longitude)
@@ -851,7 +855,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Body masses of species histogram  #####
+  ### Body masses of species histogram  #####
   
   selected_data <-
     dplyr::select(data, species_latin_name_gbif, body_mass, diet)
@@ -883,7 +887,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Histograms showing the proportion of supplementary data #####
+  ### Histograms showing the proportion of supplementary data #####
   
   datref0 = subset(data, first_author != "charberet")
   datref = datref0[order(datref0$first_author, decreasing = FALSE), ]
@@ -1091,7 +1095,7 @@ plot_ds = function(data, data_f) {
   
   dev.off()
   
-  ##### A phylogenetic tree with diet, bodymasses distribution and sample type #####
+  ### A phylogenetic tree with diet, bodymasses distribution and sample type #####
   taxize_classes = readRDS(file = here::here("1_data", "4_data_taxonomy", "taxize_classes.RData"))
   
   species_traits_taxonomy = unique(data[, c("species", "class", "diet", "body_mass")])
@@ -1316,7 +1320,7 @@ plot_ds = function(data, data_f) {
   
   
   
-  ##### Number of observation for sample type according to environment of sampling #####
+  ### Number of observation for sample type according to environment of sampling #####
   
   
   selected_data <- drop_na(dplyr::select(data, environment, diet))
@@ -1338,7 +1342,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Number of observation for sample type according to the observation resolution of sampling #####
+  ### Number of observation for sample type according to the observation resolution of sampling #####
   
   
   selected_data <- data %>%
@@ -1399,7 +1403,7 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### Number of observation for sample type according to matrix #####
+  ### Number of observation for sample type according to matrix #####
   data_p = data[!is.na(data$sample_type), ]
   df_split <- split(data_p, data_p$component_data_type)
   
@@ -1458,9 +1462,9 @@ plot_ds = function(data, data_f) {
     units = "in"
   )
   
-  ##### 2. C, N, P stock plots #####
+  ## C, N, P stock plots #####
   
-  # Mammals CNP diet bodymass plots ####
+  ### Mammals CNP diet bodymass plots ####
   
   # For each element, and each ratio, we do plots versus body mass and diet
   # As well as a "chemical plan" plot
@@ -1804,7 +1808,7 @@ plot_ds = function(data, data_f) {
   
   # We do %C, N% and %P biplots with averages and sd per diet group
   
-  # Mammals CNP biplots ####
+  ### Mammals CNP biplots ####
   
   
   cnp_plan_data = pivot_wider(data_mammals_species,

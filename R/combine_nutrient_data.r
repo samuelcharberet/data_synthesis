@@ -12,22 +12,21 @@
 #' @authors Anne-Cecile vain, Lucie Serre, Jerome Mathieu, Samuel Charberet
 #'
 combine_nutrient_data = function(data_nl, data_np) {
-  ######  3. Vertical concatenation of all tables  ######
-  
-  data_nutrients = plyr::rbind.fill (plyr::rbind.fill(data_nl), data_np)
-  rm(data_nl, data_np)
+  #  Vertical concatenation of all tables  ######
+  data_nutrients_literature = plyr::rbind.fill(data_nl)
+  data_nutrients = plyr::rbind.fill(data_nutrients_literature, data_np)
   
   # We remove rows containing only NAs
   data_nutrients = data_nutrients[rowSums(is.na(data_nutrients)) != ncol(data_nutrients), ]
   
-  ######  4. Homogenization #####
+  #  Homogenization #####
   
-  ##### of the nomenclature of the species name ####
+  ## of the nomenclature of the species name ####
   
   data_nutrients$species_latin_name_gbif = tolower(data_nutrients$species_latin_name_gbif)
   data_nutrients$species_latin_name_gbif = gsub(" ", "_", data_nutrients$species_latin_name_gbif)
   
-  ###### of the component names ####
+  ## of the component names ####
   data_nutrients[which(data_nutrients$component_name == "egestion_rate"), ]$component_name = "egestion"
   data_nutrients[which(data_nutrients$component_name == "15N"), ]$component_name =
     "d15N"
@@ -40,25 +39,25 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_name == "C:N"), ]$component_name = "C/N"
   data_nutrients[which(data_nutrients$component_name == "PO43-"), ]$component_name = "PO4"
   
-  ###### of the bodymass weight type ####
+  ## of the bodymass weight type ####
   data_nutrients[which(data_nutrients$bodymass_weight_type == "ww"), ]$bodymass_weight_type = "fw"
   data_nutrients[which(data_nutrients$bodymass_weight_type == "WW"), ]$bodymass_weight_type = "fw"
   
-  ###### of the age error type ####
+  ## of the age error type ####
   data_nutrients[which(data_nutrients$age_error_type == "sd"), ]$age_error_type = "standard_deviation"
   
-  ###### of the sampling environment ####
+  ## of the sampling environment ####
   data_nutrients[which(data_nutrients$environment == "lab"), ]$environment = "laboratory"
   
-  ###### of the observation resolution ####
+  ## of the observation resolution ####
   data_nutrients[which(data_nutrients$observation_resolution == "intra_indiv"), ]$observation_resolution = "intra_individual"
   data_nutrients[which(data_nutrients$observation_resolution == "inter_indiv"), ]$observation_resolution = "inter_individual"
   
-  ###### of the component error type ####
+  ## of the component error type ####
   data_nutrients[which(data_nutrients$component_error_type == "sd"), ]$component_error_type = "standard_deviation"
   data_nutrients[which(data_nutrients$component_error_type == "SE"), ]$component_error_type = "standard_error"
   
-  ###### of the component unit ####
+  ## of the component unit ####
   data_nutrients[which(data_nutrients$component_unit == "mg/g"), ]$component_unit = "g/kg"
   data_nutrients[which(data_nutrients$component_unit == "pourcentage"), ]$component_unit = "percent"
   data_nutrients[which(data_nutrients$component_unit == "percentage"), ]$component_unit = "percent"
@@ -70,13 +69,13 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_unit == "parts_per_thousand"), ]$component_unit = "g/kg"
   data_nutrients[which(data_nutrients$component_unit == "%"), ]$component_unit = "percent"
   
-  ###### of the component weight type ####
+  ## of the component weight type ####
   data_nutrients[which(data_nutrients$component_weight_type == "ww"), ]$component_weight_type = "fw"
   
-  ###### of the component detail ####
+  ## of the component detail ####
   data_nutrients[which(data_nutrients$component_detail == "TOC"), ]$component_detail = "organic"
   
-  ###### of the component measure method ####
+  ## of the component measure method ####
   data_nutrients[which(data_nutrients$component_measure_method == "CHN"), ]$component_measure_method = "elemental_analyser"
   data_nutrients[which(data_nutrients$component_measure_method == "flow_injection_analysis"), ]$component_measure_method = "autoanalyzer"
   data_nutrients[which(data_nutrients$component_measure_method == "colorimetry_autoanalyzer"), ]$component_measure_method = "autoanalyzer"
@@ -116,21 +115,22 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_nutrients[which(data_nutrients$component_measure_method == "khjeldal_AOAC-984.13"), ]$component_measure_method = "kjeldahl"
   data_nutrients[which(data_nutrients$component_measure_method == "gv_mass_spectrometer"), ]$component_measure_method = "elemental_analyser"
   
-  ###### of the drying time unit ####
+  ## of the drying time unit ####
   data_nutrients[which(data_nutrients$drying_time_unit == "h"), ]$drying_time_unit = "hour"
   
-  ###### of the drying temperature unit ####
+  ## of the drying temperature unit ####
   data_nutrients[which(data_nutrients$drying_temp_unit == "°C"), ]$drying_temp_unit = "c"
   data_nutrients[which(data_nutrients$drying_temp_unit == "C"), ]$drying_temp_unit = "c"
   
-  ###### of the grinding fineness unit ####
+  ## of the grinding fineness unit ####
   data_nutrients[which(data_nutrients$grinding_fineness_unit == "microns"), ]$grinding_fineness_unit = "µm"
   
   
-  ######  4. Homogenize the values depending on the units ####
+  # Homogenize the units ####
   
   # Carbon, nitrogen, phosphorus, potassium, magnesium, sulfur in %
   
+  # Removing data which does not have a measure associated with it
   data_nutrients = data_nutrients[is.na(data_nutrients$component_mean) ==
                                     F, ]
   
@@ -259,17 +259,14 @@ combine_nutrient_data = function(data_nl, data_np) {
     }
   }
   
-  
-  
-  ##### 6. Finding where there are GBIF_ID given to a taxonomic level higher than species ####
-  
-  gbif_ids = unique(data_nutrients$gbif_id)
-  
-  ##### 8. Create a table with taxonomic data for each species  ####
+  # Create a table with taxonomic data for each species  ####
   
   # creates a character object with n element, n the number of unique species name
   list_sp <-
-    na.omit(unique(data_nutrients$species_latin_name_gbif)) # There are x different species names in the raw nutrients database
+    na.omit(unique(data_nutrients$species_latin_name_gbif))
+  
+  
+  # There are 280 different species names in the raw nutrients database
   # Get the GBIF taxonomic data for each species from their taxonomic names
   # get_gbifid_ is a function to search GBIF's taxonomy
   # if an exact match is found, the ID for that match is returned
@@ -279,9 +276,6 @@ combine_nutrient_data = function(data_nl, data_np) {
   
   # We download the taxonomic data every three months at least
   
-  local_list_data_gbif = readRDS(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))
-  
-  
   if (file.exists(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")) == F) {
     # If he file does not exist, download the data
     list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
@@ -289,25 +283,28 @@ combine_nutrient_data = function(data_nl, data_np) {
       list_data_gbif,
       file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
     )
-  } else if (Sys.time() - file.info(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))$mtime > as.difftime(12, units = "weeks")) {
-    # Else if the data is too old (more than 3 months old), dowload the data
-    list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
-    saveRDS(
-      list_data_gbif,
-      file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
-    )
-  } else if (all(names(local_list_data_gbif) %in% gsub("_", " ", list_sp)) == F) {
-    # If there are some species in the list_data_gbif lacking from list_sp, then we download again
-    list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
-    saveRDS(
-      list_data_gbif,
-      file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
-    )
   } else {
-    list_data_gbif = readRDS(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))
+    # Load the data
+    path = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
+    local_list_data_gbif = readRDS(path)
+    if (Sys.time() - file.info(path)$mtime > as.difftime(12, units = "weeks")) {
+      # If the data is too old (more than 3 months old), dowload the data
+      list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
+      saveRDS(
+        list_data_gbif,
+        file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
+      )
+    } else if (all(names(local_list_data_gbif) %in% gsub("_", " ", list_sp)) == F) {
+      # If there are some species in the list_data_gbif lacking from list_sp, then we download again
+      list_data_gbif = get_gbifid_(gsub("_", " ", list_sp))
+      saveRDS(
+        list_data_gbif,
+        file = here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData")
+      )
+    } else {
+      list_data_gbif = readRDS(here::here("1_data", "4_data_taxonomy", "list_data_gbif.RData"))
+    }
   }
-
-  
   # Create a table with taxonomic data for each species
   # This table is supposed to have the same number of rows as the number of unique species names in data_nutrients
   # We select in priority exact matches and accepted species names, then synonym species names.
@@ -365,7 +362,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   rm(factor_columns)
   
   
-  ##### 9. Finding the subspecies if there are some ####
+  # Finding the subspecies if there are some ####
   
   subspecies = data_gbif[which(data_gbif$rank == "subspecies"), "canonicalname"] # find subspecies canonical names
   # If subspecies is empty, then it means that there are no subspecies in the dataset
@@ -393,7 +390,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   rm(subspecies)
   
   
-  ##### 10. Check the status of the scientific name  ####
+  # Check the status of the scientific name  ####
   
   
   synonym = data_gbif[which(data_gbif$status == "SYNONYM"), ]$canonicalname # find synonym species canonical names
@@ -411,13 +408,15 @@ combine_nutrient_data = function(data_nl, data_np) {
     message("\n❗ The following synonym species names were found:")
     print(synonym)
     
-    message("🔧 Open the table associated with these reference ID(s) to correct the species names. Also correct it in trait database.")
+    message(
+      "🔧 Open the table associated with these reference ID(s) to correct the species names. Also correct it in trait database."
+    )
     
     stop("❌ Execution halted due to synonym species names in the database.")
   }
   rm(synonym)
   
-  ##### 11. Check the match types ####
+  # Check the match types ####
   
   fuzzy = data_gbif[which(data_gbif$matchtype == "FUZZY"), ]$canonicalname # find fuzzy matches canonical names
   # If fuzzy is empty, then it means that there are no fuzzy names species in the dataset
@@ -446,7 +445,7 @@ combine_nutrient_data = function(data_nl, data_np) {
   data_gbif[character_columns] = lapply(data_gbif[character_columns], as.character)
   rm(character_columns)
   
-  #### 12. Combine the GBIF data with the nutrients data  ####
+  # Combine the GBIF data with the nutrients data  ####
   
   # select relevant data from the GBIF data
   useful_data_gbif =  data_gbif[c(
@@ -560,7 +559,7 @@ combine_nutrient_data = function(data_nl, data_np) {
     )
   }
   
-  ######  14. Write a data file ######
+  # Write a data file ######
   
   write.csv(
     data_nutrients,

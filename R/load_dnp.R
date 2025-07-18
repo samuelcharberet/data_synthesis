@@ -11,6 +11,6 @@
 #' @authors Samuel Charberet
 
 load_dnp = function(path) {
-  # Add lab original data
+  # Add new data collected by Charberet et al.
   df_np = read.csv(path)
 }

@@ -11,9 +11,9 @@
 #'
 
 model_ds = function(data, data_fluxes) {
-  #### Fluxes ####
+  # Fluxes ####
   
-  # Nitrogen
+  ## Nitrogen ####
   # Fit linear and nls models
   linear_ln = lm(CP_ad ~ CP_Crude_Protein_diet, data = data_fluxes)
   nls_ln =
@@ -28,7 +28,7 @@ model_ds = function(data, data_fluxes) {
   
   comp_ln = bind_rows(linear_ln, nls_ln)
   
-  # Phosphorus
+  ## Phosphorus ####
   # Fit linear and nls models
   linear_lp = lm(P_ad ~ P_diet , data = data_fluxes)
   nls_lp =
@@ -39,7 +39,7 @@ model_ds = function(data, data_fluxes) {
   nls_lp = broom::glance(nls_lp)
   comp_lp = bind_rows(linear_lp, nls_lp)
   
-  # Potassium
+  ## Potassium ####
   # Fit linear and nls models
   linear_lk = lm(K_ad ~ K_diet , data = data_fluxes)
   nls_lk =
@@ -50,7 +50,7 @@ model_ds = function(data, data_fluxes) {
   nls_lk = broom::glance(nls_lk)
   comp_lk = bind_rows(linear_lk, nls_lk)
   
-  # Calcium
+  ## Calcium ####
   # Fit linear and nls models
   linear_lca = lm(Ca_ad ~ Ca_diet , data = data_fluxes)
   nls_lca =
@@ -61,7 +61,7 @@ model_ds = function(data, data_fluxes) {
   nls_lca = broom::glance(nls_lca)
   comp_lca = bind_rows(linear_lca, nls_lca)
   
-  # Magnesium
+  ## Magnesium ####
   # Fit linear and nls models
   linear_lmg = lm(Mg_ad ~ Mg_diet , data = data_fluxes)
   nls_lmg =
@@ -72,7 +72,7 @@ model_ds = function(data, data_fluxes) {
   nls_lmg = broom::glance(nls_lmg)
   comp_lmg = bind_rows(linear_lmg, nls_lmg)
   
-  # Sodium
+  ## Sodium ####
   # Fit linear and nls models
   linear_lna = lm(Na_ad ~ Na_diet , data = data_fluxes)
   nls_lna =
@@ -93,12 +93,12 @@ model_ds = function(data, data_fluxes) {
     row.names = FALSE
   )
   
-  #### Stocks ####
+  # Stocks ####
   # We make a model at the level of species averages as we have traits at this level only (body mass and diet)
   
   # One model for animals with a cloaca, and one for animals without
   
-  # Mammals ####
+  ## Mammals ####
   data_mammals_species = read.csv(here::here("1_data",
                                   "data_mammals_species.csv"))
   

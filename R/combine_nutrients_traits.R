@@ -12,7 +12,7 @@
 #'
 combine_nutrients_traits = function(data_n, data_t) {
   
-  # Check that species names in the data traits database are up to date
+  # Check that species names in the data traits database are up to date ####
   
   species = na.omit(unique(data_n$species_latin_name_gbif))
   
@@ -30,7 +30,7 @@ combine_nutrients_traits = function(data_n, data_t) {
   }
   
   
-  # We keep species_name, body mass and diet to add the the data_nutrients dataframe
+  # We keep only species_name, body mass and diet to add the the data_nutrients dataframe  ####
   data_traits = data_t
   data_nutrients = data_n
   data_traits = data_traits[, c("species_names", "body_mass", "diet")]
@@ -50,8 +50,7 @@ combine_nutrients_traits = function(data_n, data_t) {
     data[row_species_in_data, ]$diet = species_diet
   }
   
-  ###### Structuration of the table ######
-  # Add cloaca
+  # Add cloaca  ####
   
   data$cloaca = NA
   
@@ -66,12 +65,12 @@ combine_nutrients_traits = function(data_n, data_t) {
     }
   }
   
-  # Re-order the diet factor
+  # Re-order the diet factor  ####
   data$diet = str_to_title(data$diet)
   data$diet = factor(data$diet,
                      levels = c('Herbivore', 'Omnivore', 'Carnivore', 'Detritivore'))
   
-  # Create the full data file
+  # Create the full data file  ####
   write.csv(data, here::here("1_data", "data.csv"), row.names = FALSE)
   
   return(data)

@@ -34,7 +34,7 @@ create_datasets_for_analyses = function(data) {
     )
   
   
-  ##### The function to create species-level datasets #####
+  # The function to create species-level datasets #####
   
   create_species_datasets = function(data) {
     # Keep only relevant rows
@@ -134,7 +134,7 @@ create_datasets_for_analyses = function(data) {
   }
   
   
-  #### Create a mammals dataset at the species level ####
+  # Create a mammals dataset at the species level ####
   
   data_mammals <- data_selected |>
     filter(class == "Mammalia", sample_type == "feces")
@@ -147,7 +147,7 @@ create_datasets_for_analyses = function(data) {
     row.names = FALSE
   )
   
-  #### Create a Sauropsids dataset at the species level ####
+  # Create a Sauropsids dataset at the species level ####
   
   data_sauropsids <- data_selected |>
     filter(
@@ -163,7 +163,7 @@ create_datasets_for_analyses = function(data) {
     row.names = FALSE
   )
   
-  #### Create a arthropods dataset at the species level ####
+  # Create a arthropods dataset at the species level ####
   
   data_arthropods <- data_selected |>
     filter(
@@ -183,7 +183,7 @@ create_datasets_for_analyses = function(data) {
   )
   
   
-  ##### The function to create observation-level datasets #####
+  # The function to create observation-level datasets #####
   
   create_observations_datasets = function(data) {
     # Attributing a custom body mass
@@ -284,7 +284,7 @@ create_datasets_for_analyses = function(data) {
     }
   }
   
-  #### Create a mammals dataset at the observation level ####
+  # Create a mammals dataset at the observation level ####
   
   data_mammals_observations = create_observations_datasets(data_mammals)
   write.csv(
@@ -293,7 +293,7 @@ create_datasets_for_analyses = function(data) {
     row.names = FALSE
   )
   
-  #### Create a sauropsids dataset at the observation level ####
+  # Create a sauropsids dataset at the observation level ####
   
   data_sauropsids_observations = create_observations_datasets(data_sauropsids)
   write.csv(
@@ -302,7 +302,7 @@ create_datasets_for_analyses = function(data) {
     row.names = FALSE
   )
   
-  #### Create an arthropod dataset at the observation level ####
+  # Create an arthropod dataset at the observation level ####
   
   data_arthropods_observations = create_observations_datasets(data_arthropods)
   write.csv(

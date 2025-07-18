@@ -16,7 +16,9 @@ load_df  = function(path) {
 
     data_fluxes = read.csv(file = path)
     colnames(data_fluxes)[1] = "Diet"
+    
   # Structuring the data fluxes 
+    
   data_fluxes
   data_fluxes$Diet = factor(
     data_fluxes$Diet,

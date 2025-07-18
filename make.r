@@ -1,17 +1,15 @@
 # Libraries
+library(targets)
 library(tidyverse)
 library(grid)
 library(readr)
 library(plyr)
 library(taxize)
-# library(traitdataform)
 library(ggsci)
 library(mgcv)
 library(ggtext)
 library(formula.tools)
 library(maps)
-# library(ggtree)
-# library(ggtreeExtra)
 library(ggnewscale)
 library(patchwork)
 library(stringr)
@@ -19,7 +17,11 @@ library(ape)
 library(ggpubr)
 library(rstatix)
 
-lapply(list.files(here::here("R"), recursive = TRUE, full.names = T), source)
+tar_source(
+  files = here::here("R"),
+  envir = targets::tar_option_get("envir"),
+  change_directory = FALSE
+)
 
 data_nutrients_literature_files = list.files(pattern = "[0-9]{4}_[0-9]{3}_.*?_[0-9]{4}.xls", recursive = TRUE)
 data_nutrients_literature = load_dnl(data_nutrients_literature_files)
