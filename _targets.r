@@ -9,45 +9,17 @@
 
 library(targets)
 
-#CRAN new packages
-list.of.packages = c(
-  "targets",
-  "ggplot2",
-  "grid",
-  "readr",
-  "plyr" ,
-  "dplyr",
-  "tidyr",
-  "taxize",
-  "here",
-  "stringr",
-  "ggnewscale",
-  "ggtext",
-  "maps",
-  "FactoMineR",
-  "factoextra",
-  "ggpubr",
-  "rstatix",
-  "ggrepel",
-  "devtools",
-  "BiocManager"
-)
-new.packages = list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
-if (length(new.packages)) {
-  install.packages(new.packages)
-}
-
 # Other new packages
 
-if ("traitdataform" %in% new.packages) {
-  devtools::install_github('EcologicalTraitData/traitdataform')
-}
-if ("ggtree" %in% new.packages) {
-  BiocManager::install("ggtree")
-}
-if ("ggtreeExtra" %in% new.packages) {
-  BiocManager::install("ggtreeExtra")
-}
+# if ("traitdataform" %in% new.packages) {
+#   devtools::install_github('EcologicalTraitData/traitdataform')
+# }
+# if ("ggtree" %in% new.packages) {
+#   BiocManager::install("ggtree")
+# }
+# if ("ggtreeExtra" %in% new.packages) {
+#   BiocManager::install("ggtreeExtra")
+# }
 
 tar_option_set(
   packages = c(
@@ -58,10 +30,10 @@ tar_option_set(
     "plyr",
     "taxize",
     "here",
-    "traitdataform",
+    #"traitdataform",
     "stringr",
-    "ggtree",
-    "ggtreeExtra",
+    #"ggtree",
+    #"ggtreeExtra",
     "ggnewscale",
     "ggtext",
     "maps",
